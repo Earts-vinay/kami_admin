@@ -79,7 +79,7 @@ const SideNav = ({ open, handleToggle }) => {
 
                     <ListItem sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
                         <ListItemIcon>
-                            <img src="assets/images/user.svg" alt="" /><br />
+                            <img src="assets/icons/girlicon.svg" alt="" /><br />
                         </ListItemIcon>
                         <Typography variant="subtitle1">{renderListItemText('Welcome, Marry James')}</Typography>
                         <Typography variant="body2">{moment().format('MM-DD-YYYY | h:mm a')}</Typography>

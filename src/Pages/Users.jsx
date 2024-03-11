@@ -62,7 +62,7 @@ const Users = () => {
             <TableBody>
               {filteredUsers.map((user) => (
                 <TableRow key={user.id}>
-                    <TableCell width="20px"><img src="assets/images/user.svg" alt="" width="40px" /></TableCell>
+                    <TableCell width="20px"><img src="assets/icons/girlicon.svg" alt="" width="40px" /></TableCell>
                   <TableCell sx={{  }}> 
                    
                    {user.name}
