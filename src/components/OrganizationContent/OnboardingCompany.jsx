@@ -37,7 +37,7 @@ const OnboardingCompany = () => {
       const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
-    <Box sx={{padding:"20px", height:"76vh"}}>
+<Box sx={{ padding: "20px" }}>
       <Grid container spacing={3}>
         {/* Company Name and Dropdown */}
         <Grid item xs={7}>
