@@ -62,7 +62,7 @@ const Organization = () => {
           </Button>
           {activeStep === 2 ? (
             <Button variant="contained" color="primary" onClick={handleReset} sx={{ mr: 1 }}>
-              Reset
+              next
             </Button>
           ) : (
             <Button variant="contained" color="primary" onClick={handleNext} sx={{ mr: 1 }}>

@@ -1,6 +1,7 @@
 import React from 'react';
-import { Box, Grid, TextField, MenuItem, Typography } from '@mui/material';
+import { Box, Grid, TextField, MenuItem, Typography, InputAdornment } from '@mui/material';
 import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+import SearchIcon from '@mui/icons-material/Search';
 
 const MapContainer = () => {
   const mapStyles = {
@@ -30,12 +31,28 @@ const PropertyOnboarding = () => {
         {/* Left side */}
         <Grid md={6} padding="10px" spacing={2}>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">Adddddress</Typography>
+            <Typography variant="body2">Property Name / ID</Typography>
             <TextField label="Input Field 1" fullWidth margin="dense" size="small" />
           </Grid>
-          <Grid item xs={12} md={12}>
-            <Typography variant="body2">Address</Typography>
-            <TextField label="Input Field 2" fullWidth margin="dense" size="small" />
+          <Grid item xs={12} md={12} marginTop={3} >
+            <Typography variant="body2">Search</Typography>
+            <TextField
+              fullWidth
+              label="Search"
+              fontSize="14px"
+              variant="outlined"
+              style={{ marginBottom: '20px', border: 'solid 1px #2465e9' }}
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ backgroundColor: 'linear-gradient(119deg, #ebeffa 2%, #e8ebfd 30%, #f0ecf9 51%, #efeefb 70%, #eef7ff 100%)', border: 'none', borderRadius: '5px' }}
+            />
+
           </Grid>
 
           <Box marginTop={2}>
@@ -49,7 +66,7 @@ const PropertyOnboarding = () => {
         {/* Right side */}
         <Grid md={6} padding="10px" container spacing={2}>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">Address</Typography>
+            <Typography variant="body2">Property Type</Typography>
             <TextField label="Dropdown" select fullWidth margin="dense" size="small">
               <MenuItem value="option1">Option 1</MenuItem>
               <MenuItem value="option2">Option 2</MenuItem>
@@ -60,27 +77,27 @@ const PropertyOnboarding = () => {
             <TextField label="Text Field 1" fullWidth margin="dense" size="small" />
           </Grid>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">Address</Typography>
+            <Typography variant="body2">City</Typography>
             <TextField label="Text Field 2" fullWidth margin="dense" size="small" />
           </Grid>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">Address</Typography>
+            <Typography variant="body2">state</Typography>
             <TextField label="Text Field 3" fullWidth margin="dense" size="small" />
           </Grid>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">Address</Typography>
+            <Typography variant="body2">Country</Typography>
             <TextField label="Text Field 4" fullWidth margin="dense" size="small" />
           </Grid>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">Address</Typography>
+            <Typography variant="body2">Pincode</Typography>
             <TextField label="Text Field 5" fullWidth margin="dense" size="small" />
           </Grid>
-          <Grid item xs={12} md={12}>
+          {/* <Grid item xs={12} md={12}>
             <Typography variant="body2">Address</Typography>
             <TextField label="Text Field 6" fullWidth margin="dense" size="small" />
-          </Grid>
+          </Grid> */}
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">Address</Typography>
+            <Typography variant="body2">Time Zone</Typography>
             <TextField label="Dropdown 2" select fullWidth margin="dense" size="small">
               <MenuItem value="option1">Option 1</MenuItem>
               <MenuItem value="option2">Option 2</MenuItem>

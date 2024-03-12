@@ -54,10 +54,10 @@ const OnboardingCompany = () => {
 
         {/* Logo Upload Section */}
         
-        <Grid item xs={12}>
+        <Grid item xs={12} padding="0px">
       <Typography variant="body2">Logo</Typography>
       <Box sx={{ background: '#E3EBFC', padding: '20px',display:"flex",justifyContent:"space-evenly",alignItems:"center",borderRadius:"10px" }}>
-        <div {...getRootProps()} style={{ cursor: 'pointer', marginTop: '10px',display:"flex",alignItems:"center",gap:"20px" }}>
+        <div {...getRootProps()} style={{ cursor: 'pointer', marginTop: '5px',display:"flex",alignItems:"center",gap:"20px" }}>
           <input {...getInputProps()} />
           <img src="assets/icons/uploadicon.svg" alt="" />
          <Box>
