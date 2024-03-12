@@ -1,7 +1,13 @@
-import React from 'react';
+import React,{useState} from 'react';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import SideNav from '../components/SideNav';
 const Settings = () => {
+  const [open, setOpen] = useState(true);
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
   // Assuming data is an array of objects with the required properties
   const data= [
     { name: 'Western Super Market', alert: 'Active', detection: 'Inactive', status: 'Online', notification: 'Enabled', time: '12:30 PM' },
@@ -13,6 +19,9 @@ const Settings = () => {
   
   return (
     <>
+        <div  style={{ display: 'flex' }}> 
+       <SideNav open={open} handleToggle={handleToggle} />
+      <div style={{ marginLeft: open ? '250px' : '70px', padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
       <Box style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px' }}>
         <Box>
         <Box sx={{paddingTop:"10px", textAlign:"end"}}>
@@ -64,6 +73,8 @@ const Settings = () => {
           </TableContainer>
         </Box>
       </Box>
+      </div>
+      </div>
     </>
   );
 };

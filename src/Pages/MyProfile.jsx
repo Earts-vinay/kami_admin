@@ -1,9 +1,15 @@
 import React, { useRef, useState } from 'react';
 import { Box, TextField, Button, MenuItem, FormControl, InputLabel, Select, Input, Typography, Grid } from '@mui/material';
+import SideNav from '../components/SideNav';
 
 const MyProfile = () => {
   const fileInputRef = useRef(null);
   const [imageSrc, setImageSrc] = useState('assets/icons/girlicon.svg');
+  const [open, setOpen] = useState(true);
+
+  const handleToggle = () => {
+    setOpen(!open);
+  }
 
   const handleUploadClick = () => {
     fileInputRef.current.click();
@@ -22,7 +28,11 @@ const MyProfile = () => {
   };
 
   return (
-    <Box sx={{ display: "flex", gap: "40px", justifyContent: "start", alignItems: "start", height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", marginRight: "10px" }}>
+    <div  style={{ display: 'flex' }}> 
+       <SideNav open={open} handleToggle={handleToggle} />
+      <div style={{ marginLeft: open ? '250px' : '70px', padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
+
+      <Box sx={{ display: "flex", gap: "40px", justifyContent: "start", alignItems: "start", height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", marginRight: "10px" }}>
       <Box sx={{padding: '40px',}}>
         <img src={imageSrc} alt="" width="250px" />
         <Box pt={5} sx={{ border: '1px solid white',  textAlign: 'center',background:"linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4))" }}>
@@ -111,6 +121,10 @@ const MyProfile = () => {
         </Grid>
       </Grid>
     </Box>
+      </div>
+    
+    </div>
+    
   );
 };
 

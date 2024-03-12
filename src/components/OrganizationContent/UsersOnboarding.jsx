@@ -5,7 +5,7 @@ import SendIcon from '@mui/icons-material/Send';
 const UsersOnboarding = () => {
 
     return (
-        <Box sx={{ padding: "20px", marginX: "200px", minHeight: "calc(100vh - 220px)" }}>
+        <Box sx={{ padding: "20px", marginX: "200px", height:"70vh" }}>
             <Grid container spacing={2} alignItems="center">
                 {/* First Row */}
                 <Grid item xs={12}>

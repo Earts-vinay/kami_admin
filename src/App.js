@@ -9,6 +9,7 @@ import Login from './Pages/Login';
 import MyProfile from './Pages/MyProfile';
 import ForgotPass from './components/LoginScreens/ForgotPass';
 import SideNav from './components/SideNav';
+import OnboardingScreens from './Pages/OnboardingScreens';
 
 function App() {
   const [open, setOpen] = useState(true);
@@ -19,20 +20,21 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div style={{ display: 'flex' }}>
-        <SideNav open={open} handleToggle={handleToggle} />
-        <div style={{ marginLeft: open ? '250px' : '70px', padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
+      {/* <div style={{ display: 'flex' }}>
+       
+        <div style={{ marginLeft: open ? '250px' : '70px', padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}> */}
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPass />} />
-            <Route path="/" element={<Organization />} />
+            <Route path="/" element={<OnboardingScreens />} />
+            <Route path="/organization" element={<Organization />} />
             <Route path="/devices" element={<Devices />} />
             <Route path="/users" element={<Users />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/myprofile" element={<MyProfile />} />
           </Routes>
-        </div>
-      </div>
+        {/* </div>
+      </div> */}
     </BrowserRouter>
   );
 }

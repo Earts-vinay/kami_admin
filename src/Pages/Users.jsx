@@ -3,8 +3,14 @@ import { Box, TextField, Table, TableBody, TableCell, TableContainer, TableHead,
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
+import SideNav from '../components/SideNav';
 
 const Users = () => {
+  const [open, setOpen] = useState(true);
+
+  const handleToggle = () => {
+    setOpen(!open);
+  };
   // Sample user data array
   const usersData = [
     { id: 1, name: 'John Doe', property: 'Some Property', accessLevel: 'Admin' },
@@ -23,6 +29,9 @@ const Users = () => {
   );
 
   return (
+    <div  style={{ display: 'flex' }}> 
+    <SideNav open={open} handleToggle={handleToggle} />
+   <div style={{ marginLeft: open ? '250px' : '70px', padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
     <Box style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px' }}>
       <Box sx={{ paddingTop: "10px", textAlign: "end" }}>
         <TextField
@@ -84,6 +93,8 @@ const Users = () => {
         </TableContainer>
       </Box>
     </Box>
+    </div>
+    </div>
   );
 }
 

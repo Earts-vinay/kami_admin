@@ -90,9 +90,9 @@ const SideNav = ({ open, handleToggle }) => {
                     </ListItem>
                 </List>
                 <List>
-                    <ListItem button component={Link} to="/"   
+                    <ListItem button component={Link} to="/organization"   
                     sx={{
-                            backgroundColor: isActive("/") ? "rgba(36, 101, 233, 0.5)" : "transparent", // Apply rgba(36, 101, 233, 0.5) background when active
+                            backgroundColor: isActive("/organization") ? "rgba(36, 101, 233, 0.5)" : "transparent", // Apply rgba(36, 101, 233, 0.5) background when active
                             "&:hover": {
                                 backgroundColor: "rgba(36, 101, 233, 0.5)",
                             },

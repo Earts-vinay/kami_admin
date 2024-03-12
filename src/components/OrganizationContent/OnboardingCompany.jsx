@@ -4,9 +4,10 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import { InputLabel, Typography } from '@mui/material';
+import { InputAdornment, InputLabel, Typography } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+import SearchIcon from '@mui/icons-material/Search';
 
 const MapContainer = () => {
     const mapStyles = {
@@ -81,8 +82,24 @@ const OnboardingCompany = () => {
 
         {/* Left Side */}
         <Grid item md={7} xs={12} paddingX="20px"> 
-          <Typography variant="body1">Address</Typography>
-          <TextField label="Search by Name or Location" fullWidth size='small' margin="dense" />
+        <Typography variant="body2">Search</Typography>
+            <TextField
+              fullWidth
+              label="Search"
+              fontSize="14px"
+              variant="outlined"
+              margin='dense'
+              style={{ marginBottom: '20px' }}
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              sx={{ backgroundColor: 'linear-gradient(119deg, #ebeffa 2%, #e8ebfd 30%, #f0ecf9 51%, #efeefb 70%, #eef7ff 100%)', border: 'none', borderRadius: '5px' }}
+            />
           {/* Implement Map */}
         <Box marginTop={2}>
         <MapContainer />
