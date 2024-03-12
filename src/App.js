@@ -10,6 +10,8 @@ import MyProfile from './Pages/MyProfile';
 import ForgotPass from './components/LoginScreens/ForgotPass';
 import SideNav from './components/SideNav';
 import OnboardingScreens from './Pages/OnboardingScreens';
+import SettingsInside from './components/SettingsContent/SettingsInside';
+
 
 function App() {
   const [open, setOpen] = useState(true);
@@ -31,6 +33,7 @@ function App() {
             <Route path="/devices" element={<Devices />} />
             <Route path="/users" element={<Users />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/settingsinside" element={<SettingsInside />} />
             <Route path="/myprofile" element={<MyProfile />} />
           </Routes>
         {/* </div>
