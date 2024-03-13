@@ -1,11 +1,9 @@
-.grid-spacing{
-    padding:20px
-}
+
 .location-spacing{
     padding:10px;
 }
 .map-spacing{
-    padding:10px
+    padding-top:10px
 }
 .camera-counting{
 min-width: 37px;
