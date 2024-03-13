@@ -1,14 +1,16 @@
-
+.grid-spacing{
+    padding:20px
+}
 .location-spacing{
     padding:10px;
 }
 .map-spacing{
-    padding-top:10px
+    padding:10px
 }
 .camera-counting{
 min-width: 37px;
 align-content: center;
 }
-.css-77q5ji-MuiCardContent-root:last-child{
-    padding-bottom: 0px !important;
+.css-fudqxv{
+    padding-left: 130px !important;
 }

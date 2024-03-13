@@ -8,17 +8,16 @@ import Settings from './Pages/Settings';
 import Login from './Pages/Login';
 import MyProfile from './Pages/MyProfile';
 import ForgotPass from './components/LoginScreens/ForgotPass';
-import SideNav from './components/SideNav';
 import OnboardingScreens from './Pages/OnboardingScreens';
 import SettingsInside from './components/SettingsContent/SettingsInside';
+import OrganizationAddProperty from './components/OrganizationContent/OrganizationAddProperty';
+import OrganizationPole from './components/OrganizationContent/OrganizationPole';
+import OrganizationAddPole from './components/OrganizationContent/OrganizationAddPole';
 
 
 function App() {
   const [open, setOpen] = useState(true);
 
-  const handleToggle = () => {
-    setOpen(!open);
-  };
 
   return (
     <BrowserRouter>
@@ -35,7 +34,8 @@ function App() {
             <Route path="/settings" element={<Settings />} />
             <Route path="/settingsinside" element={<SettingsInside />} />
             <Route path="/myprofile" element={<MyProfile />} />
-          </Routes>
+            <Route path="/organizationaddproperty" element={<OrganizationAddProperty/>} />
+            </Routes>
         {/* </div>
       </div> */}
     </BrowserRouter>
