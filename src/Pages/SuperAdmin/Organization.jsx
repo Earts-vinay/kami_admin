@@ -1,9 +1,9 @@
 
 import React,{useState} from 'react'
-import SideNav from '../components/SideNav'
+import SideNav from '../../components/SideNav'
 import { Box, Grid, Button, InputAdornment } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsSideNavOpen, toggleSideNav } from '../redux/sidenav/sidenavSlice';
+import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import "./style.css";
@@ -34,10 +34,13 @@ const Organization = () => {
   const handleToggle = () => {
     dispatch(toggleSideNav());
   };
+
+
+
   return (
     <div  style={{ display: 'flex' }}> 
-       <SideNav open={open} handleToggle={handleToggle} />
-      <div style={{ marginLeft: open ? '250px' : '70px', padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
+       <SideNav open={isOpen} handleToggle={handleToggle} />
+      <div style={{ marginLeft: isOpen ? '250px' : '70px', padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
       <Box sx={{ backgroundColor: "white", borderRadius: "10px", padding: "10px", margin: "10px" }}>
         organization
       </Box>

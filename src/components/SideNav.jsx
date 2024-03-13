@@ -60,7 +60,7 @@ const SideNav = ({ open, handleToggle }) => {
             backgroundColor: open ? "#f0f0f0" : "#f0f0f0",
         },
         "&.active": {
-            backgroundColor: "#2465E9", // Sky blue color for selected item
+            backgroundColor: "#C7D8FA", // Sky blue color for selected item
         },
         marginBottom: "15px", // Add some gap between list items
     };
@@ -93,12 +93,17 @@ const SideNav = ({ open, handleToggle }) => {
             <div className={classes.drawerContainer}>
                 <List>
                     <Box display="flex" justifyContent="center" px={2} mb={open ? 2 : 0}>
-                        <img
-                            src="assets/logos/logo.png"
-                            alt="Logo"
-                            className={classes.logo}
-                            style={{ display: open ? 'block' : 'none', width: open ? '180px' : '50px', transition: 'width 0.3s ease' }}
-                        />
+                    <img
+    src={open ? "assets/logos/logo.png" : "assets/logos/smalllogo.svg"}
+    alt="Logo"
+    className={classes.logo}
+    style={{
+        display: open ? 'block' : 'none',
+        width: open ? '180px' : '50px',
+        transition: 'width 0.3s ease'
+    }}
+/>
+
                     </Box>
 
                     <ListItem sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }} mb={open ? 2 : 0}>

@@ -12,12 +12,13 @@ import {
   Typography,
   TextField,
 } from '@mui/material';
-import SideNav from '../components/SideNav';
+
 import SearchIcon from '@mui/icons-material/Search';
 import PlaceIcon from '@mui/icons-material/Place';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsSideNavOpen, toggleSideNav } from '../redux/sidenav/sidenavSlice';
+import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
+import SideNav from '../../components/SideNav';
 
 
 const Devices = () => {
@@ -110,6 +111,7 @@ const Devices = () => {
           </TableContainer>
         </div>
       </div>
+      
     </div>
 
   );

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, InputAdornment, Typography } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import SideNav from '../components/SideNav';
+import SideNav from '../../components/SideNav';
 import { useNavigate } from 'react-router-dom';
 import PlaceIcon from '@mui/icons-material/Place';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsSideNavOpen, toggleSideNav } from '../redux/sidenav/sidenavSlice';
+import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 
 const Settings = () => {
   const navigate = useNavigate();
@@ -40,7 +40,7 @@ const Settings = () => {
         <SideNav open={isOpen} handleToggle={handleToggle} />
         <div style={{
            marginLeft: isOpen ? '220px' : '90px',
-         padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
+            padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
           <Box style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px' }}>
             <Box>
               <Box sx={{ paddingTop: "10px", textAlign: "end" }}>

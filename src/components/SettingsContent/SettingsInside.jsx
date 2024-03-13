@@ -4,13 +4,19 @@ import { Box, Tab, Tabs } from '@mui/material';
 import Detection from './SettingsInsideTabs/Detection';
 import Notification from './SettingsInsideTabs/Notification';
 import Database from './SettingsInsideTabs/Database';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 
 const SettingsInside = () => {
-    const [open, setOpen] = useState(true);
     const [selectedTab, setSelectedTab] = useState(0);
+    const isOpen = useSelector(selectIsSideNavOpen);
+    const dispatch = useDispatch();
+  
     const handleToggle = () => {
-        setOpen(!open);
+      dispatch(toggleSideNav());
     };
+   
+  
 
     const handleTabChange = (event, newValue) => {
         setSelectedTab(newValue);
@@ -24,8 +30,8 @@ const SettingsInside = () => {
     return (
         <>
             <div style={{ display: 'flex' }}>
-                <SideNav open={open} handleToggle={handleToggle} />
-                <div style={{ marginLeft: open ? '250px' : '70px', padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
+                <SideNav open={isOpen} handleToggle={handleToggle} />
+                <div style={{ marginLeft: isOpen ? '220px' : '90px', padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
                     <Box style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px' }}>
                         <Tabs
                             value={selectedTab}

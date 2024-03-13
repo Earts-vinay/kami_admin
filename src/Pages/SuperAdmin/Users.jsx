@@ -3,9 +3,9 @@ import { Box, TextField, Table, TableBody, TableCell, TableContainer, TableHead,
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
-import SideNav from '../components/SideNav';
+import SideNav from '../../components/SideNav';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsSideNavOpen, toggleSideNav } from '../redux/sidenav/sidenavSlice';
+import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 
 const Users = () => {
   const isOpen = useSelector(selectIsSideNavOpen);

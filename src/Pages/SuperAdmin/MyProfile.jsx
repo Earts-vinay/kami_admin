@@ -1,8 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { Box, TextField, Button, MenuItem, FormControl, InputLabel, Select, Input, Typography, Grid } from '@mui/material';
-import SideNav from '../components/SideNav';
+import SideNav from '../../components/SideNav';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsSideNavOpen, toggleSideNav } from '../redux/sidenav/sidenavSlice';
+import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 
 
 const MyProfile = () => {

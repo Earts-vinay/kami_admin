@@ -1,10 +1,9 @@
 
-
 import React, { useState } from 'react';
 import { Box, Stepper, Step, StepLabel, Button, Typography } from '@mui/material';
-import OnboardingCompany from '../components/OrganizationContent/OnboardingCompany';
-import PropertyOnboarding from '../components/OrganizationContent/PropertyOnboarding';
-import UsersOnboarding from '../components/OrganizationContent/UsersOnboarding';
+import OnboardingCompany from '../../components/OnboardingContent/OnboardingCompany';
+import PropertyOnboarding from '../../components/OnboardingContent/PropertyOnboarding';
+import UsersOnboarding from '../../components/OnboardingContent/UsersOnboarding';
 import { useNavigate } from 'react-router-dom';
 
 const OnboardingScreens = () => {
