@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
-import Organization from './Pages/Organization';
-import Devices from './Pages/Devices';
-import Users from './Pages/Users';
-import Settings from './Pages/Settings';
-import Login from './Pages/Login';
-import MyProfile from './Pages/MyProfile';
+
 import ForgotPass from './components/LoginScreens/ForgotPass';
 import OnboardingScreens from './Pages/OnboardingScreens';
 import SettingsInside from './components/SettingsContent/SettingsInside';
 import OrganizationAddProperty from './components/OrganizationContent/OrganizationAddProperty';
 import OrganizationPole from './components/OrganizationContent/OrganizationPole';
 import OrganizationAddPole from './components/OrganizationContent/OrganizationAddPole';
+import SideNav from './components/SideNav';
+
+import SettingsInside from './components/SettingsContent/SettingsInside';
+import Organization from './Pages/SuperAdmin/Organization';
+import OnboardingScreens  from './Pages/SuperAdmin/OnboardingScreens';
+import Users from './Pages/SuperAdmin/Users';
+import Settings from './Pages/SuperAdmin/Settings';
+import MyProfile from './Pages/SuperAdmin/MyProfile';
+import Devices from './Pages/SuperAdmin/Devices';
+import Login from './Pages/Login';
+import Dashboard from './Pages/PropertyAdmin/Dashboard';
+import AddProperty from './components/Propertycomponents/DashboardContent/AddProperty';
+import AddPole from './components/Propertycomponents/DashboardContent/AddPole';
 
 
 function App() {
@@ -35,7 +43,14 @@ function App() {
             <Route path="/settingsinside" element={<SettingsInside />} />
             <Route path="/myprofile" element={<MyProfile />} />
             <Route path="/organizationaddproperty" element={<OrganizationAddProperty/>} />
-            </Routes>
+            
+
+            {/* Property Routes */}
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/addproperty" element={<AddProperty />} />
+            <Route path="/addpole" element={<AddPole/>} />
+
+          </Routes>
         {/* </div>
       </div> */}
     </BrowserRouter>
