@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react'
 import { Box, Grid, Button} from '@mui/material';
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -14,7 +14,28 @@ import { useNavigate } from 'react-router-dom';
 import SideNav from '../../SideNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../../redux/sidenav/sidenavSlice';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
+const MapContainer = () => {
+  const mapStyles = {
+    height: '350px',
+    width: '100%',
+  };
+
+  const defaultCenter = {
+    lat: 37.7749, // Default latitude
+    lng: -122.4194, // Default longitude
+  };
+
+  return (
+    <LoadScript googleMapsApiKey="AIzaSyCRQBtQkOyqMNr0YheCgm9LVbvjRtnbo6Y">
+      <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={defaultCenter}>
+        {/* You can customize the map as needed */}
+        <Marker position={defaultCenter} />
+      </GoogleMap>
+    </LoadScript>
+  );
+};
 
 const AddPole = () =>{
     const navigate = useNavigate();
@@ -37,30 +58,12 @@ const AddPole = () =>{
         ];
       
 
+        const handlePair = () =>{
+          navigate('/pairdevice');
+        }
 
-  const mapContainerStyle = {
-    width: '700px',
-    height: '500px',
-  };
-  
-  const center = {
-    lat: 7.2905715, // default latitude
-    lng: 80.6337262, // default longitude
-  };
-  
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyC-5nyue-_mpTnrAgQ1LfunsNnLlIumhZI',
-
-  });
-  if (loadError) {
-    return <div>Error loading maps</div>;
-  }
-
-  if (!isLoaded) {
-    return <div>Loading maps</div>;
-  }
   const openAddPole = () =>{
-    navigate('/organization/addpole');
+    navigate('/viewpole');
   }
     return(
         <div style={{ display: 'flex' }}>
@@ -72,17 +75,16 @@ const AddPole = () =>{
 
 <Box style={{ height: '90vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px' }}>
           
-          <Grid>
-            <Box sx={{ paddingTop: "10px", paddingRight: "30px", textAlign: "end" }}>
-              <Button variant="outlined" color="primary" style={{ marginLeft: '10px' }} onClick={openAddPole} >
-                Add Pole 
-              </Button>
-            </Box>
-          </Grid>
-          <Grid container >
+<Box textAlign="right" >
+          <Button variant="outlined" color="primary" onClick={() => openAddPole()} style={{ marginBottom: '20px', textAlign: "right" }}>
+              Add Pole
+            </Button>
+          </Box>
 
-            <Grid xs={6} className='location-spacing'>
-            <TableContainer component={Paper} style={{borderLeft:"0px", borderRight:"0px",boxShadow:"none"}}>
+          <Box sx={{display:'flex', gap:"10px"}}>
+<Box sx={{width:"50%"}}>
+
+<TableContainer component={Paper} style={{borderLeft:"0px", borderRight:"0px",boxShadow:"none"}}>
       <Table aria-label="simple table" >
         <TableHead style={{backgroundColor:"#80808017"}}>
           <TableRow>
@@ -111,18 +113,21 @@ const AddPole = () =>{
         </TableBody>
       </Table>
     </TableContainer>
-            </Grid>
-            <Grid item xs={6} className='map-spacing'>
-              <GoogleMap
-                mapContainerStyle={mapContainerStyle}
-                zoom={10}
-                center={center}
-              >
-                <Marker position={center} />
-              </GoogleMap>
-            </Grid>
-          </Grid>
-  
+
+</Box>
+        
+                
+           {/* Map */}
+           <Box width="50%">
+        <MapContainer />
+        </Box>
+        </Box>
+
+        <Box sx={{ marginTop: '40px', textAlign: 'center' }}>
+      <Button variant="outlined" onClick={() => handlePair()}  style={{ marginRight: '10px' }}>Pair Device</Button>
+       
+       
+      </Box>
           </Box>
         
         </div>

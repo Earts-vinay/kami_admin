@@ -1,125 +1,106 @@
-import React, { useState } from 'react'
 
-import { Box, Grid, Button} from '@mui/material';
-import "./style.css";
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
+import React from 'react';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
-import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import SideNav from '../../components/SideNav';
+import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { useNavigate } from 'react-router-dom';
 
-
-const mapContainerStyle = {
-  width: '700px',
-  height: '500px',
-};
-
-const center = {
-  lat: 7.2905715, // default latitude
-  lng: 80.6337262, // default longitude
-};
-
-
-const Organization = () => {
-
-  const [open, setOpen] = useState(true);
-  const [retailstore , setRetailStore] = useState('');
-  const navigate = useNavigate();
-
-  const handleChange = (event) => {
-    setRetailStore(event.target.value);
+const MapContainer = () => {
+  const mapStyles = {
+    height: '350px',
+    width: '100%',
   };
 
-  const openPoledetails = () =>{
-    navigate('/oganization/pole')
-  }
-
-
-  const handleToggle = () => {
-    setOpen(!open);
+  const defaultCenter = {
+    lat: 37.7749, // Default latitude
+    lng: -122.4194, // Default longitude
   };
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyC-5nyue-_mpTnrAgQ1LfunsNnLlIumhZI',
-
-  });
-  const openAddProperty = () =>{
-    navigate('/organizationaddproperty')
-  }
-
-  if (loadError) {
-    return <div>Error loading maps</div>;
-  }
-
-  if (!isLoaded) {
-    return <div>Loading maps</div>;
-  }
 
   return (
+    <LoadScript googleMapsApiKey="AIzaSyCRQBtQkOyqMNr0YheCgm9LVbvjRtnbo6Y">
+      <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={defaultCenter}>
+        {/* You can customize the map as needed */}
+        <Marker position={defaultCenter} />
+      </GoogleMap>
+    </LoadScript>
+  );
+};
+
+const Organization = () => {
+  const navigate = useNavigate();
+  const isOpen = useSelector(selectIsSideNavOpen);
+  const dispatch = useDispatch();
+
+  const handleToggle = () => {
+    dispatch(toggleSideNav());
+  };
+
+  const handleTableRowClick = () => {
+    navigate(`/addproperty`);
+  };
+
+  const handleClick = () => {
+    navigate(`/addpole`);
+  };
+
+  return (
+
     <div style={{ display: 'flex' }}>
-      <SideNav open={open} handleToggle={handleToggle} />
-      <div style={{ marginLeft: open ? '232px' : '70px', padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
-        <Box style={{ height: '90vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px' }}>
-        
-          <Grid>
-            <Box sx={{ paddingTop: "10px", paddingRight: "30px", textAlign: "end" }}>
-              <Button variant="outlined" color="primary" style={{ marginLeft: '10px' }} onClick={openAddProperty} >
-                Add Property
-              </Button>
-            </Box>
-          </Grid>
-          <Grid container >
+      <SideNav open={isOpen} handleToggle={handleToggle} />
+      <div style={{
+        marginLeft: isOpen ? '220px' : '90px',
+        padding: '10px', width: '100%', transition: 'margin 0.3s ease'
+      }}>
+        <div style={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", marginRight: "10px" }}>
+          <Box padding="10px">
+            {/* Add Property Button */}
+          <Box textAlign="right" >
+          <Button variant="outlined" color="primary" onClick={() => handleTableRowClick()} style={{ marginBottom: '20px', textAlign: "right" }}>
+              Add Property
+            </Button>
+          </Box>
 
-            <Grid xs={6} className='location-spacing'>
-              <Card sx={{ minWidth: 275, display: 'flex', backgroundColor: "#F8F9F9", borderColor: '#F8F9F9', boxShadow: '0' }} onClick={openPoledetails}>
-                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <CardContent sx={{ flex: '1 0 auto', padding: '8px', pb: "0px" }}>
-                    <Typography component="div" sx={{ fontSize: 14, color: "#3c4043c9" }} >
-                      WalMart Super Market
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              {/* Left Side */}
+              <Box style={{ display: "flex", width: "50%" }}>
+                <Box onClick={() => handleClick()} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "#f8f7fa", width: "90%", height: "50px", borderRadius: "5px", paddingY: "5px", paddingX: "20px",cursor:"pointer" }}>
+                  <Box display="flex" flexDirection="column">
+                    <Typography variant="body-2" style={{ marginRight: '10px' }}>
+                      WallMart Supermarket
                     </Typography>
-                    <Typography component="div" style={{ display: 'flex', flexDirection: 'row' }}>
-                      <LocationOnIcon fontSize='10' color='primary' className='location-icon' />
-                      <Typography sx={{ fontSize: 12 }} className='location-name'>
-                        Virginia, USA
-                      </Typography>
+                    <Typography variant="body2" component="span" sx={{ fontSize: '13px' }}>
+                      <FmdGoodOutlinedIcon fontSize="13px" sx={{ color: 'blue', verticalAlign: 'middle', marginRight: 0.5 }} />
+                      virginia, USA
                     </Typography>
-                  </CardContent>
+                  </Box>
+                  {/* Background Color */}
+                  <Box display="flex" gap={2}>
+                    <Button variant="contained"> 4</Button>
+                    <img src="assets/icons/editicon.svg" alt="" width="35px" />
+                  </Box>
+                </Box>
 
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', pl: 10, pb: 1 }}>
-                  <Button variant="contained" minWidth="0" style={{ backgroundColor: "rgb(179, 217, 255)", color: '#0000007a', minWidth: "30px" }} >0</Button>
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', pl: 4, pb: 1 }}>
-                  <Button variant="contained" minWidth="0" sx={{ pl: "8px", pr: "8px", pt: "8px", pb: "8px" }} style={{ backgroundColor: "white", color: '#0000007a', minWidth: "38px", border: "2px solid  #1565c091" }} >
-                    <BorderColorOutlinedIcon fontSize='14' color='primary'></BorderColorOutlinedIcon>
-                  </Button>
-                </Box>
-                <Box sx={{ display: 'flex', alignItems: 'center', pl: 4, pb: 1 }}>
-                  <Typography sx={{ fontSize: 'x-large', pt: "15px" }} >
-                    <KeyboardArrowDownOutlinedIcon color='primary' ></KeyboardArrowDownOutlinedIcon>
-                  </Typography>
-                </Box>
-              </Card>
-            </Grid>
-            <Grid item xs={6} className='map-spacing'>
-              <GoogleMap
-                mapContainerStyle={mapContainerStyle}
-                zoom={10}
-                center={center}
-              >
-                <Marker position={center} />
-              </GoogleMap>
-            </Grid>
-          </Grid>
-
+              </Box> 
+             
+             {/* Map */}
+              <Box width="50%">
+        <MapContainer />
         </Box>
+              
+            </Box>
+            
+          </Box>
+         
+        </div>
       </div>
     </div>
 
+  );
+};
 
-  )
-}
 export default Organization;

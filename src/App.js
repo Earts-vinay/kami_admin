@@ -15,6 +15,8 @@ import Login from './Pages/Login';
 import Dashboard from './Pages/PropertyAdmin/Dashboard';
 import AddProperty from './components/Propertycomponents/DashboardContent/AddProperty';
 import AddPole from './components/Propertycomponents/DashboardContent/AddPole';
+import ViewPole from './components/Propertycomponents/DashboardContent/ViewPole';
+import PairDevice from './components/Propertycomponents/DashboardContent/PairDevice/PairDevice';
 
 
 function App() {
@@ -43,6 +45,8 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/addproperty" element={<AddProperty />} />
             <Route path="/addpole" element={<AddPole/>} />
+            <Route path="/viewpole" element={<ViewPole/>} />
+            <Route path="/pairdevice" element={<PairDevice/>} />
 
           </Routes>
         {/* </div>
