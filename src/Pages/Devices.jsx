@@ -1,80 +1,4 @@
-// import React from 'react';
-// import {
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableContainer,
-//   TableHead,
-//   TableRow,
-//   Paper,
-//   Box,
-//   InputAdornment,
-//   TextField,
-// } from '@mui/material';
-// import SearchIcon from '@mui/icons-material/Search';
-
-// const Devices = () => {
-//   // Example data array
-//   const data = [
-//     { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10 },
-//     { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10 },
-//     { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10 },
-//     { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10 },
-//     { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10 },
-//     // Add more data objects as needed
-//   ];
-
-//   return (
-//     <>
-    
-
-//    <div style={{height:"93vh",backgroundColor:"white",borderRadius:"10px",padding:"10px",marginLeft:"10px",marginRight:"10px" }}>
-//    <Box sx={{paddingTop:"10px", textAlign:"end"}}>
-//    <TextField
-              
-//               label="Search"
-//               fontSize="14px"
-//               variant="outlined"
-//               style={{ marginBottom: '20px', border: 'solid 1px #2465e9', }}
-//               size="small"
-//               InputProps={{
-//                 endAdornment: (
-//                   <InputAdornment position="end">
-//                     <SearchIcon />
-//                   </InputAdornment>
-//                 ),
-//               }}
-//               sx={{ backgroundColor: 'linear-gradient(119deg, #ebeffa 2%, #e8ebfd 30%, #f0ecf9 51%, #efeefb 70%, #eef7ff 100%)', border: 'none', borderRadius: '5px' }}
-//             />
-//    </Box>
-//    <Box>
-//    <TableContainer component={Paper} marginTop="10px">
-//       <Table>
-       
-//         <TableBody>
-//           {data.map((row, index) => (
-//             <TableRow key={index}>
-//               <TableCell>{row.propertyName}</TableCell>
-//               <TableCell>Poles Installed : {row.pollsInstalled}</TableCell>
-//               <TableCell>Camera's Installed : {row.camerasInstalled}</TableCell>
-//               <TableCell>Active Camera's : {row.activeCameras}</TableCell>
-//               <TableCell> Inactive Cameras : {row.inactiveCameras}</TableCell>
-//             </TableRow>
-//           ))}
-//         </TableBody>
-//       </Table>
-//     </TableContainer>
-//    </Box>
-   
-//    </div>
-//    </>
-//   );
-// }
-
-// export default Devices;
-
-
-import React,{useState} from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -85,36 +9,46 @@ import {
   Paper,
   InputAdornment,
   Box,
+  Typography,
   TextField,
 } from '@mui/material';
 import SideNav from '../components/SideNav';
 import SearchIcon from '@mui/icons-material/Search';
+import PlaceIcon from '@mui/icons-material/Place';
+import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectIsSideNavOpen, toggleSideNav } from '../redux/sidenav/sidenavSlice';
+
 
 const Devices = () => {
-  const [open, setOpen] = useState(true);
+  const isOpen = useSelector(selectIsSideNavOpen);
+  const dispatch = useDispatch();
 
   const handleToggle = () => {
-    setOpen(!open);
-  }
+    dispatch(toggleSideNav());
+  };
+
+
   // Example data array
   const data = [
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10 },
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10 },
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10 },
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10 },
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10 },
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10 },
-    // Add more data objects as needed
+    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
+    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
+    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
+    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
+    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
+    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
+    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
   ];
 
   return (
-    <div  style={{ display: 'flex' }}> 
-    <SideNav open={open} handleToggle={handleToggle} />
-   <div style={{ marginLeft: open ? '250px' : '70px', padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
-   <div style={{height:"93vh",backgroundColor:"white",borderRadius:"10px",padding:"10px",marginLeft:"10px",marginRight:"10px" }}>
-       <Box sx={{paddingTop:"10px", textAlign:"end"}}>
-    <TextField
-              
+    <div style={{ display: 'flex' }}>
+      <SideNav open={isOpen} handleToggle={handleToggle} />
+      <div style={{ 
+        marginLeft: isOpen ? '220px' : '90px',
+         padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
+        <div style={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", marginRight: "10px" }}>
+          <Box sx={{ paddingTop: "10px", textAlign: "end" }}>
+            <TextField
               label="Search"
               fontSize="14px"
               variant="outlined"
@@ -129,36 +63,55 @@ const Devices = () => {
               }}
               sx={{ backgroundColor: 'linear-gradient(119deg, #ebeffa 2%, #e8ebfd 30%, #f0ecf9 51%, #efeefb 70%, #eef7ff 100%)', border: 'none', borderRadius: '5px' }}
             />
-   </Box>
+          </Box>
 
-   <TableContainer component={Paper}>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Property Name</TableCell>
-            <TableCell>Polls Installed</TableCell>
-            <TableCell>Cameras Installed</TableCell>
-            <TableCell>Active Cameras</TableCell>
-            <TableCell>Inactive Cameras</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((row, index) => (
-            <TableRow key={index}>
-              <TableCell>{row.propertyName}</TableCell>
-              <TableCell>{row.pollsInstalled}</TableCell>
-              <TableCell>{row.camerasInstalled}</TableCell>
-              <TableCell>{row.activeCameras}</TableCell>
-              <TableCell>{row.inactiveCameras}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)' }}>
+                  <TableCell>
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Property Name</Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Polls Installed</Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Cameras Installed</Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Active Cameras</Typography>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Inactive Cameras</Typography>
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {data.map((row, index) => (
+                  <TableRow key={index}>
+                    <TableCell>
+                      <Typography variant="body1">
+                        {row.propertyName}
+                      </Typography>
+                      <Typography variant="body2" component="span" sx={{ fontSize: '13px' }}>
+                        <FmdGoodOutlinedIcon fontSize="13px" sx={{ color: 'blue', verticalAlign: 'middle', marginRight: 0.5 }} />
+                        {row.state}, {row.country}
+                      </Typography>
+                    </TableCell>
+                    <TableCell align="center">{row.pollsInstalled}</TableCell>
+                    <TableCell align="center">{row.camerasInstalled}</TableCell>
+                    <TableCell align="center">{row.activeCameras}</TableCell>
+                    <TableCell align="center">{row.inactiveCameras}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      </div>
     </div>
-   </div>
-   </div>
- 
+
   );
 }
 

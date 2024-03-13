@@ -1,7 +1,6 @@
-// SideNav.js
 import React, { useState } from 'react';
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, Divider, Button, Toolbar, IconButton, Box, Typography } from '@mui/material';
-import { Link,useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import DevicesIcon from '@mui/icons-material/Devices';
@@ -12,6 +11,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import moment from 'moment';
+import ContactEmergencyOutlinedIcon from '@mui/icons-material/ContactEmergencyOutlined';
+import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 
 const SideNav = ({ open, handleToggle }) => {
     const location = useLocation();
@@ -49,6 +50,23 @@ const SideNav = ({ open, handleToggle }) => {
         ) : null;
     };
 
+    const listItemStyle = {
+        marginX: open ? "10px" : "auto",
+        borderRadius: "10px",
+        width: open ? "auto" : "45px",
+        transition: "width 0.3s ease",
+        padding: open ? "10px" : "10px", // Add padding for icons when sidebar is closed
+        "&:hover": {
+            backgroundColor: open ? "#f0f0f0" : "#f0f0f0",
+        },
+        "&.active": {
+            backgroundColor: "#2465E9", // Sky blue color for selected item
+        },
+        marginBottom: "15px", // Add some gap between list items
+    };
+
+
+
     return (
         <Drawer
             variant="permanent"
@@ -60,7 +78,8 @@ const SideNav = ({ open, handleToggle }) => {
                 '.css-12i7wg6-MuiPaper-root-MuiDrawer-paper': {
                     background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4)) !important',
                     margin: "10px",
-                    borderRadius: "10px"
+                    borderRadius: "10px",
+                    height: '96vh'
                 },
 
             }}
@@ -73,126 +92,103 @@ const SideNav = ({ open, handleToggle }) => {
             </Toolbar>
             <div className={classes.drawerContainer}>
                 <List>
-                    <Box display="flex" justifyContent="center" px={2}>
-                        <img src="assets/logos/logo.png" alt="Logo" width="200px" />
+                    <Box display="flex" justifyContent="center" px={2} mb={open ? 2 : 0}>
+                        <img
+                            src="assets/logos/logo.png"
+                            alt="Logo"
+                            className={classes.logo}
+                            style={{ display: open ? 'block' : 'none', width: open ? '180px' : '50px', transition: 'width 0.3s ease' }}
+                        />
                     </Box>
 
-                    <ListItem sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }}>
-                        <ListItemIcon>
-                            <img src="assets/icons/girlicon.svg" alt="" /><br />
+                    <ListItem sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }} mb={open ? 2 : 0}>
+                        <ListItemIcon style={{ width: open ? 'auto' : '50px', textAlign: 'center' }}>
+                            <img src="assets/icons/girlicon.svg" alt="" style={{ height: open ? '50px' : '60px', width: open ? '50px' : '60px', margin: open ? "" : "auto", transition: 'height 0.3s ease, width 0.3s ease' }} />
                         </ListItemIcon>
-                        <Typography variant="subtitle1">{renderListItemText('Welcome, Marry James')}</Typography>
-                        <Typography variant="body2">{moment().format('MM-DD-YYYY | h:mm a')}</Typography>
-                    </ListItem>
-                    <ListItem>
-                        <ListItemIcon>
-                        </ListItemIcon>
+                        <Typography variant="subtitle1" style={{ display: open ? 'block' : 'none', fontSize: open ? '15px' : '5px', textAlign: 'center', marginTop: '8px', fontWeight: 'bold' }}>Welcome, Marry James</Typography>
+                        <Typography variant="body2" style={{ display: open ? 'block' : 'none', textAlign: 'center' }}>{moment().format('MM-DD-YYYY | h:mm a')}</Typography>
                     </ListItem>
                 </List>
-                <List>
-                    <ListItem button component={Link} to="/organization"   
-                    sx={{
-                            backgroundColor: isActive("/organization") ? "rgba(36, 101, 233, 0.5)" : "transparent", // Apply rgba(36, 101, 233, 0.5) background when active
-                            "&:hover": {
-                                backgroundColor: "rgba(36, 101, 233, 0.5)",
-                            },
-                            marginX:"10px",
-                            borderRadius:"10px"
-                        }}>
-                        <ListItemIcon>
+
+
+                <List style={{ marginTop: open ? '10px' : '30px',  }}>
+                    {/* List items with modified styles */}
+                    <ListItem
+                        button
+                        component={Link}
+                        to="/organization"
+                        sx={listItemStyle}
+                        className={isActive("/organization") ? "active" : ""}
+                    >
+                        <ListItemIcon style={{ fontSize: '24px' }}> {/* Adjust the font size as needed */}
                             <DashboardIcon />
                         </ListItemIcon>
-                        {renderListItemText('Organization')}
+
+                        <ListItemText primary={open && 'Organization'} />
                     </ListItem>
-                    <ListItem button component={Link} to="/devices" 
-                     sx={{
-                            backgroundColor: isActive("/devices") ? "rgba(36, 101, 233, 0.5)" : "transparent", // Apply rgba(36, 101, 233, 0.5) background when active
-                            "&:hover": {
-                                backgroundColor: "rgba(36, 101, 233, 0.5)",
-                            },
-                            marginX:"10px",
-                            borderRadius:"10px"
-                        }}>
+                    <ListItem
+                        button
+                        component={Link}
+                        to="/devices"
+                        sx={listItemStyle}
+                        className={isActive("/devices") ? "active" : ""}
+                    >
                         <ListItemIcon>
                             <DevicesIcon />
                         </ListItemIcon>
-                        {renderListItemText('Devices')}
+                        <ListItemText primary={open && 'Devices'} />
                     </ListItem>
-                    <ListItem button component={Link} to="/users"
-                       sx={{
-                            backgroundColor: isActive("/users") ? "rgba(36, 101, 233, 0.5)" : "transparent", // Apply rgba(36, 101, 233, 0.5) background when active
-                            "&:hover": {
-                                backgroundColor: "rgba(36, 101, 233, 0.5)",
-                            },
-                            marginX:"10px",
-                            borderRadius:"10px"
-                        }}>
+                    <ListItem
+                        button
+                        component={Link}
+                        to="/users"
+                        sx={listItemStyle}
+                        className={isActive("/users") ? "active" : ""}
+                    >
                         <ListItemIcon>
                             <GroupIcon />
                         </ListItemIcon>
-                        {renderListItemText('Users')}
+                        <ListItemText primary={open && 'Users'} />
                     </ListItem>
-                    <ListItem button component={Link} to="/settings" 
-                      sx={{
-                            backgroundColor: isActive("/settings") ? "rgba(36, 101, 233, 0.5)" : "transparent", // Apply rgba(36, 101, 233, 0.5) background when active
-                            "&:hover": {
-                                backgroundColor: "rgba(36, 101, 233, 0.5)",
-                            },
-                            marginX:"10px",
-                            borderRadius:"10px"
-                        }}>
+                    <ListItem
+                        button
+                        component={Link}
+                        to="/settings"
+                        sx={listItemStyle}
+                        className={isActive("/settings") ? "active" : ""}
+                    >
                         <ListItemIcon>
                             <SettingsIcon />
                         </ListItemIcon>
-                        {renderListItemText('Settings')}
+                        <ListItemText primary={open && 'Settings'} />
                     </ListItem>
-                    <ListItem button component={Link} to="/myprofile"
-                      sx={{
-                            backgroundColor: isActive("/myprofile") ? "rgba(36, 101, 233, 0.5)" : "transparent", // Apply rgba(36, 101, 233, 0.5) background when active
-                            "&:hover": {
-                                backgroundColor: "rgba(36, 101, 233, 0.5)",
-                            },
-                            marginX:"10px",
-                            borderRadius:"10px"
-                        }}>
+                    <ListItem
+                        button
+                        component={Link}
+                        to="/myprofile"
+                        sx={listItemStyle}
+                        className={isActive("/myprofile") ? "active" : ""}
+                    >
                         <ListItemIcon>
-                            <SettingsIcon />
+                            <ContactEmergencyOutlinedIcon />
                         </ListItemIcon>
-                        {renderListItemText('My Profile')}
+                        <ListItemText primary={open && 'My Profile'} />
                     </ListItem>
-                    <ListItem button component={Link} to="/login"
-                       sx={{
-                            backgroundColor: isActive("/login") ? "rgba(36, 101, 233, 0.5)" : "transparent", // Apply rgba(36, 101, 233, 0.5) background when active
-                            "&:hover": {
-                                backgroundColor: "rgba(36, 101, 233, 0.5)",
-                            },
-                            marginX:"10px",
-                            borderRadius:"10px"
-                        }}>
+                    <ListItem
+                        button
+                        component={Link}
+                        to="/login"
+                        sx={listItemStyle}
+                        className={isActive("/login") ? "active" : ""}
+                    >
                         <ListItemIcon>
-                            <SettingsIcon />
+                            <ExitToAppOutlinedIcon />
                         </ListItemIcon>
-                        {renderListItemText('Logout')}
+                        <ListItemText primary={open && 'Logout'} />
                     </ListItem>
                 </List>
-             
-                <Box
-                    sx={{
-                        border: '1px solid white',
-                        borderRadius: '10px',
-                        padding: '10px',
-                        margin: '10px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                       
-                    }}
-                >
-                    <img src="assets/logos/saplogo.svg" alt=""  width="200px"/>
-                    {/* Text inside the box */}
-                    <Typography varient="body-2" mt={1} width="200px">Our AI platform uses computer vision to provide.</Typography>
-                    {/* Add any additional content as needed */}
-                </Box>
+
+
             </div>
         </Drawer >
     );
