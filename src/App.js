@@ -3,14 +3,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.css';
 
 import ForgotPass from './components/LoginScreens/ForgotPass';
-import OnboardingScreens from './Pages/OnboardingScreens';
 import SettingsInside from './components/SettingsContent/SettingsInside';
 import OrganizationAddProperty from './components/OrganizationContent/OrganizationAddProperty';
-import OrganizationPole from './components/OrganizationContent/OrganizationPole';
-import OrganizationAddPole from './components/OrganizationContent/OrganizationAddPole';
-import SideNav from './components/SideNav';
-
-import SettingsInside from './components/SettingsContent/SettingsInside';
 import Organization from './Pages/SuperAdmin/Organization';
 import OnboardingScreens  from './Pages/SuperAdmin/OnboardingScreens';
 import Users from './Pages/SuperAdmin/Users';

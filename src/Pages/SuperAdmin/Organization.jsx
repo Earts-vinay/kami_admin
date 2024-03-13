@@ -1,16 +1,6 @@
-<<<<<<< HEAD:src/Pages/Organization.jsx
 import React, { useState } from 'react'
-import SideNav from '../components/SideNav'
+
 import { Box, Grid, Button} from '@mui/material';
-=======
-import React,{useState} from 'react'
-import SideNav from '../../components/SideNav'
-import { Box, Grid, Button, InputAdornment } from '@mui/material';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
-import { styled } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
->>>>>>> daddea47ed8aa37041176285a60f73976492347b:src/Pages/SuperAdmin/Organization.jsx
 import "./style.css";
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
 import Card from '@mui/material/Card';
@@ -20,6 +10,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import { useNavigate } from 'react-router-dom';
+import SideNav from '../../components/SideNav';
 
 
 const mapContainerStyle = {
