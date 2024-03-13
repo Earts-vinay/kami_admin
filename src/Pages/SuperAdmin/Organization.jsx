@@ -73,7 +73,7 @@ const Organization = () => {
           </Grid>
           <Grid container >
 
-            <Grid xs={5} className='location-spacing'>
+            <Grid xs={6} className='location-spacing'>
               <Card sx={{ minWidth: 275, display: 'flex', backgroundColor: "#F8F9F9", borderColor: '#F8F9F9', boxShadow: '0' }} onClick={openPoledetails}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                   <CardContent sx={{ flex: '1 0 auto', padding: '8px', pb: "0px" }}>
@@ -104,7 +104,7 @@ const Organization = () => {
                 </Box>
               </Card>
             </Grid>
-            <Grid item xs={7} className='map-spacing'>
+            <Grid item xs={6} className='map-spacing'>
               <GoogleMap
                 mapContainerStyle={mapContainerStyle}
                 zoom={10}
