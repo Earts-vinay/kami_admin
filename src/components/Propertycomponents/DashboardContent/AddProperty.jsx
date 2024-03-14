@@ -7,6 +7,7 @@ import SideNav from '../../SideNav';
 import { selectIsSideNavOpen, toggleSideNav } from '../../../redux/sidenav/sidenavSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import InputField from '../../CommonComponent/InputField';
 
 
 const MapContainer = () => {
@@ -59,7 +60,9 @@ const AddProperty = () => {
         <Grid md={6} padding="10px" spacing={2}>
           <Grid item xs={12} md={12}>
             <Typography variant="body2">Property Name / ID</Typography>
-            <TextField label="Input Field 1" fullWidth margin="dense" size="small" />
+            
+            < InputField  id=" outlined-basic" label="Input Field 1"  size="small" />
+        
           </Grid>
           <Grid item xs={12} md={12} marginTop={3} >
             <Typography variant="body2">Search</Typography>

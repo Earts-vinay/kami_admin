@@ -8,6 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useNavigate } from 'react-router-dom';
+import InputField  from '../CommonComponent/InputField';
 
 
 const mapContainerStyle = {
@@ -63,8 +64,10 @@ return(
           <Typography component="div" style={{color:"#80808099"}} sx={{ fontSize: 14, color: "#3c4043c9",paddingBottom:"5px"}} >
                    property Name /ID
                   </Typography>
-          <TextField id="outlined-basic" label="Ferguson Real Estate LLP" variant="outlined"     
+          {/* <TextField id="outlined-basic" label="Ferguson Real Estate LLP" variant="outlined"     
            sx={{ '& .MuiOutlinedInput-root': { '& fieldset' : { borderColor: '#2465E9',padding:"10px",borderRadius:"10px",color:"#80808099",width:"680px",fontSize:"12px"} } }} />
+          */}
+          < InputField  id=" outlined-basic" label="Ferguson Real Estate LLP" varient="outlined" sx={{ '& .MuiOutlinedInput-root': { '& fieldset' : { borderColor: '#2465E9',padding:"10px",borderRadius:"10px",color:"#80808099",width:"680px",fontSize:"12px"} } }}/>
          </Grid>
          <Grid  item xs={12} md={12}>
           <Typography component="div" style={{color:"#80808099"}} sx={{ fontSize: 14, color: "#3c4043c9",paddingBottom:"5px",paddingTop:"20px"}} >

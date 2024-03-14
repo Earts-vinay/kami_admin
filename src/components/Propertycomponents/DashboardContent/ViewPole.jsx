@@ -17,6 +17,7 @@ import SideNav from '../../SideNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../../redux/sidenav/sidenavSlice';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import HeaderLayout from '../../CommonComponent/HeaderLayout';
 
 const MapContainer = () => {
   const mapStyles = {
@@ -73,16 +74,9 @@ const ViewPole = () =>{
   
 
     return(
-        <div style={{ display: 'flex' }}>
-        <SideNav open={isOpen} handleToggle={handleToggle} />
-        <div style={{
-          marginLeft: isOpen ? '220px' : '90px',
-          padding: '10px', width: '100%', transition: 'margin 0.3s ease'
-        }}>
-
-<Box style={{ height: '90vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px' }}>
-          
-<Box textAlign="left" display="flex" alignItems="center" cursor="pointer" py={2} onClick={() => handleviewpole()}>
+   <>     
+      <HeaderLayout>
+        <Box textAlign="left" display="flex" alignItems="center" cursor="pointer" py={2} onClick={() => handleviewpole()}>
           
             <ChevronLeftIcon />
             <Typography variant="body-2" style={{ marginRight: '10px' }}>
@@ -117,10 +111,8 @@ const ViewPole = () =>{
         <Button variant="contained" color="primary" >Save</Button>
        
       </Box>
-          </Box>
-        
-        </div>
-      </div>
+      </HeaderLayout>
+    </>
   
     )
 }
