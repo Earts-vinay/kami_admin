@@ -19,9 +19,11 @@ import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import SideNav from '../../components/SideNav';
+import { useNavigate } from 'react-router-dom';
 
 
 const Devices = () => {
+  const navigate = useNavigate();
   const isOpen = useSelector(selectIsSideNavOpen);
   const dispatch = useDispatch();
 
@@ -29,6 +31,10 @@ const Devices = () => {
     dispatch(toggleSideNav());
   };
 
+  
+  const handleTableRowClick = () => {
+    navigate(`/devicesinside`);
+  };
 
   // Example data array
   const data = [
@@ -69,7 +75,7 @@ const Devices = () => {
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
-                <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)' }}>
+                <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)' }} >
                   <TableCell>
                     <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Property Name</Typography>
                   </TableCell>
@@ -90,7 +96,7 @@ const Devices = () => {
 
               <TableBody>
                 {data.map((row, index) => (
-                  <TableRow key={index}>
+                  <TableRow key={index} onClick={() => handleTableRowClick()}>
                     <TableCell>
                       <Typography variant="body1">
                         {row.propertyName}

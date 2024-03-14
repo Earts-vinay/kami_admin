@@ -53,29 +53,16 @@ const ViewPole = () =>{
       navigate(`/addpole`);
     };
     
-    const data = [
-         { pole: 23643, latlong: 17.4948788988, cameras: 3, activeCameras: 3 },
-        { pole: 23643, latlong: 17.4948788988, cameras: 3, activeCameras: 3},
-        { pole:23643, latlong: 17.4948788988, cameras: 3, activeCameras: 3 },
-        { pole: 23643,latlong: 17.4948788988, cameras: 3, activeCameras: 3},
-        ];
-      
-
-
-  const mapContainerStyle = {
-    width: '700px',
-    height: '500px',
-  };
-  
-  const center = {
-    lat: 7.2905715, // default latitude
-    lng: 80.6337262, // default longitude
-  };
-  
 
     return(
    <>     
-      <HeaderLayout>
+          <div style={{ display: 'flex' }}>
+            <SideNav open={isOpen} handleToggle={handleToggle} />
+            <div style={{
+                marginLeft: isOpen ? '220px' : '90px',
+                padding: '10px', width: '100%', transition: 'margin 0.3s ease'
+            }}>
+                <Box style={{ height: '90vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px' }}>
         <Box textAlign="left" display="flex" alignItems="center" cursor="pointer" py={2} onClick={() => handleviewpole()}>
           
             <ChevronLeftIcon />
@@ -111,7 +98,9 @@ const ViewPole = () =>{
         <Button variant="contained" color="primary" >Save</Button>
        
       </Box>
-      </HeaderLayout>
+   </Box>
+   </div>
+   </div>
     </>
   
     )

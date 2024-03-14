@@ -14,8 +14,8 @@ const PairDevice = () => {
         dispatch(toggleSideNav());
     };
 
-    const handleTableRowClick = () => {
-        navigate(`/addproperty`);
+    const handlepair = () => {
+        navigate(`/devicesparing`);
     };
 
     // Sample data array
@@ -60,7 +60,7 @@ const PairDevice = () => {
                                             <TableCell>{device.networkType}</TableCell>
                                             <TableCell>{device.status}</TableCell>
                                             <TableCell>
-                                                <Button disabled={device.paired} variant="outlined">Pair Device</Button>
+                                                <Button disabled={device.paired}  variant="outlined" onClick={() => handlepair()}>Pair Device</Button>
                                             </TableCell>
                                         </TableRow>
                                     ))}

@@ -17,6 +17,9 @@ import AddProperty from './components/Propertycomponents/DashboardContent/AddPro
 import AddPole from './components/Propertycomponents/DashboardContent/AddPole';
 import ViewPole from './components/Propertycomponents/DashboardContent/ViewPole';
 import PairDevice from './components/Propertycomponents/DashboardContent/PairDevice/PairDevice';
+import DevicesParing from './components/Propertycomponents/DashboardContent/PairDevice/PairDevicesSetup/DevicesParing';
+import DeviceSetup from './components/Propertycomponents/DashboardContent/PairDevice/PairDevicesSetup/DeviceParingContent/DeviceSetup';
+import DevicesInside from './components/DevicesContent/DevicesInside';
 
 
 function App() {
@@ -32,8 +35,11 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPass />} />
             <Route path="/" element={<OnboardingScreens />} />
+
+            {/* Super Admin Routes */}
             <Route path="/organization" element={<Organization />} />
             <Route path="/devices" element={<Devices />} />
+            <Route path="/devicesinside" element={<DevicesInside />} />
             <Route path="/users" element={<Users />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/settingsinside" element={<SettingsInside />} />
@@ -47,6 +53,8 @@ function App() {
             <Route path="/addpole" element={<AddPole/>} />
             <Route path="/viewpole" element={<ViewPole/>} />
             <Route path="/pairdevice" element={<PairDevice/>} />
+            <Route path="/devicesparing" element={<DevicesParing/>} />
+        
 
           </Routes>
         {/* </div>

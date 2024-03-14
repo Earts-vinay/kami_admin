@@ -27,14 +27,14 @@ const MapContainer = () => {
 const PropertyOnboarding = () => {
   return (
 <Box sx={{ padding: "20px" }}>
-      <Grid container spacing={2} >
+      <Grid container spacing={2} display="flex" gap={2} >
         {/* Left side */}
         <Grid md={6} padding="10px" spacing={2}>
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12} md={11}>
             <Typography variant="body2">Property Name / ID</Typography>
             <TextField label="Input Field 1" fullWidth margin="dense" size="small" />
           </Grid>
-          <Grid item xs={12} md={12} marginTop={3} >
+          <Grid item xs={12} md={11} marginTop={3} >
             <Typography variant="body2">Search</Typography>
             <TextField
               fullWidth
@@ -65,30 +65,30 @@ const PropertyOnboarding = () => {
 
         {/* Right side */}
         <Grid md={6} padding="10px" container spacing={2}>
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12} md={11}>
             <Typography variant="body2">Property Type</Typography>
             <TextField label="Dropdown" select fullWidth margin="dense" size="small">
               <MenuItem value="option1">Option 1</MenuItem>
               <MenuItem value="option2">Option 2</MenuItem>
             </TextField>
           </Grid>
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12} md={11}>
             <Typography variant="body2">Address</Typography>
             <TextField label="Text Field 1" fullWidth margin="dense" size="small" />
           </Grid>
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12} md={11}>
             <Typography variant="body2">City</Typography>
             <TextField label="Text Field 2" fullWidth margin="dense" size="small" />
           </Grid>
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12} md={11}>
             <Typography variant="body2">state</Typography>
             <TextField label="Text Field 3" fullWidth margin="dense" size="small" />
           </Grid>
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12} md={11}>
             <Typography variant="body2">Country</Typography>
             <TextField label="Text Field 4" fullWidth margin="dense" size="small" />
           </Grid>
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12} md={11}>
             <Typography variant="body2">Pincode</Typography>
             <TextField label="Text Field 5" fullWidth margin="dense" size="small" />
           </Grid>
@@ -96,7 +96,7 @@ const PropertyOnboarding = () => {
             <Typography variant="body2">Address</Typography>
             <TextField label="Text Field 6" fullWidth margin="dense" size="small" />
           </Grid> */}
-          <Grid item xs={12} md={12}>
+          <Grid item xs={12} md={11}>
             <Typography variant="body2">Time Zone</Typography>
             <TextField label="Dropdown 2" select fullWidth margin="dense" size="small">
               <MenuItem value="option1">Option 1</MenuItem>
