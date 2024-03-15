@@ -43,9 +43,9 @@ const DevicesParing = () => {
                 marginLeft: isOpen ? '220px' : '90px',
                 padding: '10px', width: '100%', transition: 'margin 0.3s ease'
             }}>
-                <Box style={{ height: '90vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px' }}>
+                <Box style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px',overflow:"auto" }}>
                 <Box padding="15px">
-                    <Typography varient="h6"  >Devices Gate Cam 1</Typography>
+                    <Typography varient="h6"  >Pair a new Device / Camera</Typography>
                      <Typography varient="body-2" fontSize="12px">Configure the device and setup the events that you want each camera to detect.</Typography>
                     </Box>
                 <Box paddingY="10px">
@@ -62,7 +62,7 @@ const DevicesParing = () => {
                     </Stepper>
                 </Box>
 
-                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                    <Box sx={{ display: "flex", flexDirection: "column",overflow:"auto" }}>
                         {activeStep === 0 && (
                             <Box>
                              <DeviceSetup/>
@@ -81,7 +81,7 @@ const DevicesParing = () => {
                     </Box>
 
                     {/* Buttons */}
-                    <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
+                    <Box sx={{ display: "flex", justifyContent: "center" }}>
                         <Button variant="outlined" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
                             Cancel
                         </Button>

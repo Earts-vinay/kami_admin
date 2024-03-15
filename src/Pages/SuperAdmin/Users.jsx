@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Box, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, InputAdornment } from '@mui/material';
+import { Box, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, InputAdornment, Popover, FormControlLabel, Checkbox, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import SideNav from '../../components/SideNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 const Users = () => {
   const isOpen = useSelector(selectIsSideNavOpen);
@@ -14,6 +15,28 @@ const Users = () => {
   const handleToggle = () => {
     dispatch(toggleSideNav());
   };
+
+  const [anchorEl, setAnchorEl] = useState(null); // State for popover anchor element
+  const [selectedAccessLevels, setSelectedAccessLevels] = useState([]); // State for selected access levels
+
+  const openPopover = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const closePopover = () => {
+    setAnchorEl(null);
+  };
+
+  const handleAccessLevelChange = (event) => {
+    const { value, checked } = event.target;
+    if (checked) {
+      setSelectedAccessLevels((prevLevels) => [...prevLevels, value]);
+    } else {
+      setSelectedAccessLevels((prevLevels) => prevLevels.filter((level) => level !== value));
+    }
+  };
+
+  const isPopoverOpen = Boolean(anchorEl);
 
   // Sample user data array
   const usersData = [
@@ -69,13 +92,41 @@ const Users = () => {
             <TableContainer component={Paper}>
               <Table>
                 <TableHead sx={{ "& .css-15wwp11-MuiTableHead-root": { background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4)) !important' } }}>
-
-
                 <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)' }}>
                     <TableCell></TableCell>
                     <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>User Names</TableCell>
                     <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Property</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Access Level</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',display:"flex", alignItems:"center",gap:"5px" }} >    
+                    <FilterListIcon/>   
+                    <Typography onClick={openPopover} > Access Level</Typography>
+                        <Popover
+                          open={isPopoverOpen}
+                          anchorEl={anchorEl}
+                          onClose={closePopover}
+                          anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'center',
+                          }}
+                          transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'center',
+                          }}
+                        >
+                          <Box p={2} display="flex" flexDirection="column">
+                            <FormControlLabel
+                              control={<Checkbox checked={selectedAccessLevels.includes('Super Admin')} onChange={handleAccessLevelChange} value="Super Admin" />}
+                              label="Super Admin"
+                            />
+                            <FormControlLabel
+                              control={<Checkbox checked={selectedAccessLevels.includes('Property Admin')} onChange={handleAccessLevelChange} value="Property Admin" />}
+                              label="Property Admin"
+                            />
+                            <FormControlLabel
+                              control={<Checkbox checked={selectedAccessLevels.includes('Property Manager')} onChange={handleAccessLevelChange} value="Property Manager" />}
+                              label="Property Manager"
+                            />
+                          </Box>
+                        </Popover></TableCell>
                     <TableCell  sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Action</TableCell>
                   </TableRow>
                 </TableHead>
@@ -91,10 +142,10 @@ const Users = () => {
                       <TableCell>{user.accessLevel}</TableCell>
                       <TableCell>
                         <IconButton color="primary" aria-label="edit">
-                          <EditIcon />
+                        <img src="assets/icons/editicon.svg" alt="" width="35px" />
                         </IconButton>
                         <IconButton color="secondary" aria-label="delete">
-                          <DeleteIcon />
+                        <img src="assets/icons/deleteicon.svg" alt="" width="35px" /> 
                         </IconButton>
                       </TableCell>
                     </TableRow>

@@ -3,11 +3,9 @@ import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, Ta
 import AddLine from './AddLinrOrPolygonContent/AddLine';
 
 const AddLineOrPolygon = () => {
-    // Sample data array containing information for each row
     const data = [
         { name: 'Example 1', linesPolygon: 'Line', detection: 'Detected', zone: 'Zone A' },
         { name: 'Example 2', linesPolygon: 'Polygon', detection: 'Not Detected', zone: 'Zone B' },
-        // Add more data objects as needed
     ];
 
     const [show, setShow] = useState(false);
@@ -15,9 +13,9 @@ const AddLineOrPolygon = () => {
     return (
         <>
             {!show ? (
-                <Box sx={{ display: 'flex', gap: '10px', paddingY: '30px' }}>
+                <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: '10px', paddingY: '30px' }}>
                     {/* Compass Image */}
-                    <Box sx={{ width: '50%', padding: '20px' }}>
+                    <Box sx={{ width: { xs: '100%', md: '50%' }, padding: '20px' }}>
                         <TableContainer>
                             <Table>
                                 <TableHead>
@@ -43,11 +41,11 @@ const AddLineOrPolygon = () => {
                         </TableContainer>
                         <Box textAlign="center" py={2}>
                             <Button color="primary" textTransform="capitalize" onClick={() => setShow(true)}>Add Line</Button>/
-                            <Button color="primary" textTransform="capitalize" >Add Polygon</Button>
+                            <Button color="primary" textTransform="capitalize">Add Polygon</Button>
                         </Box>
                     </Box>
-                    <Box width="50%">
-                        <img src="assets/images/deviceview.png" backgroundColor="black" alt="" />
+                    <Box sx={{ width: { xs: '100%', md: '50%' } }}>
+                        <img src="assets/images/deviceview.png" style={{ width: '100%', height: 'auto' }} alt="" />
                     </Box>
                 </Box>
             ) : (

@@ -6,8 +6,6 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import DevicesIcon from '@mui/icons-material/Devices';
 import GroupIcon from '@mui/icons-material/Group';
 import SettingsIcon from '@mui/icons-material/Settings';
-import UpgradeIcon from '@mui/icons-material/Upgrade';
-import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import moment from 'moment';
@@ -83,26 +81,20 @@ const SideNav = ({ open, handleToggle }) => {
                 },
 
             }}
-
         >
-            <Toolbar sx={{ display: "flex", justifyContent: "end", pading: "0px" }}>
-                <IconButton onClick={handleToggle}>
-                    {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                </IconButton>
-            </Toolbar>
-            <div className={classes.drawerContainer}>
-                <List>
-                    <Box display="flex" justifyContent="center" px={2} mb={open ? 2 : 0}>
-                    <img
-    src={open ? "assets/logos/logo.png" : "assets/logos/smalllogo.svg"}
-    alt="Logo"
-    className={classes.logo}
-    style={{
-        display: open ? 'block' : 'none',
-        width: open ? '180px' : '50px',
-        transition: 'width 0.3s ease'
-    }}
-/>
+            <div className={classes.drawerContainer} >
+                <List >
+                    <Box display="flex" justifyContent="center" px={2} mb={open ? 2 : 0} pt={3}>
+                        <img
+                            src={open ? "assets/logos/logo.png" : "assets/logos/smalllogo.svg"}
+                            alt="Logo"
+                            className={classes.logo}
+                            style={{
+                                display: open ? 'block' : 'none',
+                                width: open ? '180px' : '50px',
+                                transition: 'width 0.3s ease'
+                            }}
+                        />
 
                     </Box>
 
@@ -116,7 +108,7 @@ const SideNav = ({ open, handleToggle }) => {
                 </List>
 
 
-                <List style={{ marginTop: open ? '10px' : '30px',  }}>
+                <List style={{ marginTop: open ? '10px' : '30px', }}>
                     {/* List items with modified styles */}
                     <ListItem
                         button
@@ -192,7 +184,11 @@ const SideNav = ({ open, handleToggle }) => {
                         <ListItemText primary={open && 'Logout'} />
                     </ListItem>
                 </List>
-
+                <Toolbar sx={{ display: "flex", justifyContent: "end", pading: "0px" }}>
+                    <IconButton onClick={handleToggle}>
+                        {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                    </IconButton>
+                </Toolbar>
 
             </div>
         </Drawer >
