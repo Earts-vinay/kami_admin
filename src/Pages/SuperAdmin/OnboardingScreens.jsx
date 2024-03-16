@@ -1,14 +1,21 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Stepper, Step, StepLabel, Button, Typography } from '@mui/material';
 import OnboardingCompany from '../../components/OnboardingContent/OnboardingCompany';
 import PropertyOnboarding from '../../components/OnboardingContent/PropertyOnboarding';
 import UsersOnboarding from '../../components/OnboardingContent/UsersOnboarding';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectToken } from '../../redux/apiResponse/loginApiSlice';
+import { fetchDataFailure, fetchDataStart, fetchDataSuccess } from '../../redux/apiResponse/dictionarySlice';
 
 const OnboardingScreens = () => {
   const [activeStep, setActiveStep] = useState(0);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const token = useSelector(selectToken);
+
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -22,6 +29,36 @@ const OnboardingScreens = () => {
     navigate(`/organization`);
     setActiveStep(0);
   };
+
+  const fetchDropdownData = async () => {
+    dispatch(fetchDataStart());
+    try {
+      const response = await axios.get('http://35.239.192.201:9092/api/dict', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      dispatch(fetchDataSuccess(response.data));
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching dropdown data:', error);
+      dispatch(fetchDataFailure(error.message));
+    }
+  };
+
+  const [dropdownData, setDropdownData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchDropdownData();
+        setDropdownData(data);
+      } catch (error) {
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -44,17 +81,17 @@ const OnboardingScreens = () => {
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           {activeStep === 0 && (
             <Box>
-              <OnboardingCompany />
+              <OnboardingCompany dropdownData={dropdownData} />
             </Box>
           )}
           {activeStep === 1 && (
             <Box>
-              <PropertyOnboarding />
+              <PropertyOnboarding dropdownData={dropdownData} />
             </Box>
           )}
           {activeStep === 2 && (
             <Box>
-              <UsersOnboarding />
+              <UsersOnboarding dropdownData={dropdownData} />
             </Box>
           )}
         </Box>

@@ -1,11 +1,12 @@
-import { Box, Button, Grid, TextField, Typography } from '@mui/material';
-import React from 'react';
+import { Box, Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
+import React, { useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 
-const UsersOnboarding = () => {
+const UsersOnboarding = ({ dropdownData }) => {
+    const [accessLevel, setAccessLevel] = useState("");
 
     return (
-        <Box sx={{ padding: "20px", marginX: "200px", height:"70vh" }}>
+        <Box sx={{ padding: "20px", marginX: "200px", height: "70vh" }}>
             <Grid container spacing={2} alignItems="center">
                 {/* First Row */}
                 <Grid item xs={12}>
@@ -24,7 +25,7 @@ const UsersOnboarding = () => {
 
                         {/* Send Invite Button */}
                         <Grid item xs={4}>
-                            <Button variant="contained" color="primary" startIcon={<SendIcon />} fullWidth sx={{marginBottom: "7px"}}>
+                            <Button variant="contained" color="primary" startIcon={<SendIcon />} fullWidth sx={{ marginBottom: "7px" }}>
                                 Send Invite
                             </Button>
                         </Grid>
@@ -34,10 +35,25 @@ const UsersOnboarding = () => {
                 {/* Second Row */}
                 <Grid item xs={12}>
                     <Grid container spacing={2} alignItems="center">
-                        <Grid item xs={4}>
-                            <Typography variant="body2">Access Level</Typography>
-                            <TextField label="Super Admin" fullWidth size='small' margin="dense" />
-                        </Grid>
+                    <Grid item xs={4}>
+          <Typography variant="body2">Access Level</Typography>
+          <TextField
+            label="Dropdown"
+            select
+            fullWidth
+            margin="dense"
+            size="small"
+            value={accessLevel}
+            onChange={(e) => setAccessLevel(e.target.value)}
+          >
+            {dropdownData && dropdownData.data && dropdownData.data.roles && dropdownData.data.roles.map((role) => (
+              <MenuItem key={role.id} value={role.id}>
+                {role.name}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
+
                         <Grid item xs={4}>
                             <Typography variant="body2">Property Name</Typography>
                             <TextField label="Hyderabad campus" fullWidth size='small' margin="dense" />

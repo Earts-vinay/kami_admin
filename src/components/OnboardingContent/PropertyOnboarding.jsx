@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Grid, TextField, MenuItem, Typography, InputAdornment } from '@mui/material';
 import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
 import SearchIcon from '@mui/icons-material/Search';
@@ -24,9 +24,13 @@ const MapContainer = () => {
   );
 };
 
-const PropertyOnboarding = () => {
+
+const PropertyOnboarding = ({ dropdownData }) => {
+  const [propertyType, setPropertyType] = useState("");
+
+  // console.log(dropdownData);
   return (
-<Box sx={{ padding: "20px" }}>
+    <Box sx={{ padding: "20px" }}>
       <Grid container spacing={2} display="flex" gap={2} >
         {/* Left side */}
         <Grid md={6} padding="10px" spacing={2}>
@@ -65,13 +69,24 @@ const PropertyOnboarding = () => {
 
         {/* Right side */}
         <Grid md={6} padding="10px" container spacing={2}>
-          <Grid item xs={12} md={11}>
-            <Typography variant="body2">Property Type</Typography>
-            <TextField label="Dropdown" select fullWidth margin="dense" size="small">
-              <MenuItem value="option1">Option 1</MenuItem>
-              <MenuItem value="option2">Option 2</MenuItem>
-            </TextField>
-          </Grid>
+        <Grid item xs={12} md={11}>
+          <Typography variant="body2">Property Type</Typography>
+          <TextField
+            label="Dropdown"
+            select
+            fullWidth
+            margin="dense"
+            size="small"
+            value={propertyType}
+            onChange={(e) => setPropertyType(e.target.value)}
+          >
+            {dropdownData && dropdownData.data && dropdownData.data.property_types && dropdownData.data.property_types.map((propertyType) => (
+              <MenuItem key={propertyType.id} value={propertyType.id}>
+                {propertyType.name}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Grid>
           <Grid item xs={12} md={11}>
             <Typography variant="body2">Address</Typography>
             <TextField label="Text Field 1" fullWidth margin="dense" size="small" />

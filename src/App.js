@@ -32,9 +32,9 @@ function App() {
        
         <div style={{ marginLeft: open ? '250px' : '70px', padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}> */}
           <Routes>
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPass />} />
-            <Route path="/" element={<OnboardingScreens />} />
+            <Route path="/onboard" element={<OnboardingScreens />} />
 
             {/* Super Admin Routes */}
             <Route path="/organization" element={<Organization />} />

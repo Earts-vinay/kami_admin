@@ -174,9 +174,9 @@ const SideNav = ({ open, handleToggle }) => {
                     <ListItem
                         button
                         component={Link}
-                        to="/login"
+                        to="/"
                         sx={listItemStyle}
-                        className={isActive("/login") ? "active" : ""}
+                        className={isActive("/") ? "active" : ""}
                     >
                         <ListItemIcon>
                             <ExitToAppOutlinedIcon />
