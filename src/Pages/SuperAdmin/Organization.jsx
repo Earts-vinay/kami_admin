@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -14,6 +13,7 @@ const MapContainer = () => {
   const mapStyles = {
     height: '350px',
     width: '100%',
+    borderRadius: "10px"
   };
 
   const defaultCenter = {
@@ -49,7 +49,6 @@ const Organization = () => {
   };
 
   return (
-
     <div style={{ display: 'flex' }}>
       <SideNav open={isOpen} handleToggle={handleToggle} />
       <div style={{
@@ -59,23 +58,23 @@ const Organization = () => {
         <div style={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", marginRight: "10px" }}>
           <Box padding="10px">
             {/* Add Property Button */}
-          <Box textAlign="right" >
-          <Button variant="outlined" color="primary" onClick={() => handleTableRowClick()} style={{ marginBottom: '20px', textAlign: "right" }}>
-              Add Property
-            </Button>
-          </Box>
+            <Box textAlign="right">
+              <Button variant="outlined" color="primary" onClick={() => handleTableRowClick()} style={{ marginBottom: '20px', textAlign: "right" }}>
+                Add Property
+              </Button>
+            </Box>
 
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between",gap:"10px" }}>
               {/* Left Side */}
-              <Box style={{ display: "flex", width: "50%" }}>
-                <Box onClick={() => handleClick()} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "#f8f7fa", width: "90%", height: "50px", borderRadius: "5px", paddingY: "5px", paddingX: "20px",cursor:"pointer" }}>
+              <Box sx={{ width: { xs: "100%", sm: "100%",md:"48%" } }}>
+                <Box onClick={() => handleClick()} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "#f8f7fa", width: "90%", height: "50px", borderRadius: "5px", paddingY: "5px", paddingX: "20px", cursor: "pointer" }}>
                   <Box display="flex" flexDirection="column">
                     <Typography variant="body-2" style={{ marginRight: '10px' }}>
                       WallMart Supermarket
                     </Typography>
                     <Typography variant="body2" component="span" sx={{ fontSize: '13px' }}>
                       <FmdGoodOutlinedIcon fontSize="13px" sx={{ color: 'blue', verticalAlign: 'middle', marginRight: 0.5 }} />
-                      virginia, USA
+                      Virginia, USA
                     </Typography>
                   </Box>
                   {/* Background Color */}
@@ -84,22 +83,17 @@ const Organization = () => {
                     <img src="assets/icons/editicon.svg" alt="" width="35px" />
                   </Box>
                 </Box>
+              </Box>
 
-              </Box> 
-             
-             {/* Map */}
-              <Box width="50%">
-        <MapContainer />
-        </Box>
-              
+              {/* Map */}
+              <Box sx={{ width: { xs: "100%", sm: "100%",md: '48%' } }}>
+                <MapContainer />
+              </Box>
             </Box>
-            
           </Box>
-         
         </div>
       </div>
     </div>
-
   );
 };
 

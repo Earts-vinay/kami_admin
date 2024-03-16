@@ -63,9 +63,10 @@ const Database = () => {
                 <TableRow key={index}>
                   <TableCell>{item.licensePlate}</TableCell>
                   <TableCell>{item.notes}</TableCell>
-                  <TableCell>
-                    <Button onClick={() => handleEdit(item)}>Edit</Button>
-                    <Button onClick={() => handleDelete(index)}>Delete</Button>
+                  <TableCell >
+             <Box sx={{display:'flex', gap:"10px"}}>     
+              <img src="assets/icons/editicon.svg" alt="" width="35px" />
+                  <img src="assets/icons/deleteicon.svg" alt="" width="35px" /></Box>
                   </TableCell>
                 </TableRow>
               ))}
@@ -92,7 +93,7 @@ const Database = () => {
         </Dialog>
 
        <Box display="flex" justifyContent="center" alignItems="center" mt={3}>
-       <Button onClick={handleAddDialog} variant="contained" textAlign="center">Add</Button>
+       <Button onClick={handleAddDialog} variant="contained" textAlign="center" sx={{textTransform:"capitalize"}}>Add</Button>
        </Box>
 
         {/* Add Dialog */}

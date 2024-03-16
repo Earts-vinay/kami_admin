@@ -22,8 +22,6 @@ const Settings = () => {
     navigate(`/settingsinside`);
   };
 
-
-  // Assuming data is an array of objects with the required properties
   const data = [
     { name: 'Western Super Market', alert: 'Active', detection: 'Inactive', status: 'Online', notification: 'Enabled', time: '12:30 PM', state: "virginia", country: "USA" },
     { name: 'Western Super Market', alert: 'Active', detection: 'Inactive', status: 'Online', notification: 'Enabled', time: '12:30 PM', state: "virginia", country: "USA" },
@@ -32,7 +30,8 @@ const Settings = () => {
     { name: 'Western Super Market', alert: 'Active', detection: 'Inactive', status: 'Online', notification: 'Enabled', time: '12:30 PM', state: "virginia", country: "USA" },
     { name: 'Western Super Market', alert: 'Active', detection: 'Inactive', status: 'Online', notification: 'Enabled', time: '12:30 PM', state: "virginia", country: "USA" },
     { name: 'Western Super Market', alert: 'Active', detection: 'Inactive', status: 'Online', notification: 'Enabled', time: '12:30 PM', state: "virginia", country: "USA" },
-  ]
+  ]  // Assuming data is an array of objects with the required properties
+ 
 
   return (
     <>

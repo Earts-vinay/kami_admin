@@ -87,8 +87,8 @@ const DeviceView = () => {
             </IconButton>
           </Box>
         </Box>
-        <Box width={{ xs: '100%', md: '50%' }}>
-          <img src="assets/images/deviceview.png" backgroundColor="black" alt="" width="100%"/>
+        <Box width={{ xs: '100%', md: '50%',borderRadius:'10px' }}>
+          <img src="assets/images/deviceview.png" backgroundColor="black" alt="" width="100%" borderRadius="10px"/>
         </Box>
       </Box>
     </>

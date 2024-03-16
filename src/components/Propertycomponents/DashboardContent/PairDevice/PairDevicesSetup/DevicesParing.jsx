@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import SideNav from '../../../../SideNav'
+import React, { useState } from 'react';
+import SideNav from '../../../../SideNav';
 import { useNavigate } from 'react-router-dom';
 import { selectIsSideNavOpen, toggleSideNav } from '../../../../../redux/sidenav/sidenavSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -31,11 +31,10 @@ const DevicesParing = () => {
         setActiveStep(0);
     };
 
-    const handlepair = () => {
+    const handlePair = () => {
         navigate(`/devicesparing`);
-
-
     };
+
     return (
         <div style={{ display: 'flex' }}>
             <SideNav open={isOpen} handleToggle={handleToggle} />
@@ -43,56 +42,74 @@ const DevicesParing = () => {
                 marginLeft: isOpen ? '220px' : '90px',
                 padding: '10px', width: '100%', transition: 'margin 0.3s ease'
             }}>
-                <Box style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px',overflow:"auto" }}>
-                <Box padding="15px">
-                    <Typography varient="h6"  >Pair a new Device / Camera</Typography>
-                     <Typography varient="body-2" fontSize="12px">Configure the device and setup the events that you want each camera to detect.</Typography>
+                <Box style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', overflow: "auto" }}>
+                    <Box padding="15px">
+                        <Typography varient="h6" >Pair a new Device / Camera</Typography>
+                        <Typography varient="body-2" fontSize="12px">Configure the device and setup the events that you want each camera to detect.</Typography>
                     </Box>
-                <Box paddingY="10px">
-                <Stepper activeStep={activeStep} alternativeLabel>
-                        <Step>
-                            <StepLabel>Devices Setup</StepLabel>
-                        </Step>
-                        <Step>
-                            <StepLabel>View Setup</StepLabel>
-                        </Step>
-                        <Step>
-                            <StepLabel>Add Lines & Polygons </StepLabel>
-                        </Step>
-                    </Stepper>
-                </Box>
+                    <Box paddingY="10px">
+                        <Stepper activeStep={activeStep} alternativeLabel>
+                            <Step>
+                                <StepLabel>Devices Setup</StepLabel>
+                            </Step>
+                            <Step>
+                                <StepLabel>View Setup</StepLabel>
+                            </Step>
+                            <Step>
+                                <StepLabel>Add Lines & Polygons </StepLabel>
+                            </Step>
+                        </Stepper>
+                    </Box>
 
-                    <Box sx={{ display: "flex", flexDirection: "column",overflow:"auto" }}>
+                    <Box sx={{ display: "flex", flexDirection: "column", overflow: "auto" }}>
                         {activeStep === 0 && (
                             <Box>
-                             <DeviceSetup/>
+                                <DeviceSetup />
                             </Box>
                         )}
                         {activeStep === 1 && (
                             <Box>
-                              <DeviceView/>
+                                <DeviceView />
                             </Box>
                         )}
                         {activeStep === 2 && (
                             <Box>
-                                <AddLineOrPolygon/>
+                                <AddLineOrPolygon />
                             </Box>
                         )}
                     </Box>
 
                     {/* Buttons */}
                     <Box sx={{ display: "flex", justifyContent: "center" }}>
-                        <Button variant="outlined" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-                            Cancel
-                        </Button>
-                        {activeStep === 2 ? (
-                            <Button variant="contained" color="primary" onClick={handleReset} sx={{ mr: 1 }}>
-                                next
-                            </Button>
-                        ) : (
-                            <Button variant="contained" color="primary" onClick={handleNext} sx={{ mr: 1 }}>
-                                Next
-                            </Button>
+                        {activeStep === 0 && (
+                            <>
+                                <Button variant="outlined" onClick={handleBack} sx={{ mr: 1 }}>
+                                    Cancel
+                                </Button>
+                                <Button variant="contained" color="primary" onClick={handleNext} sx={{ mr: 1 }}>
+                                    Next
+                                </Button>
+                            </>
+                        )}
+                        {activeStep !== 0 && activeStep !== 2 && (
+                            <>
+                                <Button variant="outlined" onClick={handleBack} sx={{ mr: 1 }}>
+                                    Back
+                                </Button>
+                                <Button variant="contained" color="primary" onClick={handleNext} sx={{ mr: 1 }}>
+                                    Next
+                                </Button>
+                            </>
+                        )}
+                        {activeStep === 2 && (
+                            <>
+                                <Button variant="outlined" onClick={handleBack} sx={{ mr: 1 }}>
+                                    Back
+                                </Button>
+                                <Button variant="contained" color="primary" onClick={handleReset} sx={{ mr: 1 }}>
+                                    Save
+                                </Button>
+                            </>
                         )}
                     </Box>
 
@@ -102,6 +119,4 @@ const DevicesParing = () => {
     )
 }
 
-export default DevicesParing
-
-
+export default DevicesParing;

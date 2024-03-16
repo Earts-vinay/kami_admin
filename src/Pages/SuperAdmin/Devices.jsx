@@ -45,6 +45,8 @@ const Devices = () => {
     { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
     { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
     { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
+    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
+    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
   ];
 
   return (
@@ -53,7 +55,7 @@ const Devices = () => {
       <div style={{ 
         marginLeft: isOpen ? '220px' : '90px',
          padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
-        <div style={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", marginRight: "10px" }}>
+        <div style={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px",overflow:'auto' }}>
           <Box sx={{ paddingTop: "10px", textAlign: "end" }}>
             <TextField
               label="Search"

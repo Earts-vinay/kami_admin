@@ -60,7 +60,7 @@ const PairDevice = () => {
                                             <TableCell>{device.networkType}</TableCell>
                                            
                                             <TableCell>
-                                                <Button disabled={device.paired} variant="outlined" onClick={() => handlepair()}>Pair Device</Button>
+                                                <Button disabled={device.paired} variant="outlined" sx={{textTransform: "capitalize"}} onClick={() => handlepair()}>Pair Device</Button>
                                             </TableCell>
                                         </TableRow>
                                     ))}

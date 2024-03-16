@@ -82,7 +82,7 @@ const AddLine = () => {
         <Box sx={{ width: { xs: '100%', md: '50%',sm:"80%" }, padding: '20px' }}>
           {/* Textfield */}
           <Typography> Line Name</Typography>
-          <TextField label="Textfield" variant="outlined" size="small" fullWidth margin="dense" />
+          <TextField label="Line Name" variant="outlined" size="small" fullWidth margin="dense" />
 
           {/* MUI Table */}
           <Table>
@@ -90,7 +90,7 @@ const AddLine = () => {
               {/* Row 1 */}
               <TableRow>
                 <TableCell>
-                <SnowshoeingIcon />
+                <SnowshoeingIcon sx={{color:"#2465e9"}}/>
                 </TableCell>
                 <TableCell>Person detection</TableCell>
                 <TableCell>
@@ -103,7 +103,7 @@ const AddLine = () => {
               {/* Row 2 */}
               <TableRow>
                 <TableCell>
-                  <DirectionsCarIcon/>
+                  <DirectionsCarIcon sx={{color:"#2465e9"}}/>
                 </TableCell>
                 <TableCell>Vehicle detection</TableCell>
                 <TableCell>
@@ -132,14 +132,14 @@ const AddLine = () => {
           {/* MUI Dropdown */}
           <Box py={3}>
             <Typography> Zone Name</Typography>
-            <Select label="Dropdown" variant="outlined" size="small" fullWidth margin="dense">
+            <TextField label="Zone Name" select fullWidth margin="dense" size="small">
               <Button px={3} color="primary" onClick={handleOpen}>
                 Add New Zone
               </Button>
               <MenuItem value={10}>Option 1</MenuItem>
               <MenuItem value={20}>Option 2</MenuItem>
               <MenuItem value={30}>Option 3</MenuItem>
-            </Select>
+            </TextField>
           </Box>
         </Box>
 

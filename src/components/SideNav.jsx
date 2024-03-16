@@ -50,7 +50,7 @@ const SideNav = ({ open, handleToggle }) => {
 
     const listItemStyle = {
         marginX: open ? "10px" : "auto",
-        borderRadius: "10px",
+        borderRadius: "5px",
         width: open ? "auto" : "45px",
         transition: "width 0.3s ease",
         padding: open ? "10px" : "10px", // Add padding for icons when sidebar is closed
