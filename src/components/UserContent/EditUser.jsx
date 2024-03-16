@@ -1,3 +1,6 @@
+
+
+
 import React, { useRef, useState } from 'react';
 import { Box, TextField, Button, MenuItem, FormControl, InputAdornment, InputLabel, Select, Input, Typography, Grid } from '@mui/material';
 import SideNav from '../../components/SideNav';
@@ -6,12 +9,14 @@ import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavS
 import { MuiTelInput } from 'mui-tel-input';
 
 
-const MyProfile = () => {
+
+const EditUser = () => {
   const fileInputRef = useRef(null);
   const [imageSrc, setImageSrc] = useState('assets/icons/girlicon.svg');
   const isOpen = useSelector(selectIsSideNavOpen);
   const dispatch = useDispatch();
   const [phone, setPhone] = useState('');
+ 
 
   const handleChange = (value) => {
     setPhone(value);
@@ -153,4 +158,4 @@ const MyProfile = () => {
   );
 };
 
-export default MyProfile;
+export default EditUser;

@@ -20,6 +20,7 @@ import PairDevice from './components/Propertycomponents/DashboardContent/PairDev
 import DevicesParing from './components/Propertycomponents/DashboardContent/PairDevice/PairDevicesSetup/DevicesParing';
 import DeviceSetup from './components/Propertycomponents/DashboardContent/PairDevice/PairDevicesSetup/DeviceParingContent/DeviceSetup';
 import DevicesInside from './components/DevicesContent/DevicesInside';
+import EditUser from './components/UserContent/EditUser';
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
             <Route path="/devices" element={<Devices />} />
             <Route path="/devicesinside" element={<DevicesInside />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/edituser" element={<EditUser />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/settingsinside" element={<SettingsInside />} />
             <Route path="/myprofile" element={<MyProfile />} />

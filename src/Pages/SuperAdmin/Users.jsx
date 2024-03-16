@@ -7,10 +7,16 @@ import SideNav from '../../components/SideNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { useNavigate } from 'react-router';
 
 const Users = () => {
   const isOpen = useSelector(selectIsSideNavOpen);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleTableRowClick = () => {
+      navigate(`/edituser`);
+    };
 
   const handleToggle = () => {
     dispatch(toggleSideNav());
@@ -141,7 +147,7 @@ const Users = () => {
                       <TableCell>{user.property}</TableCell>
                       <TableCell>{user.accessLevel}</TableCell>
                       <TableCell>
-                        <IconButton color="primary" aria-label="edit">
+                        <IconButton color="primary" aria-label="edit" onClick={() => handleTableRowClick()}>
                         <img src="assets/icons/editicon.svg" alt="" width="35px" />
                         </IconButton>
                         <IconButton color="secondary" aria-label="delete">

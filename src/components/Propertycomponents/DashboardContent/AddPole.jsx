@@ -120,9 +120,6 @@ const AddPole = () => {
           <Button variant="outlined" onClick={() => handlePair()} style={{ marginRight: '10px' }}>Pair Device</Button>
         </Box>
         </Box>
-
-       
-
       </div>
     </div>
   );
