@@ -9,6 +9,9 @@ import DeviceView from './DeviceParingContent/DeviceView';
 import AddLineOrPolygon from './DeviceParingContent/AddLineOrPolygon';
 import CustomButton from '../../../../CommonComponent/CustomButton';
 
+const commonStyles = {
+    fontFamily: "montserrat-regular",
+  };
 const DevicesParing = () => {
     const [activeStep, setActiveStep] = useState(0);
     const navigate = useNavigate();
@@ -45,19 +48,19 @@ const DevicesParing = () => {
             }}>
                 <Box style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', overflow: "auto" }}>
                     <Box padding="15px"  flexGrow={1}>
-                        <Typography varient="h6" >Pair a new Device / Camera</Typography>
-                        <Typography varient="body-2" fontSize="12px">Configure the device and setup the events that you want each camera to detect.</Typography>
+                        <Typography varient="h6" sx={commonStyles} >Pair a new Device / Camera</Typography>
+                        <Typography varient="body-2" sx={commonStyles} fontSize="12px">Configure the device and setup the events that you want each camera to detect.</Typography>
                     </Box>
                     <Box paddingY="10px">
                         <Stepper activeStep={activeStep} alternativeLabel>
                             <Step>
-                                <StepLabel>Devices Setup</StepLabel>
+                                <StepLabel sx={commonStyles}>Devices Setup</StepLabel>
                             </Step>
                             <Step>
-                                <StepLabel>View Setup</StepLabel>
+                                <StepLabel sx={commonStyles}>View Setup</StepLabel>
                             </Step>
                             <Step>
-                                <StepLabel>Add Lines & Polygons </StepLabel>
+                                <StepLabel sx={commonStyles}>Add Lines & Polygons </StepLabel>
                             </Step>
                         </Stepper>
                     </Box>

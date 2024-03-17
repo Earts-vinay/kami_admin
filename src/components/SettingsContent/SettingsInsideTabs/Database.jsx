@@ -4,6 +4,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import { useDropzone } from 'react-dropzone';
 import CustomButton from '../../CommonComponent/CustomButton';
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
 const Database = () => {
   const [data, setData] = useState([
     { licensePlate: 'ABC123', notes: 'Some notes 1' },
@@ -55,21 +58,21 @@ const Database = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>License Plate</TableCell>
-                <TableCell>Notes</TableCell>
-                <TableCell>Action</TableCell>
+                <TableCell sx={commonStyles}>License Plate</TableCell>
+                <TableCell sx={commonStyles}>Notes</TableCell>
+                <TableCell sx={commonStyles}>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {data.map((item, index) => (
                 <TableRow key={index}>
-                  <TableCell>{item.licensePlate}</TableCell>
-                  <TableCell>{item.notes}</TableCell>
+                  <TableCell sx={commonStyles}>{item.licensePlate}</TableCell>
+                  <TableCell sx={commonStyles}>{item.notes}</TableCell>
                   <TableCell >
              <Box sx={{display:'flex', gap:"10px"}}>     
-             <Box onClick={handleEdit}>
-             <img src="assets/icons/editicon.svg" alt="" width="35px" />
-             </Box>
+      
+             <img src="assets/icons/editicon.svg" alt="" width="35px" onClick={handleEdit} />
+         
                   <img src="assets/icons/deleteicon.svg" alt="" width="35px" /></Box>
                   </TableCell>
                 </TableRow>
@@ -80,7 +83,7 @@ const Database = () => {
         </Box>
 
         <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <Typography backgroundColor=" #2465e9" color="white" p={2}>Edit </Typography>
+        <Typography backgroundColor=" #2465e9" sx={commonStyles} color="white" p={2}>Edit </Typography>
             <CloseIcon
               sx={{
                 position: 'absolute',
@@ -98,11 +101,11 @@ const Database = () => {
             {selectedItem && (
               <>
                 <div>
-                <Typography fontSize="14px" >Licence Plate ID</Typography>
+                <Typography fontSize="14px" sx={commonStyles} >Licence Plate ID</Typography>
               <TextField fullWidth size='small' id="outlined-basic" label="Id" margin="dense" variant="outlined"  />
                 </div>
                 <div>
-                <Typography variant="body1">Notes</Typography>
+                <Typography variant="body1" sx={commonStyles}>Notes</Typography>
             <TextField
               fullWidth
               multiline
@@ -129,7 +132,7 @@ const Database = () => {
 
         {/* Add Dialog */}
         <Dialog open={addDialog} onClose={handleAddCloseDialog}>
-        <Typography backgroundColor=" #2465e9" color="white" p={2}>Add view</Typography>
+        <Typography backgroundColor=" #2465e9" color="white" p={2} sx={commonStyles}>Add view</Typography>
             <CloseIcon
               sx={{
                 position: 'absolute',
@@ -143,10 +146,9 @@ const Database = () => {
               onClick={handleAddCloseDialog}
             />
           <DialogContent sx={{width:"500px"}}>
-          <Typography fontSize="14px" >Licence Plate ID</Typography>
+          <Typography fontSize="14px" sx={commonStyles}>Licence Plate ID</Typography>
               <TextField fullWidth size='small' id="outlined-basic" label="Id" margin="dense" variant="outlined"  />
-
-              <Typography variant="body1">Notes</Typography>
+              <Typography variant="body1" sx={commonStyles}>Notes</Typography>
             <TextField
               fullWidth
               multiline
@@ -157,16 +159,12 @@ const Database = () => {
               variant="outlined"
             />
 
-            <Typography textAlign="center" my={2}>OR</Typography>
-
+            <Typography textAlign="center" my={2} sx={commonStyles}>OR</Typography>
             <Box sx={{ background: '#E3EBFC', padding: '20px',borderRadius:"10px" }}>
         <div {...getRootProps()} style={{ cursor: 'pointer', marginTop: '5px',display:"flex",alignItems:"center",gap:"20px",flexDirection:"column" }}>
           <input {...getInputProps()} />
-          <img src="assets/icons/uploadicon.svg" alt="" />
-     
-         <Typography sx={{color:'#2465e9'}}>Bulk Upload</Typography>
-         
-         
+          <img src="assets/icons/uploadicon.svg" alt="" />   
+         <Typography sx={{color:'#2465e9',...commonStyles}} >Bulk Upload</Typography>
         </div>
      </Box>
           </DialogContent>

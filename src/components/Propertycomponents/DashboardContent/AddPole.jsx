@@ -7,6 +7,9 @@ import { selectIsSideNavOpen, toggleSideNav } from '../../../redux/sidenav/siden
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import CustomButton from '../../CommonComponent/CustomButton';
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
 const MapContainer = () => {
   const mapStyles = {
     height: '70vh',
@@ -37,8 +40,8 @@ const AddPole = () => {
     dispatch(toggleSideNav());
   };
 
-  const handleTableRowClick = () => {
-    navigate(`/addproperty`);
+  const handleEditPole = () => {
+    navigate(`/viewpole`);
   };
 
   const data = [
@@ -85,11 +88,11 @@ const AddPole = () => {
               <Table aria-label="simple table">
                 <TableHead style={{ backgroundColor: "#80808017" }}>
                   <TableRow>
-                    <TableCell>pole ID</TableCell>
-                    <TableCell> Lat,Long</TableCell>
-                    <TableCell>Zone</TableCell>
-                    <TableCell>Cameras</TableCell>
-                    <TableCell></TableCell>
+                    <TableCell sx={commonStyles}>pole ID</TableCell>
+                    <TableCell sx={commonStyles}> Lat,Long</TableCell>
+                    <TableCell sx={commonStyles}>Zone</TableCell>
+                    <TableCell sx={commonStyles}>Cameras</TableCell>
+                    <TableCell ></TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -98,12 +101,12 @@ const AddPole = () => {
                       key={index}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                     >
-                      <TableCell>{row.pole}</TableCell>
-                      <TableCell>{row.latlong}</TableCell>
-                      <TableCell> -</TableCell>
-                      <TableCell sx={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                      <TableCell sx={commonStyles}>{row.pole}</TableCell>
+                      <TableCell sx={commonStyles}>{row.latlong}</TableCell>
+                      <TableCell sx={commonStyles}> -</TableCell>
+                      <TableCell sx={{ display: "flex", alignItems: "center", gap: "10px", }}>
                         <Button variant="contained" style={{ backgroundColor: "#007acc", color: 'white', borderRadius: "5px" }}>3</Button>
-                        <img src="assets/icons/editicon.svg" alt="" width="35px" />
+                        <img src="assets/icons/editicon.svg" alt="" width="35px" onClick={handleEditPole} />
                       </TableCell>
                     </TableRow>
                   ))}

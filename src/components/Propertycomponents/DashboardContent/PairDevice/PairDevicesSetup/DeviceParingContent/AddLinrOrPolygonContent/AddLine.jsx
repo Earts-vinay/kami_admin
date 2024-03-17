@@ -17,7 +17,9 @@ import { styled } from '@mui/material/styles';
 import CustomButton from '../../../../../../CommonComponent/CustomButton';
 import { Stage, Layer, Line } from 'react-konva';
 
-
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+}; 
 const AntSwitch = styled(Switch)(({ theme }) => ({
   width: 28,
   height: 16,
@@ -119,7 +121,7 @@ const AddLine = () => {
         {/* Compass Image */}
         <Box sx={{ width: { xs: '100%', md: '50%', sm: "80%" }, padding: '20px' }}>
           {/* Textfield */}
-          <Typography> Line Name</Typography>
+          <Typography sx={commonStyles}> Line Name</Typography>
           <TextField label="Line Name" variant="outlined" size="small" fullWidth margin="dense" />
 
           {/* MUI Table */}
@@ -130,7 +132,7 @@ const AddLine = () => {
                 <TableCell>
                   <SnowshoeingIcon sx={{ color: "#2465e9" }} />
                 </TableCell>
-                <TableCell>Person detection</TableCell>
+                <TableCell sx={commonStyles}>Person detection</TableCell>
                 <TableCell>
                   <AntSwitch
                     defaultChecked={"on"}
@@ -143,7 +145,7 @@ const AddLine = () => {
                 <TableCell>
                   <DirectionsCarIcon sx={{ color: "#2465e9" }} />
                 </TableCell>
-                <TableCell>Vehicle detection</TableCell>
+                <TableCell sx={commonStyles}>Vehicle detection</TableCell>
                 <TableCell>
                   <AntSwitch
                     defaultChecked={"on"}
@@ -156,7 +158,7 @@ const AddLine = () => {
                 <TableCell>
                   <img src="assets/icons/licenceplate.svg" alt="Plate Icon" />
                 </TableCell>
-                <TableCell>Licence plate</TableCell>
+                <TableCell sx={commonStyles}>Licence plate</TableCell>
                 <TableCell>
                   <AntSwitch
                     defaultChecked={"on"}
@@ -169,9 +171,9 @@ const AddLine = () => {
 
           {/* MUI Dropdown */}
           <Box py={3}>
-            <Typography> Zone Name</Typography>
+            <Typography sx={commonStyles}> Zone Name</Typography>
             <TextField label="Zone Name" select fullWidth margin="dense" size="small">
-              <Button px={3} color="primary" onClick={handleOpen}>
+              <Button px={3} color="primary" onClick={handleOpen} sx={commonStyles}>
                 Add New Zone
               </Button>
               <MenuItem value={10}>Option 1</MenuItem>
@@ -247,7 +249,7 @@ X</IconButton>
 
       {/* Dialog for adding new zone */}
       <Dialog open={open} onClose={handleClose}>
-        <Typography backgroundColor=" #2465e9" color="white" borderRadius="5px 5px 0px 0px" p={2}>
+        <Typography backgroundColor=" #2465e9" color="white" borderRadius="5px 5px 0px 0px" p={2} sx={commonStyles}>
           Add New Zone
         </Typography>
         <CloseIcon
@@ -263,7 +265,7 @@ X</IconButton>
           onClick={handleClose}
         />
         <DialogContent>
-          <Typography width="500px">Zone Name</Typography>
+          <Typography width="500px" sx={commonStyles}>Zone Name</Typography>
           <TextField fullWidth size="small" id="outlined-basic" label="Enter view name here" variant="outlined" margin="dense" />
         </DialogContent>
         <DialogActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

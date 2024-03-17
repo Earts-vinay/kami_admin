@@ -6,6 +6,10 @@ import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, TextField, InputAdornment } from '@mui/material';
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
+
 const DevicesInside = () => {
   const isOpen = useSelector(selectIsSideNavOpen);
   const dispatch = useDispatch();
@@ -51,26 +55,25 @@ const DevicesInside = () => {
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
-                <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)' }}>
-                  <TableCell>Camera ID</TableCell>
-                  <TableCell>Latitude, Longitude</TableCell>
-                  
-                  <TableCell>Pole ID</TableCell>
-                  <TableCell>Lines</TableCell>
-                  <TableCell>Polygons</TableCell>
-                  <TableCell>Detection</TableCell>
-                  <TableCell>Action</TableCell>
+                <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)',...commonStyles }}>
+                  <TableCell sx={commonStyles}>Camera ID</TableCell>
+                  <TableCell sx={commonStyles}>Latitude, Longitude</TableCell>
+                  <TableCell sx={commonStyles}>Pole ID</TableCell>
+                  <TableCell sx={commonStyles}>Lines</TableCell>
+                  <TableCell sx={commonStyles}>Polygons</TableCell>
+                  <TableCell sx={commonStyles}>Detection</TableCell>
+                  <TableCell sx={commonStyles}>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {data.map((item) => (
                   <TableRow key={item.id}>
-                    <TableCell>{item.cameraId}</TableCell>
-                    <TableCell>{item.lat}, {item.long}</TableCell>
+                    <TableCell sx={commonStyles}>{item.cameraId}</TableCell>
+                    <TableCell sx={commonStyles}>{item.lat}, {item.long}</TableCell>
                    
-                    <TableCell>{item.poleId}</TableCell>
-                    <TableCell>{item.lines.join(', ')}</TableCell>
-                    <TableCell>{item.polygons.join(', ')}</TableCell>
+                    <TableCell sx={commonStyles}>{item.poleId}</TableCell>
+                    <TableCell sx={commonStyles}>{item.lines.join(', ')}</TableCell>
+                    <TableCell sx={commonStyles}>{item.polygons.join(', ')}</TableCell>
                     <TableCell><img src='assets/images/carx.svg' /></TableCell>
                     <TableCell>
                       {/* Add edit and delete actions */}

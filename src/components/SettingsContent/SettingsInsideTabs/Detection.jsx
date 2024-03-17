@@ -2,6 +2,9 @@ import React from 'react';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Switch, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
 const AntSwitch = styled(Switch)(({ theme }) => ({
   width: 28,
   height: 16,
@@ -59,16 +62,16 @@ const Detection = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Detection Type</TableCell>
-              <TableCell>Raise Alerts</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell sx={commonStyles}>Detection Type</TableCell>
+              <TableCell sx={commonStyles}>Raise Alerts</TableCell>
+              <TableCell sx={commonStyles}>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {detectionData.map((row, index) => (
               <TableRow key={index}>
-                <TableCell>{row.type}</TableCell>
-                <TableCell >
+                <TableCell sx={commonStyles}>{row.type}</TableCell>
+                <TableCell sx={commonStyles}>
                  <Box sx={{display:"flex",alignItems:"center", gap:"10px"}}>
                  <AntSwitch
                     defaultChecked={row.raiseAlerts}

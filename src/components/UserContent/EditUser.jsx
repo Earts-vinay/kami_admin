@@ -9,7 +9,9 @@ import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavS
 import { MuiTelInput } from 'mui-tel-input';
 import CustomButton from '../CommonComponent/CustomButton';
 
-
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
 
 const EditUser = () => {
   const fileInputRef = useRef(null);
@@ -103,7 +105,7 @@ const EditUser = () => {
             <Grid container spacing={2} style={{ marginTop: '20px', padding: "40px", width: '80%' }}>
               {/* User Information and Save Button Section */}
               <Grid item xs={12} md={7}>
-                <Typography variant="body1">User Name</Typography>
+                <Typography variant="body1" sx={commonStyles}>User Name</Typography>
                 <TextField
                   label="User Name"
                   variant="outlined"
@@ -114,7 +116,7 @@ const EditUser = () => {
                 />
               </Grid>
               <Grid item xs={12} md={7}>
-                <Typography variant="body1">Email</Typography>
+                <Typography variant="body1" sx={commonStyles}>Email</Typography>
                 <TextField
                   label="Email"
                   variant="outlined"
@@ -127,7 +129,7 @@ const EditUser = () => {
               </Grid>
 
               <Grid item xs={12} md={7}>
-                <Typography variant="body1">Phone Number</Typography>
+                <Typography variant="body1" sx={commonStyles}>Phone Number</Typography>
                 <MuiTelInput
                   label="Phone Number"
                   value={phone || ''}
@@ -145,7 +147,7 @@ const EditUser = () => {
 
               </Grid>
               <Grid item xs={12} md={7}>
-              <Typography variant="body1">Access Level</Typography>
+              <Typography variant="body1" sx={commonStyles}>Access Level</Typography>
               <FormControl fullWidth margin="dense" sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#2465E9' } } }}>
                 <InputLabel id="access-level-label">Access Level</InputLabel>
                 <Select
@@ -157,7 +159,7 @@ const EditUser = () => {
               </Grid>
 
               <Grid item xs={12} md={7}>
-              <Typography variant="body1">Property Name</Typography>
+              <Typography variant="body1" sx={commonStyles}>Property Name</Typography>
               <FormControl fullWidth margin="dense" sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#2465E9' } } }}>
                 <InputLabel id="property-name-label">Property Name</InputLabel>
                 <Select

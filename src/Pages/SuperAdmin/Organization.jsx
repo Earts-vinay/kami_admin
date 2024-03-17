@@ -64,7 +64,21 @@ const Organization = () => {
           <Box padding="10px">
             {/* Add Property Button */}
             <Box textAlign="right" p={1}>
-              <CustomButton onClick={() => handleTableRowClick()}>Add Property</CustomButton>
+              <Button onClick={() => handleTableRowClick()} p={0}     variant="outlined"
+
+      size="small"
+
+      sx={{
+        textTransform:"capitalize",
+        width:"150px",
+        padding:"6px",
+        ...commonStyles,
+        '&:hover': {
+         
+          backgroundColor: "#2465e9",
+          color: "white",
+        },
+      }}>Add Property</Button>
             </Box>
 
             <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", }}>

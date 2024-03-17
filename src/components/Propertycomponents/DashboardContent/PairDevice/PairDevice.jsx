@@ -6,6 +6,9 @@ import { selectIsSideNavOpen, toggleSideNav } from '../../../../redux/sidenav/si
 import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import CustomButton from '../../../CommonComponent/CustomButton';
 
+const commonStyles = {
+    fontFamily: "montserrat-regular",
+  };
 const PairDevice = () => {
     const navigate = useNavigate();
     const isOpen = useSelector(selectIsSideNavOpen);
@@ -36,19 +39,19 @@ const PairDevice = () => {
                 }}>
                     <Box style={{ height: '90vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px' }}>
                         <Box padding="15px">
-                            <Typography varient="h6"  >Discover Devices to pair</Typography>
-                            <Typography varient="body-2" fontSize="12px">Ensure that you are connected to same network that the device is to parried In</Typography>
+                            <Typography varient="h6" sx={commonStyles} >Discover Devices to pair</Typography>
+                            <Typography varient="body-2" fontSize="12px" sx={commonStyles}>Ensure that you are connected to same network that the device is to parried In</Typography>
                         </Box>
 
                         <TableContainer >
                             <Table padding="15px">
                                 <TableHead>
                                     <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)', borderRadius: "5px" }}>
-                                        <TableCell>Camera View</TableCell>
-                                        <TableCell>IP Address</TableCell>
-                                        <TableCell>Network Type</TableCell>
+                                        <TableCell  sx={commonStyles}>Camera View</TableCell>
+                                        <TableCell  sx={commonStyles}>IP Address</TableCell>
+                                        <TableCell  sx={commonStyles}>Network Type</TableCell>
                                         
-                                        <TableCell>Action</TableCell>
+                                        <TableCell  sx={commonStyles}>Action</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -57,8 +60,8 @@ const PairDevice = () => {
                                             <TableCell width="20%" sx={{ paddingY: "10px" }}>
                                                 <img src={devices.image} alt={""} style={{ width:"150px", height: '80px', borderRadius: "5px" }} />
                                             </TableCell>
-                                            <TableCell>{device.ipAddress}</TableCell>
-                                            <TableCell>{device.networkType}</TableCell>
+                                            <TableCell  sx={commonStyles}>{device.ipAddress}</TableCell>
+                                            <TableCell  sx={commonStyles}>{device.networkType}</TableCell>
                                            
                                             <TableCell>
                                                 <CustomButton disabled={device.paired} onClick={() => handlepair()}>Pair Device</CustomButton>

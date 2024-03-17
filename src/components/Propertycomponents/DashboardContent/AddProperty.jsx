@@ -10,7 +10,9 @@ import { useNavigate } from 'react-router';
 import InputField from '../../CommonComponent/InputField';
 import CustomButton from '../../CommonComponent/CustomButton';
 
-
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
 const MapContainer = () => {
   const mapStyles = {
     height: '400px',
@@ -61,13 +63,13 @@ const AddProperty = () => {
         {/* Left side */}
         <Grid md={6} sm={12} xs={12} padding="10px" spacing={2}>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">Property Name / ID</Typography>
+            <Typography variant="body2" sx={commonStyles}>Property Name / ID</Typography>
             
             < InputField  id=" outlined-basic" label="Input Field 1"  size="small" />
         
           </Grid>
           <Grid item xs={12} md={12} sm={12} marginTop={3} >
-            <Typography variant="body2">Search</Typography>
+            <Typography variant="body2" sx={commonStyles}>Search</Typography>
             <TextField
               fullWidth
               label="Search"
@@ -96,34 +98,34 @@ const AddProperty = () => {
         {/* Right side */}
         <Grid md={6} paddingLeft="25px" paddingY="10px" container spacing={2}>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">Property Type</Typography>
+            <Typography variant="body2" sx={commonStyles}>Property Type</Typography>
             <TextField label="Property Type" select fullWidth margin="dense" size="small">
               <MenuItem value="option1">Option 1</MenuItem>
               <MenuItem value="option2">Option 2</MenuItem>
             </TextField>
           </Grid>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">Address</Typography>
+            <Typography variant="body2" sx={commonStyles}>Address</Typography>
             <TextField label="Address" fullWidth margin="dense" size="small" />
           </Grid>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">City</Typography>
+            <Typography variant="body2" sx={commonStyles}>City</Typography>
             <TextField label="City" fullWidth margin="dense" size="small" />
           </Grid>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">State</Typography>
+            <Typography variant="body2" sx={commonStyles}>State</Typography>
             <TextField label="State" fullWidth margin="dense" size="small" />
           </Grid>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">Country</Typography>
+            <Typography variant="body2" sx={commonStyles}>Country</Typography>
             <TextField label="Country" fullWidth margin="dense" size="small" />
           </Grid>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">Pincode</Typography>
+            <Typography variant="body2" sx={commonStyles}>Pincode</Typography>
             <TextField label="Pincode" fullWidth margin="dense" size="small" />
           </Grid>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2">Time Zone</Typography>
+            <Typography variant="body2" sx={commonStyles}>Time Zone</Typography>
             <TextField label="Time Zone" select fullWidth margin="dense" size="small">
               <MenuItem value="option1">Option 1</MenuItem>
               <MenuItem value="option2">Option 2</MenuItem>

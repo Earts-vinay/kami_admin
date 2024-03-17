@@ -15,7 +15,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../../redux/sidenav/sidenavSlice';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import HeaderLayout from '../../CommonComponent/HeaderLayout';
+import CustomButton from '../../CommonComponent/CustomButton';
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
 const MapContainer = () => {
   const mapStyles = {
     height: '70vh',
@@ -81,7 +85,7 @@ const ViewPole = () => {
               onClick={() => handleviewpole()}
             >
               <ChevronLeftIcon />
-              <Typography variant="body-2" style={{ marginRight: '10px' }}>
+              <Typography variant="body-2" style={{ marginRight: '10px',...commonStyles }}>
                 WallMart Supermarket
               </Typography>
             </Box>
@@ -89,18 +93,18 @@ const ViewPole = () => {
             <Box sx={{ display: 'flex', flexWrap:"wrap", gap: '10px' }}>
               <Box sx={{ width: { xs: '100%',sm:"100%", md: '48%' }, padding: '10px' }}>
                 <Box paddingBottom={2}>
-                  <Typography variant="body2">Pole ID</Typography>
+                  <Typography variant="body2" sx={commonStyles}>Pole ID</Typography>
                   <TextField label="Pole Id" fullWidth margin="dense" size="small" />
                 </Box>
-                <Typography variant="body2" py={2}>
+                <Typography variant="body2" sx={commonStyles} py={2}>
                   Mark on Map
                 </Typography>
                 <Box paddingBottom={2}>
-                  <Typography variant="body2">Lat</Typography>
+                  <Typography variant="body2" sx={commonStyles}>Lat</Typography>
                   <TextField label="Pole Id" fullWidth margin="dense" size="small" />
                 </Box>
                 <Box paddingBottom={2}>
-                  <Typography variant="body2">Long</Typography>
+                  <Typography variant="body2" sx={commonStyles}>Long</Typography>
                   <TextField label="Pole Id" fullWidth margin="dense" size="small" />
                 </Box>
               </Box>
@@ -111,13 +115,11 @@ const ViewPole = () => {
               </Box>
             </Box>
 
-            <Box sx={{ marginTop: '40px', textAlign: 'center' }}>
-              <Button variant="outlined" onClick={() => handleviewpole()} style={{ marginRight: '10px' }}>
-                Back
-              </Button>
-              <Button variant="contained" color="primary">
-                Save
-              </Button>
+            <Box sx={{ marginTop: '40px',display:"flex", justifyContent:"center", gap:"10px" }}>
+             
+              <CustomButton onClick={() => handleviewpole()}>Back</CustomButton>
+              <CustomButton>Save</CustomButton>
+      
             </Box>
           </Box>
         </div>

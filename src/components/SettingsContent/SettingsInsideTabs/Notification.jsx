@@ -3,6 +3,9 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 import CloseIcon from '@mui/icons-material/Close';
 import CustomButton from '../../CommonComponent/CustomButton';
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
 const Notification = () => {
   const [open, setOpen] = useState(false);
   const [roleName, setRoleName] = useState('');
@@ -46,18 +49,18 @@ const Notification = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Rule Type</TableCell>
-              <TableCell>Location</TableCell>
-              <TableCell>Schedule</TableCell>
-              <TableCell>Time</TableCell>
+              <TableCell sx={commonStyles}>Rule Type</TableCell>
+              <TableCell sx={commonStyles}>Location</TableCell>
+              <TableCell sx={commonStyles}>Schedule</TableCell>
+              <TableCell sx={commonStyles}>Time</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {notifications.map((notification, index) => (
               <TableRow key={index}>
-                <TableCell>{notification.ruleType}</TableCell>
-                <TableCell>{notification.location}</TableCell>
-                <TableCell>
+                <TableCell sx={commonStyles}>{notification.ruleType}</TableCell>
+                <TableCell sx={commonStyles}>{notification.location}</TableCell>
+                <TableCell sx={commonStyles}>
                   <Box display="flex" flexWrap="wrap" gap={1}>
                     {notification.schedule.map((day) => (
                       <Button key={day} variant="contained" color="primary" style={{ borderRadius: '50%', minWidth: '36px', height: '36px', padding: '0', textTransform: 'capitalize' }}>
@@ -66,7 +69,7 @@ const Notification = () => {
                     ))}
                   </Box>
                 </TableCell>
-                <TableCell>{notification.time}</TableCell>
+                <TableCell sx={commonStyles}>{notification.time}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -80,7 +83,7 @@ const Notification = () => {
       </Box>
 
       <Dialog open={open} onClose={handleClose} sx={{ borderRadius: "5px" }}>
-        <Typography backgroundColor=" #2465e9" color="white" borderRadius="5px 5px 0px 0px" p={2}>
+        <Typography backgroundColor=" #2465e9" color="white" borderRadius="5px 5px 0px 0px" p={2} sx={commonStyles}>
           Add Notification
         </Typography>
         <CloseIcon
@@ -96,7 +99,7 @@ const Notification = () => {
           onClick={handleClose}
         />
         <DialogContent>
-          <Typography>Role Name</Typography>
+          <Typography sx={commonStyles}>Role Name</Typography>
           <TextField
             label="Role Name"
             value={roleName}
@@ -106,7 +109,7 @@ const Notification = () => {
             size="small"
           />
           <Box py={1}>
-            <Typography pb={1}>Day of Week</Typography>
+            <Typography pb={1} sx={commonStyles}>Day of Week</Typography>
             <Box display="flex" gap={1} alignItems="center" marginBottom="8px">
               {['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'].map((day) => (
                 <Button key={day} variant="contained" color="primary" style={{ borderRadius: '50%', minWidth: '36px', height: '36px', padding: '0', textTransform: "capitalize" }}>
@@ -117,7 +120,7 @@ const Notification = () => {
           </Box>
           <Box sx={{ display: "flex", gap: "10px" }}>
             <Box>
-              <Typography>Start Time</Typography>
+              <Typography sx={commonStyles}>Start Time</Typography>
               <TextField
                 label="Start Time"
                 value={startTime}
@@ -128,7 +131,7 @@ const Notification = () => {
               />
             </Box>
             <Box>
-              <Typography>End Time</Typography>
+              <Typography sx={commonStyles}>End Time</Typography>
               <TextField
                 label="End Time"
                 value={endTime}
@@ -141,7 +144,7 @@ const Notification = () => {
           </Box>
           <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
             <Box py={1}>
-              <Typography>Receivers</Typography>
+              <Typography sx={commonStyles}>Receivers</Typography>
               <TextField
                 label="Email"
                 variant="outlined"

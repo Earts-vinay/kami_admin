@@ -8,12 +8,16 @@ import SideNav from '../../components/SideNav';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { useNavigate } from 'react-router-dom';
-import CustomButton from '../../components/CommonComponent/CustomButton';
 
+
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
 const MapContainer = () => {
   const mapStyles = {
-    height: '350px',
+    height: '60vh',
     width: '100%',
+    borderRadius:"10px"
   };
 
   const defaultCenter = {
@@ -59,20 +63,18 @@ const Dashboard = () => {
       <div style={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", marginRight: "10px" }}>
         <Box padding="10px">
           {/* Add Property Button */}
-          <Box textAlign="right" p={1}>
-            <CustomButton onClick={() => handleTableRowClick()}>Add Property</CustomButton>
-          </Box>
+         
 
-          <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between",gap:"10px" }}>
+          <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between",py:"10px" }}>
             {/* Left Side */}
             <Box sx={{ width: { xs: "100%", sm: "100%",md:"48%" } }}>
-              <Box onClick={() => handleClick()} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "#f8f7fa", width: "90%", height: "50px", borderRadius: "5px", paddingY: "5px", paddingX: "20px", cursor: "pointer" }}>
+              <Box onClick={() => handleClick()} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "#f8f7fa", height: "50px", borderRadius: "5px", paddingY: "5px", paddingX: "20px", cursor: "pointer" }}>
                 <Box display="flex" flexDirection="column">
-                  <Typography variant="body-2" style={{ marginRight: '10px' }}>
+                  <Typography variant="body-2" style={{ marginRight: '10px',...commonStyles }}>
                     WallMart Supermarket
                   </Typography>
                   <Typography variant="body2" component="span" sx={{ fontSize: '13px' }}>
-                    <FmdGoodOutlinedIcon fontSize="13px" sx={{ color: 'blue', verticalAlign: 'middle', marginRight: 0.5 }} />
+                    <FmdGoodOutlinedIcon fontSize="13px" sx={{ color: 'blue', verticalAlign: 'middle', marginRight: 0.5,...commonStyles }} />
                     Virginia, USA
                   </Typography>
                 </Box>

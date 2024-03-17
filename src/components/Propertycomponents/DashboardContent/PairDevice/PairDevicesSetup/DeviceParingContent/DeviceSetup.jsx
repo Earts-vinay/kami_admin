@@ -2,6 +2,9 @@ import React from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { Grid, Typography, TextField, Box } from '@mui/material'; // Importing Material-UI components
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
 const DeviceSetup = () => {
   const MapContainer = () => {
     const mapStyles = {
@@ -28,22 +31,22 @@ const DeviceSetup = () => {
     <Grid container spacing={5} sx={{ padding: '20px' }}>
       <Grid item xs={12} sm={12} md={6} >
         <Box sx={{ marginBottom: '20px' }}>
-          <Typography variant="body2">Device / Camera Name</Typography>
+          <Typography variant="body2" sx={commonStyles}>Device / Camera Name</Typography>
           <TextField label="Device Name" fullWidth margin="dense" size="small" />
         </Box>
         
         <Box sx={{ marginBottom: '20px' }}>
-          <Typography variant="body2">Pole ID</Typography>
+          <Typography variant="body2" sx={commonStyles}>Pole ID</Typography>
           <TextField label="Pole ID" fullWidth margin="dense" size="small" />
         </Box>
 
         <Box sx={{ marginBottom: '20px' }}>
-          <Typography variant="body2">Lat</Typography>
+          <Typography variant="body2" sx={commonStyles}>Lat</Typography>
           <TextField label="Lat" fullWidth margin="dense" size="small" />
         </Box>
 
         <Box sx={{ marginBottom: '20px' }}>
-          <Typography variant="body2">Long</Typography>
+          <Typography variant="body2" sx={commonStyles}>Long</Typography>
           <TextField label="Long" fullWidth margin="dense" size="small" />
         </Box>
       </Grid>

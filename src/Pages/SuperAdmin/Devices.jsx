@@ -21,6 +21,9 @@ import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavS
 import SideNav from '../../components/SideNav';
 import { useNavigate } from 'react-router-dom';
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
 
 const Devices = () => {
   const navigate = useNavigate();
@@ -79,19 +82,19 @@ const Devices = () => {
               <TableHead>
                 <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)' }} >
                   <TableCell>
-                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Property Name</Typography>
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>Property Name</Typography>
                   </TableCell>
                   <TableCell align="center">
-                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Polls Installed</Typography>
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>Polls Installed</Typography>
                   </TableCell>
                   <TableCell align="center">
-                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Cameras Installed</Typography>
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>Cameras Installed</Typography>
                   </TableCell>
                   <TableCell align="center">
-                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Active Cameras</Typography>
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>Active Cameras</Typography>
                   </TableCell>
                   <TableCell align="center">
-                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Inactive Cameras</Typography>
+                    <Typography variant="body1" sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>Inactive Cameras</Typography>
                   </TableCell>
                 </TableRow>
               </TableHead>
@@ -100,18 +103,18 @@ const Devices = () => {
                 {data.map((row, index) => (
                   <TableRow key={index} onClick={() => handleTableRowClick()}>
                     <TableCell>
-                      <Typography variant="body1">
+                      <Typography variant="body1" sx={commonStyles}>
                         {row.propertyName}
                       </Typography>
-                      <Typography variant="body2" component="span" sx={{ fontSize: '13px' }}>
+                      <Typography variant="body2" component="span" sx={{ fontSize: '13px',...commonStyles }}>
                         <FmdGoodOutlinedIcon fontSize="13px" sx={{ color: 'blue', verticalAlign: 'middle', marginRight: 0.5 }} />
                         {row.state}, {row.country}
                       </Typography>
                     </TableCell>
-                    <TableCell align="center">{row.pollsInstalled}</TableCell>
-                    <TableCell align="center">{row.camerasInstalled}</TableCell>
-                    <TableCell align="center">{row.activeCameras}</TableCell>
-                    <TableCell align="center">{row.inactiveCameras}</TableCell>
+                    <TableCell align="center" sx={commonStyles}>{row.pollsInstalled}</TableCell>
+                    <TableCell align="center" sx={commonStyles}>{row.camerasInstalled}</TableCell>
+                    <TableCell align="center" sx={commonStyles}>{row.activeCameras}</TableCell>
+                    <TableCell align="center" sx={commonStyles}>{row.inactiveCameras}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

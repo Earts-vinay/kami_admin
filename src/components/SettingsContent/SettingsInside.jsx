@@ -7,6 +7,9 @@ import Database from './SettingsInsideTabs/Database';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 
+const commonStyles = {
+    fontFamily: "montserrat-regular",
+  };
 const SettingsInside = () => {
     const [selectedTab, setSelectedTab] = useState(0);
     const isOpen = useSelector(selectIsSideNavOpen);
@@ -69,6 +72,7 @@ const SettingsInside = () => {
                                  color: selectedTab === index && 'white !important',
                                  width: { xs: '100%', sm: '30%' }, // Adjust width for responsiveness
                                  borderRadius: '5px',
+                                 ...commonStyles
                              }}
                          />
                          

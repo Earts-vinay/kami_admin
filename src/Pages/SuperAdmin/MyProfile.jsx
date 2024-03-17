@@ -6,6 +6,9 @@ import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavS
 import { MuiTelInput } from 'mui-tel-input';
 import CustomButton from '../../components/CommonComponent/CustomButton';
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
 
 const MyProfile = () => {
   const fileInputRef = useRef(null);
@@ -99,7 +102,7 @@ const MyProfile = () => {
               <Grid container spacing={2} style={{ marginTop: '20px', padding: "40px", }}>
                 {/* User Information and Save Button Section */}
                 <Grid item xs={12} md={7}>
-                  <Typography variant="body1">User Name</Typography>
+                  <Typography variant="body1" sx={commonStyles}>User Name</Typography>
                   <TextField
                     label="User Name"
                     variant="outlined"
@@ -110,7 +113,7 @@ const MyProfile = () => {
                   />
                 </Grid>
                 <Grid item xs={12} md={7}>
-                  <Typography variant="body1">Email</Typography>
+                  <Typography variant="body1" sx={commonStyles}>Email</Typography>
                   <TextField
                     label="Email"
                     variant="outlined"
@@ -123,7 +126,7 @@ const MyProfile = () => {
                 </Grid>
 
                 <Grid item xs={12} md={7}>
-                  <Typography variant="body1">Phone Number</Typography>
+                  <Typography variant="body1" sx={commonStyles}>Phone Number</Typography>
                   <MuiTelInput
                     label="Phone Number"
                     value={phone || ''}
