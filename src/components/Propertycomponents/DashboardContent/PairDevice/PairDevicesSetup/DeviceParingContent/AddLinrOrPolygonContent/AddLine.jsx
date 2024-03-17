@@ -9,12 +9,14 @@ import Switch from '@mui/material/Switch';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
-import { Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { Button, Typography, Dialog, DialogTitle, DialogContent, DialogActions, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import SnowshoeingIcon from "@mui/icons-material/Snowshoeing";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import { styled } from '@mui/material/styles';
 import CustomButton from '../../../../../../CommonComponent/CustomButton';
+import { Stage, Layer, Line } from 'react-konva';
+
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
   width: 28,
@@ -69,6 +71,41 @@ const AddLine = () => {
     setOpen(false);
   };
 
+  const [polygonPoints, setPolygonPoints] = useState([]);
+
+  const handleMouseDown = (event) => {
+    const pos = event.target.getStage().getPointerPosition();
+    setPolygonPoints([...polygonPoints, pos.x, pos.y]);
+  };
+
+  const handleMouseMove = (event) => {
+    if (event.evt.buttons === 1) {
+      const pos = event.target.getStage().getPointerPosition();
+      const updatedPoints = [...polygonPoints, pos.x, pos.y];
+      // Ensure that each pair of points creates a straight line segment
+      const straightPoints = [];
+      for (let i = 0; i < updatedPoints.length - 2; i += 2) {
+        const x1 = updatedPoints[i];
+        const y1 = updatedPoints[i + 1];
+        const x2 = updatedPoints[i + 2];
+        const y2 = updatedPoints[i + 3];
+        straightPoints.push(x1, y1, x2, y2);
+      }
+      setPolygonPoints(straightPoints);
+    }
+  };
+
+  const handleClear = () => {
+    setPolygonPoints([]);
+  };
+
+  const handleUndo = () => {
+    if (polygonPoints.length > 0) {
+      const updatedPoints = polygonPoints.slice(0, -2);
+      setPolygonPoints(updatedPoints);
+    }
+  };
+
   return (
     <>
       <Box
@@ -80,7 +117,7 @@ const AddLine = () => {
         }}
       >
         {/* Compass Image */}
-        <Box sx={{ width: { xs: '100%', md: '50%',sm:"80%" }, padding: '20px' }}>
+        <Box sx={{ width: { xs: '100%', md: '50%', sm: "80%" }, padding: '20px' }}>
           {/* Textfield */}
           <Typography> Line Name</Typography>
           <TextField label="Line Name" variant="outlined" size="small" fullWidth margin="dense" />
@@ -91,11 +128,11 @@ const AddLine = () => {
               {/* Row 1 */}
               <TableRow>
                 <TableCell>
-                <SnowshoeingIcon sx={{color:"#2465e9"}}/>
+                  <SnowshoeingIcon sx={{ color: "#2465e9" }} />
                 </TableCell>
                 <TableCell>Person detection</TableCell>
                 <TableCell>
-                <AntSwitch
+                  <AntSwitch
                     defaultChecked={"on"}
                     inputProps={{ 'aria-label': 'Raise Alerts' }}
                   />
@@ -104,11 +141,11 @@ const AddLine = () => {
               {/* Row 2 */}
               <TableRow>
                 <TableCell>
-                  <DirectionsCarIcon sx={{color:"#2465e9"}}/>
+                  <DirectionsCarIcon sx={{ color: "#2465e9" }} />
                 </TableCell>
                 <TableCell>Vehicle detection</TableCell>
                 <TableCell>
-                <AntSwitch
+                  <AntSwitch
                     defaultChecked={"on"}
                     inputProps={{ 'aria-label': 'Raise Alerts' }}
                   />
@@ -121,7 +158,7 @@ const AddLine = () => {
                 </TableCell>
                 <TableCell>Licence plate</TableCell>
                 <TableCell>
-                <AntSwitch
+                  <AntSwitch
                     defaultChecked={"on"}
                     inputProps={{ 'aria-label': 'Raise Alerts' }}
                   />
@@ -145,8 +182,66 @@ const AddLine = () => {
         </Box>
 
         {/* Image */}
-        <Box width={{ xs: '100%', md: '50%',sm:'100%' }}>
-          <img src="assets/images/deviceview.png" backgroundColor="black" alt="" width="100%"/>
+        {/* Image Box */}
+        <Box
+          width={{ xs: '100%', md: '50%', borderRadius: '10px' }}
+          sx={{ position: 'relative' }}
+        >
+          <img
+            src="assets/images/deviceview.png"
+            alt="Device View"
+            width="100%"
+            borderRadius="10px"
+          />
+          <Stage
+            width={600} // Adjust according to your image dimensions
+            height={418} // Adjust according to your image dimensions
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            style={{ position: 'absolute', top: 0, left: 0 }}
+          >
+            <Layer>
+              <Line
+                points={polygonPoints}
+                stroke="blue"
+                strokeWidth={2}
+              />
+            </Layer>
+          </Stage>
+
+          {/* Clear and Undo buttons */}
+          <Box
+          sx={{
+            position: 'absolute',
+            bottom: '10px',
+            right: '10px',
+          }}
+        >
+        <IconButton
+  sx={{
+    color: 'white',
+    backgroundColor: 'red',
+    borderRadius: '5px',
+    height: '24px', // Adjust height as needed
+    fontSize: '12px', // Adjust font size as needed
+  }}
+  onClick={handleClear}
+>
+X</IconButton>
+<IconButton
+  sx={{
+    color: 'white',
+    backgroundColor: 'blue',
+    borderRadius: '5px',
+    height: '24px', // Adjust height as needed
+    fontSize: '12px', // Adjust font size as needed
+  }}
+  onClick={handleUndo}
+>
+  Undo
+</IconButton>
+
+        </Box>
         </Box>
       </Box>
 
@@ -171,7 +266,7 @@ const AddLine = () => {
           <Typography width="500px">Zone Name</Typography>
           <TextField fullWidth size="small" id="outlined-basic" label="Enter view name here" variant="outlined" margin="dense" />
         </DialogContent>
-        <DialogActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+        <DialogActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <CustomButton onClick={handleClose}>Back</CustomButton>
           <CustomButton onClick={handleClose}>Save</CustomButton>
         </DialogActions>

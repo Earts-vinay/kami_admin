@@ -3,12 +3,12 @@ import { createSlice } from '@reduxjs/toolkit';
 const onboardingCompanySlice = createSlice({
   name: 'onboardingcompany',
   initialState: {
-    urls: [], // Initialize urls array
+    urls: [], 
   },
   reducers: {
     setUploadResponse: (state, action) => {
       console.log('Payload received:', action.payload);
-      state.urls = action.payload.data.urls; // Update urls array
+      state.urls = action.payload.data.urls; 
     },
   },
 });

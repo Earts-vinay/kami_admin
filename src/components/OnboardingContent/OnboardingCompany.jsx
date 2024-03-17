@@ -41,6 +41,7 @@ const OnboardingCompany = ({ dropdownData }) => {
 
   const [companyName, setCompanyName] = useState('');
   const [industry, setIndustry] = useState("");
+  const [industryId, setIndustryId] = useState(""); 
   const [searchValue, setSearchValue] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
@@ -83,7 +84,7 @@ const OnboardingCompany = ({ dropdownData }) => {
   const token = useSelector(selectToken);
 
   const [logoFiles, setLogoFiles] = useState([]);
-  const uploadResponse = useSelector(state => state.onboardingcompany.uploadResponse);
+  const selectUrls = useSelector(state => state.onboardingcompany.urls);
 
   const onDrop = useCallback((acceptedFiles) => {
     console.log('Dropped Files:', acceptedFiles);
@@ -119,11 +120,20 @@ const OnboardingCompany = ({ dropdownData }) => {
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
-  const industries = useSelector(state => state.dictionary.data?.industrys);
+  const industries = useSelector(state => state.dictionary.data);
+  console.log(industries);
+  
+  const industryid = industries && industries.data && industries.data.industrys.length > 0
+    ? industries.data.industrys[0].id
+    : "";
+  
+  useState(() => {
+    setIndustryId(industryid);
+  }, [industryid]); 
+  
+  
 
   const handleSave = async () => {
-
-    const industryIds = industries ? industry.id : [];
     try {
       const response = await axios.post(
         'http://35.239.192.201:9092/api/company',
@@ -134,8 +144,8 @@ const OnboardingCompany = ({ dropdownData }) => {
           city,
           pin_code: pincode,
           address,
-          logo_url: uploadResponse?.data?.urls || [],
-          industry_id: industryIds || '',
+          logo_url: selectUrls || [],
+          industry_id: industryId || '',
           timeZone: timeDifference,
           description: '',
         },
@@ -345,7 +355,6 @@ const OnboardingCompany = ({ dropdownData }) => {
                 SAVE
               </Button>
             </Grid>
-
           </Grid>
         </Grid>
       </Grid>
@@ -354,6 +363,3 @@ const OnboardingCompany = ({ dropdownData }) => {
 };
 
 export default OnboardingCompany;
-
-
-
