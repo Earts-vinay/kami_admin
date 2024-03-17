@@ -14,6 +14,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import { setUploadResponse } from '../../redux/onBoarding/onboardingCompanySlice';
 import { toast } from 'react-toastify';
+import CustomButton from '../CommonComponent/CustomButton';
 
 const MapContainer = () => {
   const mapStyles = {
@@ -222,10 +223,10 @@ const OnboardingCompany = ({ dropdownData }) => {
               </Box>
             </div>
             <Box>
-              <Button variant="contained" color="primary" {...getRootProps()}>
-                <input {...getInputProps()} />
+              <CustomButton {...getRootProps()}>
+              <input {...getInputProps()} />
                 Browse Files
-              </Button>
+              </CustomButton>
             </Box>
           </Box>
         </Grid>

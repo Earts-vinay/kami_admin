@@ -8,6 +8,7 @@ import { selectIsSideNavOpen, toggleSideNav } from '../../../redux/sidenav/siden
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import InputField from '../../CommonComponent/InputField';
+import CustomButton from '../../CommonComponent/CustomButton';
 
 
 const MapContainer = () => {
@@ -132,10 +133,9 @@ const AddProperty = () => {
       </Grid>
      
 
-      <Box sx={{ marginTop: '20px', textAlign: 'center' }}>
-      <Button variant="outlined" onClick={() => handleTableRowClick()}  style={{ marginRight: '10px' }}>Back</Button>
-        <Button variant="contained" color="primary" >Save</Button>
-       
+      <Box sx={{ marginTop: '20px', gap:"10px",display:"flex",justifyContent:"center" }}>
+        <CustomButton onClick={() => handleTableRowClick()}>Back</CustomButton>
+        <CustomButton>Save</CustomButton>
       </Box>
 
     </Box>

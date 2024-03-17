@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Dialog, DialogTitle, DialogContent, TextField, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import CustomButton from '../../CommonComponent/CustomButton';
 
 const Notification = () => {
   const [open, setOpen] = useState(false);
@@ -71,9 +72,7 @@ const Notification = () => {
       </TableContainer>
 
       <Box textAlign="center" marginTop={2}>
-        <Button variant="outlined" color="primary" onClick={handleOpen}>
-          Add Notification
-        </Button>
+        <CustomButton  onClick={handleOpen}>Add</CustomButton>
       </Box>
 
       <Dialog open={open} onClose={handleClose} sx={{ borderRadius: "5px" }}>
@@ -160,12 +159,8 @@ const Notification = () => {
             </Box>
           </Box>
           <Box sx={{ display: "flex", gap: "10px", justifyContent: "center" }}>
-            <Button variant="outlined" sx={{ textTransform: "capitalize" }} color="primary" onClick={handleSaveNotification}>
-              Cancel
-            </Button>
-            <Button variant="contained" sx={{ textTransform: "capitalize" }} color="primary" onClick={handleSaveNotification}>
-              Save
-            </Button>
+            <CustomButton onClick={handleSaveNotification}>Cancel</CustomButton>
+            <CustomButton onClick={handleSaveNotification}>Save</CustomButton>
           </Box>
         </DialogContent>
       </Dialog>

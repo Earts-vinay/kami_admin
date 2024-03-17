@@ -42,6 +42,9 @@ const DeviceView = () => {
                 borderRadius: '50%',
                 backgroundColor: '#2E3137',
                 color: 'white',
+                '&:hover': {
+                  backgroundColor: '#2E3137', // Change to the same color as normal state
+                },
               }}
             >
               <KeyboardArrowLeftIcon />
@@ -55,6 +58,9 @@ const DeviceView = () => {
                 borderRadius: '50%',
                 backgroundColor: '#2E3137',
                 color: 'white',
+                '&:hover': {
+                  backgroundColor: '#2E3137', // Change to the same color as normal state
+                },
               }}
             >
               <KeyboardArrowRightIcon />
@@ -68,6 +74,9 @@ const DeviceView = () => {
                 borderRadius: '50%',
                 backgroundColor: '#2E3137',
                 color: 'white',
+                '&:hover': {
+                  backgroundColor: '#2E3137', // Change to the same color as normal state
+                },
               }}
             >
               <KeyboardArrowUpIcon />
@@ -81,6 +90,9 @@ const DeviceView = () => {
                 borderRadius: '50%',
                 backgroundColor: '#2E3137',
                 color: 'white',
+                '&:hover': {
+                  backgroundColor: '#2E3137', // Change to the same color as normal state
+                },
               }}
             >
               <KeyboardArrowDownIcon />

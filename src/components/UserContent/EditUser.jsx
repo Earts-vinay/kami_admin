@@ -7,6 +7,7 @@ import SideNav from '../../components/SideNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import { MuiTelInput } from 'mui-tel-input';
+import CustomButton from '../CommonComponent/CustomButton';
 
 
 
@@ -146,9 +147,7 @@ const EditUser = () => {
             </Grid>
           </Box>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-            <Button variant="contained" color="primary" style={{ marginTop: '20px' }}>
-              Save
-            </Button>
+         <CustomButton>Save</CustomButton>
           </Grid>
         </Box>
       </div>

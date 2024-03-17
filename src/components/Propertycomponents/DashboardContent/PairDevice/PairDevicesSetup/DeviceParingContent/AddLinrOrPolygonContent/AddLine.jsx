@@ -14,6 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import SnowshoeingIcon from "@mui/icons-material/Snowshoeing";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import { styled } from '@mui/material/styles';
+import CustomButton from '../../../../../../CommonComponent/CustomButton';
 
 const AntSwitch = styled(Switch)(({ theme }) => ({
   width: 28,
@@ -170,13 +171,9 @@ const AddLine = () => {
           <Typography width="500px">Zone Name</Typography>
           <TextField fullWidth size="small" id="outlined-basic" label="Enter view name here" variant="outlined" margin="dense" />
         </DialogContent>
-        <DialogActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', textDecoration: 'capitalize' }}>
-          <Button onClick={handleClose} variant="contained" disabled sx={{ textTransform: 'capitalize' }}>
-            Back
-          </Button>
-          <Button onClick={handleClose} variant="contained" sx={{ textTransform: 'capitalize' }}>
-            Save
-          </Button>
+        <DialogActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          <CustomButton onClick={handleClose}>Back</CustomButton>
+          <CustomButton onClick={handleClose}>Save</CustomButton>
         </DialogActions>
       </Dialog>
     </>

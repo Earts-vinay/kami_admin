@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import { fetchDataFailure, fetchDataStart, fetchDataSuccess } from '../../redux/apiResponse/dictionarySlice';
+import CustomButton from '../../components/CommonComponent/CustomButton';
 
 const OnboardingScreens = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -97,18 +98,12 @@ const OnboardingScreens = () => {
         </Box>
 
         {/* Buttons */}
-        <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px" }}>
-          <Button disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>
-            Back
-          </Button>
+        <Box sx={{ display: "flex", justifyContent: "center", marginTop: "20px",gap:'10px' }}>
+          <CustomButton disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>Back</CustomButton>
           {activeStep === 2 ? (
-            <Button variant="contained" color="primary" onClick={handleReset} sx={{ mr: 1 }}>
-              next
-            </Button>
-          ) : (
-            <Button variant="contained" color="primary" onClick={handleNext} sx={{ mr: 1 }}>
-              Next
-            </Button>
+            <CustomButton onClick={handleReset} sx={{ mr: 1 }}>Next</CustomButton>
+          ) : (  
+            <CustomButton onClick={handleNext} sx={{ mr: 1 }}>Next</CustomButton>
           )}
         </Box>
       </Box>

@@ -8,6 +8,7 @@ import SideNav from '../../components/SideNav';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { useNavigate } from 'react-router-dom';
+import CustomButton from '../../components/CommonComponent/CustomButton';
 
 const MapContainer = () => {
   const mapStyles = {
@@ -58,10 +59,8 @@ const Organization = () => {
         <div style={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", marginRight: "10px" }}>
           <Box padding="10px">
             {/* Add Property Button */}
-            <Box textAlign="right">
-              <Button variant="outlined" color="primary" onClick={() => handleTableRowClick()} style={{ marginBottom: '20px', textAlign: "right" }}>
-                Add Property
-              </Button>
+            <Box textAlign="right" p={1}>
+              <CustomButton onClick={() => handleTableRowClick()}>Add Property</CustomButton>
             </Box>
 
             <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between",gap:"10px" }}>

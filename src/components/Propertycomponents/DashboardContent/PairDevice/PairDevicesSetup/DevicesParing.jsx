@@ -7,6 +7,7 @@ import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material
 import DeviceSetup from './DeviceParingContent/DeviceSetup';
 import DeviceView from './DeviceParingContent/DeviceView';
 import AddLineOrPolygon from './DeviceParingContent/AddLineOrPolygon';
+import CustomButton from '../../../../CommonComponent/CustomButton';
 
 const DevicesParing = () => {
     const [activeStep, setActiveStep] = useState(0);
@@ -27,7 +28,7 @@ const DevicesParing = () => {
     };
 
     const handleReset = () => {
-        navigate(`/`);
+        navigate(`/pairdevice`);
         setActiveStep(0);
     };
 
@@ -80,39 +81,26 @@ const DevicesParing = () => {
                     </Box>
 
                     {/* Buttons */}
-                    <Box sx={{ display: "flex", justifyContent: "center" }}>
+                    <Box sx={{ display: "flex", justifyContent: "center",gap:'10px' }}>
                         {activeStep === 0 && (
                             <>
-                                <Button variant="outlined" onClick={handleBack} sx={{ mr: 1 }}>
-                                    Cancel
-                                </Button>
-                                <Button variant="contained" color="primary" onClick={handleNext} sx={{ mr: 1 }}>
-                                    Next
-                                </Button>
+                            <CustomButton onClick={handleBack} sx={{ mr: 1 }}>Cancel</CustomButton>
+                            <CustomButton onClick={handleNext} sx={{ mr: 1 }}>Next</CustomButton>
                             </>
                         )}
                         {activeStep !== 0 && activeStep !== 2 && (
                             <>
-                                <Button variant="outlined" onClick={handleBack} sx={{ mr: 1 }}>
-                                    Back
-                                </Button>
-                                <Button variant="contained" color="primary" onClick={handleNext} sx={{ mr: 1 }}>
-                                    Next
-                                </Button>
+                            <CustomButton onClick={handleBack} sx={{ mr: 1 }}>Back</CustomButton>
+                            <CustomButton onClick={handleNext} sx={{ mr: 1 }}>Next</CustomButton>                     
                             </>
                         )}
                         {activeStep === 2 && (
                             <>
-                                <Button variant="outlined" onClick={handleBack} sx={{ mr: 1 }}>
-                                    Back
-                                </Button>
-                                <Button variant="contained" color="primary" onClick={handleReset} sx={{ mr: 1 }}>
-                                    Save
-                                </Button>
+                            <CustomButton onClick={handleBack} sx={{ mr: 1 }}>Back</CustomButton>
+                            <CustomButton onClick={handleReset} sx={{ mr: 1 }}>Save</CustomButton>
                             </>
                         )}
                     </Box>
-
                 </Box>
             </div>
         </div>

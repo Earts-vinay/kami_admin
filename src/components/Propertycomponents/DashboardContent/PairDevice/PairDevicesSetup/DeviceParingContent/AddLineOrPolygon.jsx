@@ -40,8 +40,8 @@ const AddLineOrPolygon = () => {
                             </Table>
                         </TableContainer>
                         <Box textAlign="center" py={2}>
-                            <Button color="primary" textTransform="capitalize" onClick={() => setShow(true)}>Add Line</Button>/
-                            <Button color="primary" textTransform="capitalize">Add Polygon</Button>
+                            <Button color="primary"      textTransform="capitalize" onClick={() => setShow(true)}>Add Line</Button>/
+                            <Button color="primary"  textTransform="capitalize">Add Polygon</Button>
                         </Box>
                     </Box>
                     <Box sx={{ width: { xs: '100%', md: '50%' } }}>

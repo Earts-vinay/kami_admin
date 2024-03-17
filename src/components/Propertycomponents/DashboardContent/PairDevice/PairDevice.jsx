@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../../../redux/sidenav/sidenavSlice';
 import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import CustomButton from '../../../CommonComponent/CustomButton';
 
 const PairDevice = () => {
     const navigate = useNavigate();
@@ -60,7 +61,7 @@ const PairDevice = () => {
                                             <TableCell>{device.networkType}</TableCell>
                                            
                                             <TableCell>
-                                                <Button disabled={device.paired} variant="outlined" sx={{textTransform: "capitalize"}} onClick={() => handlepair()}>Pair Device</Button>
+                                                <CustomButton disabled={device.paired} onClick={() => handlepair()}>Pair Device</CustomButton>
                                             </TableCell>
                                         </TableRow>
                                     ))}

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
+import CustomButton from '../../components/CommonComponent/CustomButton';
 
 const Users = () => {
   const isOpen = useSelector(selectIsSideNavOpen);
@@ -75,12 +76,12 @@ const Users = () => {
         padding: '10px', width: '100%', transition: 'margin 0.3s ease'
       }}>
         <Box style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px' }}>
-          <Box sx={{ paddingTop: "10px", textAlign: "end" }}>
+          <Box sx={{ display:"flex",justifyContent:"end",alignItems:"center",gap:'10px',padding:"10px"}}>
             <TextField
               label="Search"
               fontSize="14px"
               variant="outlined"
-              style={{ marginBottom: '20px', height: '40px', border: 'solid 1px #61A0E9', outline: 'none' }}
+              style={{  border: 'solid 1px #61A0E9', outline: 'none' }}
               size="small"
               InputProps={{
                 endAdornment: (
@@ -97,9 +98,7 @@ const Users = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <Button variant="outlined" color="primary" style={{ marginLeft: '10px', height: '40px', border: 'solid 2px #61A0E9' }}>
-              Add User
-            </Button>
+            <CustomButton >Add User</CustomButton>
           </Box>
 
           <TableContainer component={Paper}>

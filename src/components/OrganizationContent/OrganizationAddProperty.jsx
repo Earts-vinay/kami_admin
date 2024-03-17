@@ -9,6 +9,7 @@ import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useNavigate } from 'react-router-dom';
 import InputField  from '../CommonComponent/InputField';
+import CustomButton from '../CommonComponent/CustomButton';
 
 
 const mapContainerStyle = {
@@ -88,9 +89,8 @@ return(
             </GoogleMap>
             <Grid style={{float:"right",paddingRight:"60px",marginRight:"60px", paddingTop:"20px",display:"flex", flexDirection:"row"}}> 
             <Grid >
-            <Button variant="outlined" color="primary" style={{ marginTop: '20px' }} onClick={openOrganization}>
-              Back
-            </Button>
+         
+            <CustomButton  onClick={openOrganization}>Back</CustomButton>
             </Grid>
             <Grid style={{paddingLeft:"20px"}}>
             <Button variant="contained" color="primary" style={{ marginTop: '20px' }} onClick={openOrganization}>

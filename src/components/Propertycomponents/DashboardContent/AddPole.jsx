@@ -5,6 +5,7 @@ import SideNav from '../../SideNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../../redux/sidenav/sidenavSlice';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import CustomButton from '../../CommonComponent/CustomButton';
 
 const MapContainer = () => {
   const mapStyles = {
@@ -69,10 +70,9 @@ const AddPole = () => {
           style={{ height: '90vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px',overflow:"auto" }}
         >
 
-          <Box textAlign="right" >
-            <Button variant="outlined" color="primary" onClick={() => openAddPole()} style={{ marginBottom: '20px', textAlign: "right" }}>
-              Add Pole
-            </Button>
+          <Box textAlign="right" p={1}>
+          
+            <CustomButton onClick={() => openAddPole()}>Add Pole</CustomButton>
           </Box>
 
           <Box  flexDirection={{ xs: 'column', md: 'row' }}
@@ -117,7 +117,7 @@ const AddPole = () => {
           </Box>
           </Box>
           <Box marginTop={{ xs: '20px', md: '40px' }} textAlign="center">
-          <Button variant="outlined" onClick={() => handlePair()} style={{ marginRight: '10px' }}>Pair Device</Button>
+         <CustomButton onClick={() => handlePair()}>Pair Devices</CustomButton>
         </Box>
         </Box>
       </div>

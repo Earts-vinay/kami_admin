@@ -2,6 +2,7 @@ import React, { useState,useCallback } from 'react';
 import { Box, Button, Dialog, DialogTitle, DialogContent, DialogActions, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDropzone } from 'react-dropzone';
+import CustomButton from '../../CommonComponent/CustomButton';
 
 const Database = () => {
   const [data, setData] = useState([
@@ -65,7 +66,9 @@ const Database = () => {
                   <TableCell>{item.notes}</TableCell>
                   <TableCell >
              <Box sx={{display:'flex', gap:"10px"}}>     
-              <img src="assets/icons/editicon.svg" alt="" width="35px" />
+             <Box onClick={handleEdit}>
+             <img src="assets/icons/editicon.svg" alt="" width="35px" />
+             </Box>
                   <img src="assets/icons/deleteicon.svg" alt="" width="35px" /></Box>
                   </TableCell>
                 </TableRow>
@@ -75,25 +78,51 @@ const Database = () => {
         </TableContainer>
 
         <Dialog open={openDialog} onClose={handleCloseDialog}>
-          <DialogTitle>Edit Item</DialogTitle>
-          <DialogContent>
-            {/* Add form fields here for editing */}
-            {/* For example: */}
+        <Typography backgroundColor=" #2465e9" color="white" p={2}>Edit </Typography>
+            <CloseIcon
+              sx={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                color: 'white',
+                cursor: 'pointer',
+                paddingY: '6px',
+                paddingX: '10px',
+              }}
+              onClick={handleCloseDialog}
+            />
+          <DialogContent sx={{width:"500px"}}>
+
             {selectedItem && (
               <>
-                <div>License Plate: {selectedItem.licensePlate}</div>
-                <div>Notes: {selectedItem.notes}</div>
+                <div>
+                <Typography fontSize="14px" >Licence Plate ID</Typography>
+              <TextField fullWidth size='small' id="outlined-basic" label="Id" margin="dense" variant="outlined"  />
+                </div>
+                <div>
+                <Typography variant="body1">Notes</Typography>
+            <TextField
+              fullWidth
+              multiline
+              rows={4}
+              id="outlined-multiline"
+              label="Notes"
+              margin="dense"
+              variant="outlined"
+            />
+                </div>
                 {/* Add more fields as needed */}
               </>
             )}
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseDialog}>Close</Button>
+          <DialogActions  sx={{display:"flex", justifyContent:"center"}}>
+          <CustomButton  onClick={handleCloseDialog}>Cancel</CustomButton>
+            <CustomButton>Save</CustomButton>
           </DialogActions>
         </Dialog>
 
        <Box display="flex" justifyContent="center" alignItems="center" mt={3}>
-       <Button onClick={handleAddDialog} variant="contained" textAlign="center" sx={{textTransform:"capitalize"}}>Add</Button>
+        <CustomButton onClick={handleAddDialog} >Add</CustomButton>
        </Box>
 
         {/* Add Dialog */}
@@ -139,8 +168,9 @@ const Database = () => {
         </div>
      </Box>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleAddCloseDialog}>Close</Button>
+          <DialogActions sx={{display:"flex", justifyContent:"center"}}>
+            <CustomButton  onClick={handleAddCloseDialog}>Cancel</CustomButton>
+            <CustomButton>Save</CustomButton>
           </DialogActions>
         </Dialog>
       </Box>
