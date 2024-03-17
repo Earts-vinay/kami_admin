@@ -12,6 +12,7 @@ import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
 import axios from 'axios';
 import SearchIcon from '@mui/icons-material/Search';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
+import { setUploadResponse } from '../../redux/onBoarding/onboardingCompanySlice';
 
 const MapContainer = () => {
   const mapStyles = {
@@ -36,11 +37,8 @@ const MapContainer = () => {
 
 const OnboardingCompany = ({ dropdownData }) => {
 
-  const [logoFiles, setLogoFiles] = useState([]);
-
   const [companyName, setCompanyName] = useState('');
   const [industry, setIndustry] = useState("");
-  const [uploadResponse, setUploadResponse] = useState(null);
   const [searchValue, setSearchValue] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
@@ -82,18 +80,20 @@ const OnboardingCompany = ({ dropdownData }) => {
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
 
+  const [logoFiles, setLogoFiles] = useState([]);
+  const uploadResponse = useSelector(state => state.onboardingcompany.uploadResponse);
+
   const onDrop = useCallback((acceptedFiles) => {
     console.log('Dropped Files:', acceptedFiles);
     setLogoFiles(acceptedFiles);
-    handleUpload();
+    handleUpload(acceptedFiles);
   }, []);
 
-  const handleUpload = async () => {
+  const handleUpload = async (files) => {
     try {
-      // console.log(token); 
       const formData = new FormData();
 
-      logoFiles.forEach((file, index) => {
+      files.forEach((file) => {
         formData.append('files', file);
       });
 
@@ -107,7 +107,7 @@ const OnboardingCompany = ({ dropdownData }) => {
 
       const response = await axios.post('http://35.239.192.201:9092/api/uploads', formData, { headers });
 
-      setUploadResponse(response.data);
+      dispatch(setUploadResponse(response.data));
     } catch (error) {
       console.error('Error uploading logo:', error);
     }
@@ -130,7 +130,7 @@ const OnboardingCompany = ({ dropdownData }) => {
           city,
           pin_code: pincode,
           address,
-          logo_url: uploadResponse?.file_path || '',
+          logo_url: uploadResponse?.data?.urls || [],
           industry_id: industryIds || '',
           timeZone: timeDifference,
           description: '',

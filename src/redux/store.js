@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import { sideNavSlice } from './sidenav/sidenavSlice';
 import loginApiReducer from '../redux/apiResponse/loginApiSlice';
 import authReducer from '../redux/apiResponse/authSlice';
+import onboardingCompanyReducer from '../redux/onBoarding/onboardingCompanySlice.jsx';
 import dictionaryReducer from '../redux/apiResponse/dictionarySlice';
 import { persistStore, persistReducer } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session';
@@ -12,12 +13,13 @@ const rootReducer = combineReducers({
   loginApi: loginApiReducer,
   auth: authReducer,
   dictionary: dictionaryReducer,
+  onboardingcompany: onboardingCompanyReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage: storageSession,
-  whitelist: ['loginApi'], 
+  whitelist: ['loginApi', 'onboardingcompany'], 
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
