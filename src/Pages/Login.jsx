@@ -7,6 +7,10 @@ import { setLoginApiResponse } from '../redux/apiResponse/loginApiSlice';
 import { useDispatch } from 'react-redux';
 import { setAuthentication, setAuthenticationError } from '../redux/apiResponse/authSlice';
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
+
 const StyledContainer = styled(Container)({
     marginTop: theme => theme.spacing(8),
     display: 'flex',

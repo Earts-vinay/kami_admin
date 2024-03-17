@@ -144,6 +144,33 @@ const EditUser = () => {
                 />
 
               </Grid>
+              <Grid item xs={12} md={7}>
+              <Typography variant="body1">Access Level</Typography>
+              <FormControl fullWidth margin="dense" sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#2465E9' } } }}>
+                <InputLabel id="access-level-label">Access Level</InputLabel>
+                <Select
+                  labelId="access-level-label"
+                  label="Access Level"
+                  defaultValue=""
+                />
+                 </FormControl>
+              </Grid>
+
+              <Grid item xs={12} md={7}>
+              <Typography variant="body1">Property Name</Typography>
+              <FormControl fullWidth margin="dense" sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#2465E9' } } }}>
+                <InputLabel id="property-name-label">Property Name</InputLabel>
+                <Select
+                  labelId="property-name-label"
+                  label="Property Name"
+                  defaultValue=""
+                >
+                  <MenuItem value="mui">Mui</MenuItem>
+                  {/* Add more property names as needed */}
+                </Select>
+              </FormControl>
+            </Grid>
+              
             </Grid>
           </Box>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>

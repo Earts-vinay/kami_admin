@@ -8,6 +8,10 @@ import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
+
 const Settings = () => {
   const navigate = useNavigate();
   
@@ -66,31 +70,31 @@ const Settings = () => {
                 <Table>
                   <TableHead>
                     <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)' }}>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Property Name</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Raise Alert</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Vehicle Detection</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Status</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Notification</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Time</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>Property Name</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>Raise Alert</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>Vehicle Detection</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>Status</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>Notification</TableCell>
+                      <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>Time</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
                     {data.map((item, index) => (
                       <TableRow key={index} onClick={() => handleTableRowClick()} sx={{ cursor: "pointer" }}>
                         <TableCell>
-                          <Typography variant="body1" >
+                          <Typography variant="body1" sx={commonStyles}>
                             {item.name}
                           </Typography>
-                          <Typography variant="body2" component="span" sx={{ fontSize: '13px' }}>
+                          <Typography variant="body2" component="span" sx={{ fontSize: '13px',...commonStyles }}>
                             <FmdGoodOutlinedIcon fontSize="13px" sx={{ color: 'blue', verticalAlign: 'middle', marginRight: 0.5 }} />
                             {item.state}, {item.country}
                           </Typography>
                         </TableCell>
-                        <TableCell >{item.alert}</TableCell>
-                        <TableCell>{item.detection}</TableCell>
-                        <TableCell>{item.status}</TableCell>
-                        <TableCell >{item.notification}</TableCell>
-                        <TableCell>{item.time}</TableCell>
+                        <TableCell sx={commonStyles}>{item.alert}</TableCell>
+                        <TableCell sx={commonStyles}>{item.detection}</TableCell>
+                        <TableCell sx={commonStyles}>{item.status}</TableCell>
+                        <TableCell sx={commonStyles}>{item.notification}</TableCell>
+                        <TableCell sx={commonStyles}>{item.time}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>

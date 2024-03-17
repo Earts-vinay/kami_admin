@@ -10,6 +10,10 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CommonComponent/CustomButton';
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
+
 const MapContainer = () => {
   const mapStyles = {
     height: '350px',
@@ -63,15 +67,15 @@ const Organization = () => {
               <CustomButton onClick={() => handleTableRowClick()}>Add Property</CustomButton>
             </Box>
 
-            <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between",gap:"10px" }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", }}>
               {/* Left Side */}
-              <Box sx={{ width: { xs: "100%", sm: "100%",md:"48%" } }}>
-                <Box onClick={() => handleClick()} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "#f8f7fa", width: "90%", height: "50px", borderRadius: "5px", paddingY: "5px", paddingX: "20px", cursor: "pointer" }}>
+              <Box sx={{ width: { xs: "100%", sm: "100%",md:"49%" } }}>
+                <Box onClick={() => handleClick()} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "#f8f7fa",  height: "50px", borderRadius: "5px", paddingY: "5px", paddingX: "20px", cursor: "pointer" }}>
                   <Box display="flex" flexDirection="column">
-                    <Typography variant="body-2" style={{ marginRight: '10px' }}>
+                    <Typography variant="body-2" style={{ marginRight: '10px',...commonStyles }}>
                       WallMart Supermarket
                     </Typography>
-                    <Typography variant="body2" component="span" sx={{ fontSize: '13px' }}>
+                    <Typography variant="body2" component="span" sx={{ fontSize: '13px',...commonStyles }}>
                       <FmdGoodOutlinedIcon fontSize="13px" sx={{ color: 'blue', verticalAlign: 'middle', marginRight: 0.5 }} />
                       Virginia, USA
                     </Typography>

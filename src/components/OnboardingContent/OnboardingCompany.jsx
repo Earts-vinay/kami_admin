@@ -16,10 +16,16 @@ import { setUploadResponse } from '../../redux/onBoarding/onboardingCompanySlice
 import { toast } from 'react-toastify';
 import CustomButton from '../CommonComponent/CustomButton';
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+
+};
+
 const MapContainer = () => {
   const mapStyles = {
-    height: '350px',
+    height: '50vh',
     width: '100%',
+    borderRadius:"10px"
   };
 
   const defaultCenter = {
@@ -177,7 +183,7 @@ const OnboardingCompany = ({ dropdownData }) => {
 
         {/* Company Name */}
         <Grid item xs={7}>
-          <Typography variant="body2">Company Name</Typography>
+          <Typography variant="body2"sx={commonStyles} >Company Name</Typography>
           <TextField
             label="Company Name"
             fullWidth
@@ -189,7 +195,7 @@ const OnboardingCompany = ({ dropdownData }) => {
         </Grid>
 
         <Grid item xs={5}>
-          <Typography variant="body2">Industry</Typography>
+          <Typography variant="body2"sx={commonStyles}>Industry</Typography>
           <TextField
             label="Dropdown"
             fullWidth
@@ -210,7 +216,7 @@ const OnboardingCompany = ({ dropdownData }) => {
 
         {/* Logo Upload Section */}
         <Grid item xs={12} padding="0px">
-          <Typography variant="body2">Logo</Typography>
+          <Typography variant="body2"sx={commonStyles}>Logo</Typography>
           <Box
             sx={{
               background: '#E3EBFC',
@@ -243,7 +249,7 @@ const OnboardingCompany = ({ dropdownData }) => {
 
         {/* Left Side */}
         <Grid item md={7} xs={12} paddingX="20px">
-          <Typography variant="body2">Search</Typography>
+          <Typography variant="body2"sx={commonStyles}>Search</Typography>
           <TextField
             fullWidth
             label="Search"
@@ -274,7 +280,7 @@ const OnboardingCompany = ({ dropdownData }) => {
         <Grid item md={5} xs={12} paddingX="20px">
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography variant="body2">Address</Typography>
+              <Typography variant="body2"sx={commonStyles}>Address</Typography>
               <TextField
                 label="Address"
                 value={address}
@@ -286,7 +292,7 @@ const OnboardingCompany = ({ dropdownData }) => {
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2">City</Typography>
+              <Typography variant="body2"sx={commonStyles}>City</Typography>
               <TextField
                 label="City"
                 value={city}
@@ -298,7 +304,7 @@ const OnboardingCompany = ({ dropdownData }) => {
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2">State</Typography>
+              <Typography variant="body2"sx={commonStyles}>State</Typography>
               <TextField
                 label="State"
                 value={state}
@@ -310,7 +316,7 @@ const OnboardingCompany = ({ dropdownData }) => {
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2">Country</Typography>
+              <Typography variant="body2"sx={commonStyles}>Country</Typography>
               <TextField
                 label="Country"
                 value={country}
@@ -322,7 +328,7 @@ const OnboardingCompany = ({ dropdownData }) => {
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2">Pincode</Typography>
+              <Typography variant="body2"sx={commonStyles}>Pincode</Typography>
               <TextField
                 label="Pincode"
                 value={pincode}
@@ -334,7 +340,7 @@ const OnboardingCompany = ({ dropdownData }) => {
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2">Time Difference</Typography>
+              <Typography variant="body2"sx={commonStyles}>Time Difference</Typography>
               <Select
                 label="Time Difference"
                 fullWidth

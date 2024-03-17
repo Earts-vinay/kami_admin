@@ -2,6 +2,10 @@ import { Box, Button, Grid, MenuItem, TextField, Typography } from '@mui/materia
 import React, { useState } from 'react';
 import SendIcon from '@mui/icons-material/Send';
 
+const commonStyles = {
+    fontFamily: "montserrat-regular",
+  };
+
 const UsersOnboarding = ({ dropdownData }) => {
     const [accessLevel, setAccessLevel] = useState("");
 
@@ -10,24 +14,24 @@ const UsersOnboarding = ({ dropdownData }) => {
             <Grid container spacing={2} alignItems="center">
                 {/* First Row */}
                 <Grid item xs={12} md={4} sm={6}>
-                    <Typography variant="body2">User Name</Typography>
+                    <Typography variant="body2" sx={commonStyles} >User Name</Typography>
                     <TextField label="John Doe" fullWidth size='small' margin="dense" />
                 </Grid>
 
                 <Grid item xs={12} md={4} sm={6}>
-                    <Typography variant="body2">Email Id</Typography>
+                    <Typography variant="body2" sx={commonStyles}>Email Id</Typography>
                     <TextField label="JohnDoe@gmail.com" fullWidth size='small' margin="dense" />
                 </Grid>
 
-                <Grid item xs={12} md={4} sm={7}>
-                    <Button variant="contained" color="primary" startIcon={<SendIcon />} fullWidth sx={{ marginTop: "8px" }}>
+                <Grid item xs={12} md={4} sm={7} sx={{ marginTop: "18px" }}>
+                    <Button variant="contained" color="primary" startIcon={<SendIcon />} fullWidth >
                         Send Invite
                     </Button>
                 </Grid>
 
                 {/* Second Row */}
                 <Grid item xs={12} md={4} sm={6}>
-                    <Typography variant="body2">Access Level</Typography>
+                    <Typography variant="body2" sx={commonStyles}>Access Level</Typography>
                     <TextField
                         label="Dropdown"
                         select
@@ -46,7 +50,7 @@ const UsersOnboarding = ({ dropdownData }) => {
                 </Grid>
 
                 <Grid item xs={12} md={4} sm={6}>
-                    <Typography variant="body2">Property Name</Typography>
+                    <Typography variant="body2" sx={commonStyles}>Property Name</Typography>
                     <TextField label="Hyderabad campus" fullWidth size='small' margin="dense" />
                 </Grid>
             </Grid>

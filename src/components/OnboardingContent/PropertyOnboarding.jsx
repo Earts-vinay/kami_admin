@@ -3,10 +3,15 @@ import { Box, Grid, TextField, MenuItem, Typography, InputAdornment } from '@mui
 import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
 import SearchIcon from '@mui/icons-material/Search';
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
+
 const MapContainer = () => {
   const mapStyles = {
-    height: '400px',
+    height: '50vh',
     width: '100%',
+    borderRadius:"10px"
   };
 
   const defaultCenter = {
@@ -34,12 +39,12 @@ const PropertyOnboarding = ({ dropdownData }) => {
       <Grid container spacing={2} display="flex" gap={2} >
         {/* Left side */}
         <Grid md={6} sm={12} xs={12} padding="10px" spacing={2}>
-          <Grid item xs={12} md={11}>
-            <Typography variant="body2">Property Name / ID</Typography>
-            <TextField label="Input Field 1" fullWidth margin="dense" size="small" />
+          <Grid item xs={12} md={12}>
+            <Typography variant="body2" sx={commonStyles} >Property Name / ID</Typography>
+            <TextField label="Property Name / ID" fullWidth margin="dense" size="small" sx={commonStyles} />
           </Grid>
-          <Grid item xs={12} md={11} marginTop={3} >
-            <Typography variant="body2">Search</Typography>
+          <Grid item xs={12} md={12} marginTop={3} >
+            <Typography variant="body2" sx={commonStyles}>Search</Typography>
             <TextField
               fullWidth
               label="Search"
@@ -70,7 +75,7 @@ const PropertyOnboarding = ({ dropdownData }) => {
         {/* Right side */}
         <Grid md={6} padding="10px" container spacing={2}>
         <Grid item xs={12} md={11}>
-          <Typography variant="body2">Property Type</Typography>
+          <Typography variant="body2" sx={commonStyles}>Property Type</Typography>
           <TextField
             label="Property Type"
             select
@@ -88,31 +93,31 @@ const PropertyOnboarding = ({ dropdownData }) => {
           </TextField>
         </Grid>
           <Grid item xs={12} md={11}>
-            <Typography variant="body2">Address</Typography>
+            <Typography variant="body2" sx={commonStyles}>Address</Typography>
             <TextField label="Address" fullWidth margin="dense" size="small" />
           </Grid>
           <Grid item xs={12} md={11}>
-            <Typography variant="body2">City</Typography>
+            <Typography variant="body2" sx={commonStyles}>City</Typography>
             <TextField label="City" fullWidth margin="dense" size="small" />
           </Grid>
           <Grid item xs={12} md={11}>
-            <Typography variant="body2">state</Typography>
+            <Typography variant="body2" sx={commonStyles}>state</Typography>
             <TextField label="State" fullWidth margin="dense" size="small" />
           </Grid>
           <Grid item xs={12} md={11}>
-            <Typography variant="body2">Country</Typography>
+            <Typography variant="body2" sx={commonStyles}>Country</Typography>
             <TextField label="Country" fullWidth margin="dense" size="small" />
           </Grid>
           <Grid item xs={12} md={11}>
-            <Typography variant="body2">Pincode</Typography>
+            <Typography variant="body2" sx={commonStyles}>Pincode</Typography>
             <TextField label="Pincode" fullWidth margin="dense" size="small" />
           </Grid>
           {/* <Grid item xs={12} md={12}>
-            <Typography variant="body2">Address</Typography>
+            <Typography variant="body2" sx={commonStyles}>Address</Typography>
             <TextField label="Text Field 6" fullWidth margin="dense" size="small" />
           </Grid> */}
           <Grid item xs={12} md={11}>
-            <Typography variant="body2">Time Zone</Typography>
+            <Typography variant="body2" sx={commonStyles}>Time Zone</Typography>
             <TextField label="Time Zone" select fullWidth margin="dense" size="small">
               <MenuItem value="option1">Option 1</MenuItem>
               <MenuItem value="option2">Option 2</MenuItem>

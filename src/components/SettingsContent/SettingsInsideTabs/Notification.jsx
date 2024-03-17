@@ -34,12 +34,14 @@ const Notification = () => {
     { ruleType: 'Weekday Morning Shift Perimeter', location: 'San Jose, North Campus.', schedule: ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'], time: '06AM - 10 AM' },
     { ruleType: 'Weekday Morning Shift Perimeter', location: 'San Jose, North Campus.', schedule: ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'], time: '06AM - 10 AM' },
     { ruleType: 'Weekday Morning Shift Perimeter', location: 'San Jose, North Campus.', schedule: ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'], time: '06AM - 10 AM' },
+
     // Add more notification objects as needed
   ];
 
   return (
    <>
-    <div>
+     <Box display="flex" flexDirection="column" minHeight="80vh" overflow="auto">
+     <Box flexGrow={1}>
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -70,6 +72,8 @@ const Notification = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      </Box>
+   
 
       <Box textAlign="center" marginTop={2}>
         <CustomButton  onClick={handleOpen}>Add</CustomButton>
@@ -164,7 +168,7 @@ const Notification = () => {
           </Box>
         </DialogContent>
       </Dialog>
-    </div>
+    </Box>
    </>
   );
 };

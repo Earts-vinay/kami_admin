@@ -8,11 +8,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
+import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CommonComponent/CustomButton';
+
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+};
 
 const Users = () => {
   const isOpen = useSelector(selectIsSideNavOpen);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     dispatch(toggleSideNav());
@@ -27,6 +33,10 @@ const Users = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleAddUser = () => {
+    navigate(`/edituser`);
+  };
 
   const fetchData = async () => {
     try {
@@ -98,7 +108,7 @@ const Users = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
-            <CustomButton >Add User</CustomButton>
+            <CustomButton onClick={handleAddUser}>Add User</CustomButton>
           </Box>
 
           <TableContainer component={Paper}>
@@ -106,9 +116,9 @@ const Users = () => {
               <TableHead sx={{ "& .css-15wwp11-MuiTableHead-root": { background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4)) !important' } }}>
                 <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)' }}>
                   <TableCell></TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>User Names</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Property</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px', display: "flex", alignItems: "center", gap: "5px" }} >
+                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>User Names</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>Property</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles, display: "flex", alignItems: "center", gap: "5px" }} >
                     <FilterListIcon />
                     <Typography onClick={openPopover} > Access Level</Typography>
                     <Popover

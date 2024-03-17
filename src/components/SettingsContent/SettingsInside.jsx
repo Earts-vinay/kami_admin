@@ -37,7 +37,8 @@ const SettingsInside = () => {
                             backgroundColor: 'white',
                             borderRadius: '10px',
                             padding: '10px',
-                            marginX:"5px"
+                            marginX:"5px",
+                            overflow:"auto"
                         }}
                     >
                         <Tabs

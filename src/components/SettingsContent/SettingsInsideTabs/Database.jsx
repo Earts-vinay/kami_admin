@@ -49,7 +49,8 @@ const Database = () => {
 
   return (
     <>
-      <Box>
+     <Box display="flex" flexDirection="column" minHeight="80vh">
+      <Box flexGrow={1}>
         <TableContainer component={Paper}>
           <Table>
             <TableHead>
@@ -76,6 +77,7 @@ const Database = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        </Box>
 
         <Dialog open={openDialog} onClose={handleCloseDialog}>
         <Typography backgroundColor=" #2465e9" color="white" p={2}>Edit </Typography>
@@ -173,6 +175,7 @@ const Database = () => {
             <CustomButton>Save</CustomButton>
           </DialogActions>
         </Dialog>
+    
       </Box>
     </>
   );

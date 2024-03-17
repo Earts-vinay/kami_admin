@@ -11,6 +11,11 @@ import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import { fetchDataFailure, fetchDataStart, fetchDataSuccess } from '../../redux/apiResponse/dictionarySlice';
 import CustomButton from '../../components/CommonComponent/CustomButton';
 
+const commonStyles = {
+  fontFamily: "montserrat-regular",
+
+};
+
 const OnboardingScreens = () => {
   const [activeStep, setActiveStep] = useState(0);
   const navigate = useNavigate();
@@ -66,13 +71,13 @@ const OnboardingScreens = () => {
       <Box sx={{ backgroundColor: "white", borderRadius: "10px", padding: "15px",margin:"20px" }}>
         <Stepper activeStep={activeStep} alternativeLabel>
           <Step>
-            <StepLabel>Company</StepLabel>
+            <StepLabel sx={commonStyles}>Company</StepLabel>
           </Step>
           <Step>
-            <StepLabel>Property Onboarding</StepLabel>
+            <StepLabel sx={commonStyles}>Property Onboarding</StepLabel>
           </Step>
           <Step>
-            <StepLabel>User Onboarding</StepLabel>
+            <StepLabel sx={commonStyles}>User Onboarding</StepLabel>
           </Step>
         </Stepper>
       </Box>

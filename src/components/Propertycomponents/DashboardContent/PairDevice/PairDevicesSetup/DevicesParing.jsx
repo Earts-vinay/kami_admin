@@ -44,7 +44,7 @@ const DevicesParing = () => {
                 padding: '10px', width: '100%', transition: 'margin 0.3s ease'
             }}>
                 <Box style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', overflow: "auto" }}>
-                    <Box padding="15px">
+                    <Box padding="15px"  flexGrow={1}>
                         <Typography varient="h6" >Pair a new Device / Camera</Typography>
                         <Typography varient="body-2" fontSize="12px">Configure the device and setup the events that you want each camera to detect.</Typography>
                     </Box>
