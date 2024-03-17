@@ -13,6 +13,7 @@ import axios from 'axios';
 import SearchIcon from '@mui/icons-material/Search';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import { setUploadResponse } from '../../redux/onBoarding/onboardingCompanySlice';
+import { toast } from 'react-toastify';
 
 const MapContainer = () => {
   const mapStyles = {
@@ -108,8 +109,10 @@ const OnboardingCompany = ({ dropdownData }) => {
       const response = await axios.post('http://35.239.192.201:9092/api/uploads', formData, { headers });
 
       dispatch(setUploadResponse(response.data));
+      toast.success('File uploaded successfully'); 
     } catch (error) {
       console.error('Error uploading logo:', error);
+      toast.error('Failed to upload file');
     }
   };
 

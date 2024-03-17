@@ -105,10 +105,33 @@ const SideNav = ({ open, handleToggle }) => {
                         </Box>
 
                         <ListItem sx={{ display: "flex", flexDirection: "column", justifyContent: "center" }} mb={open ? 2 : 0}>
-                        <ListItemIcon style={{ width: open ? 'auto' : '50px', textAlign: 'center' }}>
-                                {urls.map((url, index) => (
-                                    <img key={index} src={url} alt={`Image ${index + 1}`} style={{ height: open ? '50px' : '60px', width: open ? '50px' : '60px', margin: open ? "" : "auto", transition: 'height 0.3s ease, width 0.3s ease' }} />
-                                ))}
+                            <ListItemIcon style={{ width: open ? 'auto' : '50px', textAlign: 'center' }}>
+                                {urls.length === 0 ? ( 
+                                    <img
+                                        src="assets/icons/girlicon.svg"
+                                        alt=""
+                                        style={{
+                                            height: open ? '50px' : '60px',
+                                            width: open ? '50px' : '60px',
+                                            margin: open ? '' : 'auto',
+                                            transition: 'height 0.3s ease, width 0.3s ease',
+                                        }}
+                                    />
+                                ) : (
+                                    urls.map((url, index) => (
+                                        <img
+                                            key={index}
+                                            src={url}
+                                            alt={`Image ${index + 1}`}
+                                            style={{
+                                                height: open ? '50px' : '60px',
+                                                width: open ? '50px' : '60px',
+                                                margin: open ? '' : 'auto',
+                                                transition: 'height 0.3s ease, width 0.3s ease',
+                                            }}
+                                        />
+                                    ))
+                                )}
                             </ListItemIcon>
 
                             <Typography variant="subtitle1" style={{ display: open ? 'block' : 'none', fontSize: open ? '15px' : '5px', textAlign: 'center', marginTop: '8px', fontWeight: 'bold' }}>Welcome, Marry James</Typography>
