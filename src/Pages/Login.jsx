@@ -44,68 +44,60 @@ const Login = () => {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-
+    
         const formData = new URLSearchParams();
         formData.append('email', email);
         formData.append('password', password);
-
+    
         try {
-            const apiUrl = process.env.REACT_APP_API_URL;
-            // console.log(apiUrl);
-            const response = await fetch(`${apiUrl}/api/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: formData,
-            });
-
-            const data = await response.json();
-
-            dispatch(setLoginApiResponse(data));
-
-            const newToken = data?.data?.token; 
-            localStorage.setItem('token', newToken);
-            setToken(newToken);
-
-            if (data.code !== 200) {
-                toast.error(data.msg);
-            } else {
-                callTokenAPI(newToken);
-            }
-        } catch (error) {
-            console.error('Error logging in:', error);
-            toast.error('An error occurred while logging in');
-        }
-    };
-
-
-    const callTokenAPI = (token) => {
-        axios.request({
+          const apiUrl = process.env.REACT_APP_API_URL;
+          const response = await fetch(`${apiUrl}/api/login`, {
+            method: 'POST',
             headers: {
-                Authorization: `Bearer ${token}`
+              'Content-Type': 'application/x-www-form-urlencoded',
             },
-            method: "POST",
-            url: `${process.env.REACT_APP_API_URL}/api/auth`
+            body: formData,
+          });
+    
+          const data = await response.json();
+    
+          dispatch(setLoginApiResponse(data));
+    
+          const newToken = data?.data?.token;
+    
+          if (data.code !== 200) {
+            toast.error(data.msg);
+          } else {
+            callTokenAPI(newToken);
+          }
+        } catch (error) {
+          console.error('Error logging in:', error);
+          toast.error('An error occurred while logging in');
+        }
+      };
+    
+      const callTokenAPI = (token) => {
+        axios.request({
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+          method: "POST",
+          url: `${process.env.REACT_APP_API_URL}/api/auth`
         }).then(response => {
-            // console.log(response.data);
-            const { data } = response.data;
-            // console.log(data);
-            if (data && data.role && data.role.level === 'company') {
-                dispatch(setAuthentication(data));
-                toast.success('Login successful');
-                navigate('/onboard');
-            } else {
-                throw new Error('User does not have access to map');
-            }
-        })
-        .catch(error => {
-            console.error('Error authenticating:', error);
-            dispatch(setAuthenticationError('Failed to authenticate'));
-
-            toast.error('Authentication failed');
+          const { data } = response.data;
+          if (data && data.role && data.role.level === 'company') {
+            dispatch(setAuthentication(data));
+            toast.success('Login successful');
+            navigate('/onboard');
+        } else {
+            throw new Error('User does not have access to map');
+          }
+        }).catch(error => {
+          console.error('Error authenticating:', error);
+          dispatch(setAuthenticationError('Failed to authenticate'));
+          toast.error('Authentication failed');
         });
-    }
+      };
 
     const handleForgotPassword = () => {
         navigate('/forgot-password');

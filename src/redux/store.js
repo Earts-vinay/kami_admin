@@ -1,18 +1,29 @@
-// store.js
 import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers } from 'redux';
 import { sideNavSlice } from './sidenav/sidenavSlice';
 import loginApiReducer from '../redux/apiResponse/loginApiSlice';
 import authReducer from '../redux/apiResponse/authSlice';
 import dictionaryReducer from '../redux/apiResponse/dictionarySlice';
+import { persistStore, persistReducer } from 'redux-persist';
+import storageSession from 'redux-persist/lib/storage/session';
 
- const store = configureStore({
-  reducer: {
-    sideNav: sideNavSlice.reducer, 
-    loginApi: loginApiReducer,
-    auth: authReducer,
-    dictionary: dictionaryReducer,
-  },
+const rootReducer = combineReducers({
+  sideNav: sideNavSlice.reducer,
+  loginApi: loginApiReducer,
+  auth: authReducer,
+  dictionary: dictionaryReducer,
 });
 
-export default store;
+const persistConfig = {
+  key: 'root',
+  storage: storageSession,
+  whitelist: ['loginApi'], 
+};
 
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+export const store = configureStore({
+  reducer: persistedReducer,
+});
+
+export const persistor = persistStore(store);

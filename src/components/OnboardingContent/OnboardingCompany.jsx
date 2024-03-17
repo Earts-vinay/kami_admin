@@ -85,6 +85,7 @@ const OnboardingCompany = ({ dropdownData }) => {
   const onDrop = useCallback((acceptedFiles) => {
     console.log('Dropped Files:', acceptedFiles);
     setLogoFiles(acceptedFiles);
+    handleUpload();
   }, []);
 
   const handleUpload = async () => {
@@ -218,7 +219,8 @@ const OnboardingCompany = ({ dropdownData }) => {
               </Box>
             </div>
             <Box>
-              <Button variant="contained" color="primary" onClick={handleUpload}>
+              <Button variant="contained" color="primary" {...getRootProps()}>
+                <input {...getInputProps()} />
                 Browse Files
               </Button>
             </Box>
