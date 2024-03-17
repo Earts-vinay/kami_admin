@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, InputAdornment, Popover, FormControlLabel, Checkbox, Typography } from '@mui/material';
+import { Box, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, InputAdornment, Popover, FormControlLabel, Checkbox, Typography, CircularProgress } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
@@ -20,7 +20,7 @@ const Users = () => {
   const [anchorEl, setAnchorEl] = useState(null); // State for popover anchor element
   const [selectedAccessLevels, setSelectedAccessLevels] = useState([]); // State for selected access levels
   const [usersData, setUsersData] = useState([]);
-
+  const [loading, setLoading] = useState(true); // State for loading indicator
   const token = useSelector(selectToken);
 
   useEffect(() => {
@@ -42,6 +42,8 @@ const Users = () => {
       }
     } catch (error) {
       console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false); // Update loading state after fetching data
     }
   };
 
@@ -64,9 +66,7 @@ const Users = () => {
 
   const isPopoverOpen = Boolean(anchorEl);
   const [searchTerm, setSearchTerm] = useState('');
-  // const filteredUsers = usersData.filter(user =>
-  //   user.name.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
+
   return (
     <div style={{ display: 'flex' }}>
       <SideNav open={isOpen} handleToggle={handleToggle} />
@@ -102,91 +102,87 @@ const Users = () => {
             </Button>
           </Box>
 
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead sx={{ "& .css-15wwp11-MuiTableHead-root": { background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4)) !important' } }}>
+                <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)' }}>
+                  <TableCell></TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>User Names</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Property</TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px', display: "flex", alignItems: "center", gap: "5px" }} >
+                    <FilterListIcon />
+                    <Typography onClick={openPopover} > Access Level</Typography>
+                    <Popover
+                      open={isPopoverOpen}
+                      anchorEl={anchorEl}
+                      onClose={closePopover}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'center',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                      }}
+                    >
+                      <Box p={2} display="flex" flexDirection="column">
+                        <FormControlLabel
+                          control={<Checkbox checked={selectedAccessLevels.includes('Super Admin')} onChange={handleAccessLevelChange} value="Super Admin" />}
+                          label="Super Admin"
+                        />
+                        <FormControlLabel
+                          control={<Checkbox checked={selectedAccessLevels.includes('Property Admin')} onChange={handleAccessLevelChange} value="Property Admin" />}
+                          label="Property Admin"
+                        />
+                        <FormControlLabel
+                          control={<Checkbox checked={selectedAccessLevels.includes('Property Manager')} onChange={handleAccessLevelChange} value="Property Manager" />}
+                          label="Property Manager"
+                        />
+                      </Box>
+                    </Popover></TableCell>
+                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Action</TableCell>
+                </TableRow>
+              </TableHead>
 
-          <Box>
-            <TableContainer component={Paper}>
-              <Table>
-                <TableHead sx={{ "& .css-15wwp11-MuiTableHead-root": { background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4)) !important' } }}>
-                  <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)' }}>
-                    <TableCell></TableCell>
-                    <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>User Names</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Property</TableCell>
-                    <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px', display: "flex", alignItems: "center", gap: "5px" }} >
-                      <FilterListIcon />
-                      <Typography onClick={openPopover} > Access Level</Typography>
-                      <Popover
-                        open={isPopoverOpen}
-                        anchorEl={anchorEl}
-                        onClose={closePopover}
-                        anchorOrigin={{
-                          vertical: 'bottom',
-                          horizontal: 'center',
-                        }}
-                        transformOrigin={{
-                          vertical: 'top',
-                          horizontal: 'center',
-                        }}
-                      >
-                        <Box p={2} display="flex" flexDirection="column">
-                          <FormControlLabel
-                            control={<Checkbox checked={selectedAccessLevels.includes('Super Admin')} onChange={handleAccessLevelChange} value="Super Admin" />}
-                            label="Super Admin"
-                          />
-                          <FormControlLabel
-                            control={<Checkbox checked={selectedAccessLevels.includes('Property Admin')} onChange={handleAccessLevelChange} value="Property Admin" />}
-                            label="Property Admin"
-                          />
-                          <FormControlLabel
-                            control={<Checkbox checked={selectedAccessLevels.includes('Property Manager')} onChange={handleAccessLevelChange} value="Property Manager" />}
-                            label="Property Manager"
-                          />
-                        </Box>
-                      </Popover></TableCell>
-                    <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Action</TableCell>
+              <TableBody>
+                {loading ? (
+                  <TableRow>
+                    <TableCell colSpan={5} style={{ textAlign: 'center' }}>
+                      <CircularProgress />
+                    </TableCell>
                   </TableRow>
-                </TableHead>
-
-                <TableBody>
-                  {usersData.length > 0 ? (
-                    usersData.map((user) => (
-                      <TableRow key={user.id}>
-                        <TableCell width="20px"><img src="assets/icons/girlicon.svg" alt="" width="40px" /></TableCell>
-                        <TableCell>{user.username}</TableCell>
-                        <TableCell>
-                          {user.propertys.length > 0 ? (
-                            user.propertys.map((property, index) => (
-                              <span key={index}>
-                                {property.name} {/* Assuming 'name' is the property you want to display */}
-                                {index !== user.propertys.length - 1 && ', '}
-                              </span>
-                            ))
-                          ) : (
-                            'No properties'
-                          )}
-                        </TableCell>
-                        <TableCell>{user.role_name}</TableCell>
-                        <TableCell>
-                          <IconButton color="primary" aria-label="edit">
-                            <img src="assets/icons/editicon.svg" alt="" width="35px" />
-                          </IconButton>
-                          <IconButton color="secondary" aria-label="delete">
-                            <img src="assets/icons/deleteicon.svg" alt="" width="35px" />
-                          </IconButton>
-                        </TableCell>
-                      </TableRow>
-                    ))
-                  ) : (
-                    // Display a loading indicator or placeholder
-                    <TableRow>
-                      <TableCell colSpan={5}>
-                        <Typography>Loading...</Typography>
+                ) : (
+                  usersData.map((user) => (
+                    <TableRow key={user.id}>
+                      <TableCell width="20px"><img src="assets/icons/girlicon.svg" alt="" width="40px" /></TableCell>
+                      <TableCell>{user.username}</TableCell>
+                      <TableCell>
+                        {user.propertys.length > 0 ? (
+                          user.propertys.map((property, index) => (
+                            <span key={index}>
+                              {property.name} {/* Assuming 'name' is the property you want to display */}
+                              {index !== user.propertys.length - 1 && ', '}
+                            </span>
+                          ))
+                        ) : (
+                          'No properties'
+                        )}
+                      </TableCell>
+                      <TableCell>{user.role_name}</TableCell>
+                      <TableCell>
+                        <IconButton color="primary" aria-label="edit">
+                          <img src="assets/icons/editicon.svg" alt="" width="35px" />
+                        </IconButton>
+                        <IconButton color="secondary" aria-label="delete">
+                          <img src="assets/icons/deleteicon.svg" alt="" width="35px" />
+                        </IconButton>
                       </TableCell>
                     </TableRow>
-                  )}
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </Box>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Box>
       </div>
     </div>
