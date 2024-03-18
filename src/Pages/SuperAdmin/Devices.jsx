@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Table,
   TableBody,
@@ -14,51 +14,63 @@ import {
 } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
-import PlaceIcon from '@mui/icons-material/Place';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import SideNav from '../../components/SideNav';
 import { useNavigate } from 'react-router-dom';
+import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
 };
-
 const Devices = () => {
   const navigate = useNavigate();
   const isOpen = useSelector(selectIsSideNavOpen);
   const dispatch = useDispatch();
 
+  const [data, setData] = useState([]);
+  // console.log(data);
+  const token = useSelector(selectToken);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/property/stat`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error('Failed to fetch data');
+        }
+        const result = await response.json();
+        setData(result.data.list);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, [token]);
+
   const handleToggle = () => {
     dispatch(toggleSideNav());
   };
 
-  
   const handleTableRowClick = () => {
     navigate(`/devicesinside`);
   };
 
-  // Example data array
-  const data = [
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
-    { propertyName: 'WallMart Supermarket', pollsInstalled: 200, camerasInstalled: 100, activeCameras: 90, inactiveCameras: 10, state: "virginia", country: "USA" },
-  ];
-
   return (
     <div style={{ display: 'flex' }}>
       <SideNav open={isOpen} handleToggle={handleToggle} />
-      <div style={{ 
+      <div style={{
         marginLeft: isOpen ? '220px' : '90px',
-         padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
-        <div style={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px",overflow:'auto' }}>
+        padding: '10px', width: '100%', transition: 'margin 0.3s ease'
+      }}>
+        <div style={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", overflow: 'auto' }}>
           <Box sx={{ paddingTop: "10px", textAlign: "end" }}>
             <TextField
               label="Search"
@@ -100,21 +112,21 @@ const Devices = () => {
               </TableHead>
 
               <TableBody>
-                {data.map((row, index) => (
+                {data && data.map((row, index) => (
                   <TableRow key={index} onClick={() => handleTableRowClick()}>
                     <TableCell>
-                      <Typography variant="body1" sx={commonStyles}>
-                        {row.propertyName}
+                    <Typography variant="body1" sx={{ ...commonStyles, fontSize: 'small' }}>
+                        {row.property_name}
                       </Typography>
                       <Typography variant="body2" component="span" sx={{ fontSize: '13px',...commonStyles }}>
                         <FmdGoodOutlinedIcon fontSize="13px" sx={{ color: 'blue', verticalAlign: 'middle', marginRight: 0.5 }} />
-                        {row.state}, {row.country}
+                        {/* Replace with actual state and country values if available in the API response */}
                       </Typography>
                     </TableCell>
-                    <TableCell align="center" sx={commonStyles}>{row.pollsInstalled}</TableCell>
-                    <TableCell align="center" sx={commonStyles}>{row.camerasInstalled}</TableCell>
-                    <TableCell align="center" sx={commonStyles}>{row.activeCameras}</TableCell>
-                    <TableCell align="center" sx={commonStyles}>{row.inactiveCameras}</TableCell>
+                    <TableCell align="center">{row.raise_alert}</TableCell>
+                    <TableCell align="center">{row.camera_num}</TableCell>
+                    <TableCell align="center">{row.activate_camera_num}</TableCell>
+                    <TableCell align="center">{row.inactivate_camera_num}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -122,9 +134,7 @@ const Devices = () => {
           </TableContainer>
         </div>
       </div>
-      
     </div>
-
   );
 }
 
