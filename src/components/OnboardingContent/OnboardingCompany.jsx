@@ -23,7 +23,7 @@ const commonStyles = {
 
 const MapContainer = () => {
   const mapStyles = {
-    height: '50vh',
+    height: '60vh',
     width: '100%',
     borderRadius: "10px"
   };
