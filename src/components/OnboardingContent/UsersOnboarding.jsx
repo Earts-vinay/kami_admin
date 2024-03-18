@@ -4,27 +4,49 @@ import SendIcon from '@mui/icons-material/Send';
 
 const commonStyles = {
     fontFamily: "montserrat-regular",
-  };
+};
 
 const UsersOnboarding = ({ dropdownData }) => {
     const [accessLevel, setAccessLevel] = useState("");
 
     return (
-        <Box sx={{ padding: "20px", marginX: "auto", maxWidth: "1200px",height:'65vh' }}>
+        <Box sx={{ padding: "20px", marginX: "auto", maxWidth: "1200px", height: '65vh' }}>
             <Grid container spacing={2} alignItems="center">
                 {/* First Row */}
-                <Grid item xs={12} md={4} sm={6}>
+                
+                <Grid item xs={12} md={4} sm={4}>
                     <Typography variant="body2" sx={commonStyles} >User Name</Typography>
-                    <TextField label="John Doe" fullWidth size='small' margin="dense" />
+                    <TextField label="John Doe" fullWidth
+                        InputProps={{
+                            sx: { height: '50px' }
+                        }}
+                        margin="dense" />
                 </Grid>
 
-                <Grid item xs={12} md={4} sm={6}>
+                <Grid item xs={12} md={4} sm={4}>
                     <Typography variant="body2" sx={commonStyles}>Email Id</Typography>
-                    <TextField label="JohnDoe@gmail.com" fullWidth size='small' margin="dense" />
+                    <TextField label="JohnDoe@gmail.com" fullWidth
+                        InputProps={{
+                            sx: { height: '50px' }
+                        }}
+                        margin="dense" />
                 </Grid>
 
-                <Grid item xs={12} md={4} sm={7} sx={{ marginTop: "18px" }}>
-                    <Button variant="contained" color="primary" startIcon={<SendIcon />} fullWidth >
+                <Grid item xs={12} md={4} sm={4} sx={{ marginTop: "20px",textAlign:"center" }}>
+                    <Button variant="outlined"
+                        margin="dense"
+                        size="small"
+                        sx={{
+                            textTransform: "capitalize",
+                            width: "180px",
+                            padding: "12px",
+                            ...commonStyles,
+                            '&:hover': {
+
+                                backgroundColor: "#2465e9",
+                                color: "white",
+                            },
+                        }} startIcon={<SendIcon />}  >
                         Send Invite
                     </Button>
                 </Grid>
@@ -37,7 +59,9 @@ const UsersOnboarding = ({ dropdownData }) => {
                         select
                         fullWidth
                         margin="dense"
-                        size="small"
+                        InputProps={{
+                            sx: { height: '50px' }
+                        }}
                         value={accessLevel}
                         onChange={(e) => setAccessLevel(e.target.value)}
                     >
@@ -51,7 +75,11 @@ const UsersOnboarding = ({ dropdownData }) => {
 
                 <Grid item xs={12} md={4} sm={6}>
                     <Typography variant="body2" sx={commonStyles}>Property Name</Typography>
-                    <TextField label="Hyderabad campus" fullWidth size='small' margin="dense" />
+                    <TextField label="Hyderabad campus" fullWidth
+                        InputProps={{
+                            sx: { height: '50px' }
+                        }}
+                        margin="dense" />
                 </Grid>
             </Grid>
         </Box>
