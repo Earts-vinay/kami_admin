@@ -7,6 +7,7 @@ import onboardingCompanyReducer from '../redux/onBoarding/onboardingCompanySlice
 import dictionaryReducer from '../redux/apiResponse/dictionarySlice';
 import { persistStore, persistReducer } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session';
+import addpoleReducer from '../redux/apiResponse/addpoleSlice.js';
 
 const rootReducer = combineReducers({
   sideNav: sideNavSlice.reducer,
@@ -14,6 +15,8 @@ const rootReducer = combineReducers({
   auth: authReducer,
   dictionary: dictionaryReducer,
   onboardingcompany: onboardingCompanyReducer,
+  addpoleApi: addpoleReducer
+
 });
 
 const persistConfig = {

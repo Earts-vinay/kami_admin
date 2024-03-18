@@ -1,51 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect} from 'react';
 import { Box, Grid, Button, Typography, TextField } from '@mui/material';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import { useNavigate } from 'react-router-dom';
 import SideNav from '../../SideNav';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIsSideNavOpen, toggleSideNav } from '../../../redux/sidenav/sidenavSlice';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
-import HeaderLayout from '../../CommonComponent/HeaderLayout';
+import { selectIsSideNavOpen, toggleSideNav } from '../../../redux/sidenav/sidenavSlice'; 
 import CustomButton from '../../CommonComponent/CustomButton';
+import ReactMapGL from 'react-map-gl';
+import Map  ,{GeolocateControl,Marker}  from "react-map-gl";
+import {setAddPoleApiResponse} from '../../../redux/apiResponse/addpoleSlice';
+
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
 };
-const MapContainer = () => {
-  const mapStyles = {
-    height: '70vh',
-    width: '100%',
-    borderRadius: '10px'
-  };
 
-  const defaultCenter = {
-    lat: 37.7749, // Default latitude
-    lng: -122.4194, // Default longitude
-  };
-
-  return (
-    <LoadScript googleMapsApiKey="AIzaSyCRQBtQkOyqMNr0YheCgm9LVbvjRtnbo6Y">
-      <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={defaultCenter}>
-        {/* You can customize the map as needed */}
-        <Marker position={defaultCenter} />
-      </GoogleMap>
-    </LoadScript>
-  );
-};
 
 const ViewPole = () => {
   const navigate = useNavigate();
   const isOpen = useSelector(selectIsSideNavOpen);
   const dispatch = useDispatch();
+  const [propertyId, setpropertyId] = useState('');
+  const [locationLat, setLocationLat] = useState();
+  const [locationLang, SetLocationLang] = useState();
+  const [token, setToken] = useState('');
+  const storedToken = localStorage.getItem('token');
+
+console.log('storedToken' ,storedToken);
+  const [viewport, setViewport] = React.useState({
+    
+    width: '500px',
+    height: '500px',
+    latitude: 17.4539766,
+    longitude: 78.3948765,
+    zoom: 9,
+    maxZoom: 16,
+    pitch: 50,
+    bearing: 0,
+  });
+
 
   const handleToggle = () => {
     dispatch(toggleSideNav());
@@ -54,7 +47,56 @@ const ViewPole = () => {
   const handleviewpole = () => {
     navigate(`/addpole`);
   };
+ 
+ 
+  const handlesavepole = async () => {
+  
 
+    const formpoleData = new URLSearchParams();
+    formpoleData.append('property_id', propertyId);
+    formpoleData.append('name', 'hyderabad');
+    formpoleData.append('location_lat', locationLat);
+    formpoleData.append('location_lng',locationLang);
+
+    try {
+        const apiUrl = process.env.REACT_APP_API_URL;
+        const response = await fetch(`${apiUrl}/api/pole `, {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${storedToken}`
+          },
+            body: formpoleData,
+        });
+
+        const data = await response.json();
+        console.log("poledata", data)
+
+         dispatch(setAddPoleApiResponse(data));
+
+        const newToken = data?.data?.token; 
+        localStorage.setItem('token', newToken);
+        setToken(newToken);
+
+        // if (data.code !== 200) {
+        //     toast.error(data.msg);
+        // } else {
+        //     callTokenAPI(newToken);
+        // }
+    } catch (error) {
+        console.error('Error logging in:', error);
+        // toast.error('An error occurred while logging in');
+    }
+};
+useEffect(() => {
+    navigator.geolocation.getCurrentPosition((pos) => {
+      setViewport({
+        ...viewport,
+        latitude: 17.4539766,
+        longitude:78.3948765 ,
+        zoom: 3.5,
+      });
+    });
+  }, []);
   return (
     <>
       <div style={{ display: 'flex' }}>
@@ -93,32 +135,54 @@ const ViewPole = () => {
             <Box sx={{ display: 'flex', flexWrap:"wrap", gap: '10px' }}>
               <Box sx={{ width: { xs: '100%',sm:"100%", md: '48%' }, padding: '10px' }}>
                 <Box paddingBottom={2}>
-                  <Typography variant="body2" sx={commonStyles}>Pole ID</Typography>
-                  <TextField label="Pole Id" fullWidth margin="dense" size="small" />
+                  <Typography variant="body2" sx={commonStyles} >Pole ID</Typography>
+                  <TextField label="Pole Id" fullWidth margin="dense" size="small" value={propertyId} onChange={(e) => setpropertyId(e.target.value)} />
                 </Box>
                 <Typography variant="body2" sx={commonStyles} py={2}>
                   Mark on Map
                 </Typography>
                 <Box paddingBottom={2}>
                   <Typography variant="body2" sx={commonStyles}>Lat</Typography>
-                  <TextField label="Pole Id" fullWidth margin="dense" size="small" />
+                  <TextField label="Pole Id" fullWidth margin="dense" size="small" value={locationLat} onChange={(e)=>setLocationLat(e.target.value)} />
                 </Box>
                 <Box paddingBottom={2}>
                   <Typography variant="body2" sx={commonStyles}>Long</Typography>
-                  <TextField label="Pole Id" fullWidth margin="dense" size="small" />
+                  <TextField label="Pole Id" fullWidth margin="dense" size="small" value={locationLang} onChange={(e)=>SetLocationLang(e.target.value)} />
                 </Box>
               </Box>
 
               {/* Map */}
               <Box sx={{ width: { xs: '100%',sm:"100%", md: '48%' } }}>
-                <MapContainer />
+              <Map
+        mapboxAccessToken="pk.eyJ1Ijoic2FiaXRoYWthdGhpcmVzYW4iLCJhIjoiY2x0d210YndzMDE5YzJycDRrbmducDc3ciJ9.6-UYL7597oVdkkeFdOFp2A"
+        initialViewState={{
+          longitude: 78.3948765,
+          latitude: 17.4539766,
+          zoom: 12,
+         
+        
+        }}
+        style={{width: 500, height: 350}}
+        attributionControl={false}
+        mapStyle="mapbox://styles/mapbox/streets-v11"
+      >
+{/*       
+        <Marker
+                    latitude={locationLat} // Convert to float if necessary
+                    longitude={locationLang} // Convert to float if necessary
+                    zoom={10}
+                  >
+                    <img src='assets\images\loc.png' width="30px"></img>
+                    <div></div>
+                  </Marker> */}
+      </Map>
               </Box>
             </Box>
 
             <Box sx={{ marginTop: '40px',display:"flex", justifyContent:"center", gap:"10px" }}>
              
               <CustomButton onClick={() => handleviewpole()}>Back</CustomButton>
-              <CustomButton>Save</CustomButton>
+              <CustomButton onClick={()=>handlesavepole()}>Save</CustomButton>
       
             </Box>
           </Box>
