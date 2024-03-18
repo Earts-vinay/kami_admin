@@ -25,7 +25,7 @@ const MapContainer = () => {
   const mapStyles = {
     height: '50vh',
     width: '100%',
-    borderRadius:"10px"
+    borderRadius: "10px"
   };
 
   const defaultCenter = {
@@ -47,7 +47,7 @@ const OnboardingCompany = ({ dropdownData }) => {
 
   const [companyName, setCompanyName] = useState('');
   const [industry, setIndustry] = useState("");
-  const [industryId, setIndustryId] = useState(""); 
+  const [industryId, setIndustryId] = useState("");
   const [searchValue, setSearchValue] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
@@ -117,7 +117,7 @@ const OnboardingCompany = ({ dropdownData }) => {
       const response = await axios.post('http://35.239.192.201:9092/api/uploads', formData, { headers });
 
       dispatch(setUploadResponse(response.data));
-      toast.success('File uploaded successfully'); 
+      toast.success('File uploaded successfully');
     } catch (error) {
       console.error('Error uploading logo:', error);
       toast.error('Failed to upload file');
@@ -128,16 +128,16 @@ const OnboardingCompany = ({ dropdownData }) => {
 
   const industries = useSelector(state => state.dictionary.data);
   console.log(industries);
-  
-  const industryid = industries && industries.data && industries.data.industrys.length > 0
+
+  const industryid = industries && industries.data && industries.data.industrys?.length > 0
     ? industries.data.industrys[0].id
     : "";
-  
+
   useState(() => {
     setIndustryId(industryid);
-  }, [industryid]); 
-  
-  
+  }, [industryid]);
+
+
 
   const handleSave = async () => {
     try {
@@ -183,23 +183,28 @@ const OnboardingCompany = ({ dropdownData }) => {
 
         {/* Company Name */}
         <Grid item xs={7}>
-          <Typography variant="body2"sx={commonStyles} >Company Name</Typography>
+          <Typography variant="body2" sx={commonStyles} >Company Name</Typography>
           <TextField
             label="Company Name"
             fullWidth
-            size="small"
             margin="dense"
             value={companyName}
             onChange={handleCompanyNameChange}
+            InputProps={{
+              sx: { height: '50px' } 
+            }}
           />
+
         </Grid>
 
         <Grid item xs={5}>
-          <Typography variant="body2"sx={commonStyles}>Industry</Typography>
+          <Typography variant="body2" sx={commonStyles}>Industry</Typography>
           <TextField
             label="Dropdown"
             fullWidth
-            size='small'
+            InputProps={{
+              sx: { height: '50px' } 
+            }}
             select
             margin="dense"
             value={industry}
@@ -216,18 +221,18 @@ const OnboardingCompany = ({ dropdownData }) => {
 
         {/* Logo Upload Section */}
         <Grid item xs={12} padding="0px">
-          <Typography variant="body2"sx={commonStyles}>Logo</Typography>
+          <Typography variant="body2" sx={commonStyles} marginBottom="10px">Logo</Typography>
           <Box
             sx={{
               background: '#E3EBFC',
               padding: '20px',
               display: 'flex',
-              justifyContent: 'space-evenly',
+              justifyContent: 'space-around',
               alignItems: 'center',
               borderRadius: '10px',
             }}
           >
-            <div {...getRootProps()} style={{ cursor: 'pointer', marginTop: '5px', display: 'flex', alignItems: 'center', gap: '20px' }}>
+            <div {...getRootProps()} style={{ cursor: 'pointer', marginTop: '5px', display: 'flex', alignItems: 'center', gap: '20px',justifyContent:"space-around" }}>
               <input {...getInputProps()} />
               <img src="assets/icons/uploadicon.svg" alt="" />
               <Box>
@@ -238,9 +243,10 @@ const OnboardingCompany = ({ dropdownData }) => {
                 </Box>
               </Box>
             </div>
+            <Typography sx={commonStyles}>- OR -</Typography>
             <Box>
               <CustomButton {...getRootProps()}>
-              <input {...getInputProps()} />
+                <input {...getInputProps()} />
                 Browse Files
               </CustomButton>
             </Box>
@@ -249,7 +255,7 @@ const OnboardingCompany = ({ dropdownData }) => {
 
         {/* Left Side */}
         <Grid item md={7} xs={12} paddingX="20px">
-          <Typography variant="body2"sx={commonStyles}>Search</Typography>
+          <Typography variant="body2" sx={commonStyles}>Search</Typography>
           <TextField
             fullWidth
             label="Search"
@@ -259,8 +265,9 @@ const OnboardingCompany = ({ dropdownData }) => {
             variant="outlined"
             margin="dense"
             style={{ marginBottom: '20px' }}
-            size="small"
+            
             InputProps={{
+              sx:{height:"50px"},
               endAdornment: (
                 <InputAdornment position="end">
                   <SearchIcon />
@@ -280,82 +287,85 @@ const OnboardingCompany = ({ dropdownData }) => {
         <Grid item md={5} xs={12} paddingX="20px">
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Typography variant="body2"sx={commonStyles}>Address</Typography>
+              <Typography variant="body2" sx={commonStyles}>Address</Typography>
               <TextField
                 label="Address"
                 value={address}
                 onChange={handleAddressChange}
                 fullWidth
-                size='small'
+                InputProps={{
+                  sx: { height: '50px' } 
+                }}
                 margin="dense"
               />
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2"sx={commonStyles}>City</Typography>
+              <Typography variant="body2" sx={commonStyles}>City</Typography>
               <TextField
                 label="City"
                 value={city}
                 onChange={handleCityChange}
                 fullWidth
-                size='small'
+                InputProps={{
+                  sx: { height: '50px' } 
+                }}
                 margin="dense"
               />
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2"sx={commonStyles}>State</Typography>
+              <Typography variant="body2" sx={commonStyles}>State</Typography>
               <TextField
                 label="State"
                 value={state}
                 onChange={handleStateChange}
                 fullWidth
-                size='small'
+                InputProps={{
+                  sx: { height: '50px' } 
+                }}
                 margin="dense"
               />
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2"sx={commonStyles}>Country</Typography>
+              <Typography variant="body2" sx={commonStyles}>Country</Typography>
               <TextField
                 label="Country"
                 value={country}
                 onChange={handleCountryChange}
                 fullWidth
-                size='small'
+                InputProps={{
+                  sx: { height: '50px' } 
+                }}
                 margin="dense"
               />
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2"sx={commonStyles}>Pincode</Typography>
+              <Typography variant="body2" sx={commonStyles}>Pincode</Typography>
               <TextField
                 label="Pincode"
                 value={pincode}
                 onChange={handlePincodeChange}
                 fullWidth
-                size='small'
+                InputProps={{
+                  sx: { height: '50px' } 
+                }}
                 margin="dense"
               />
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2"sx={commonStyles}>Time Difference</Typography>
-              <Select
-                label="Time Difference"
-                fullWidth
-                value={timeDifference}
-                onChange={handleTimeDifferenceChange}
-                size='small'
-                margin="dense"
-              >
+              <Typography variant="body2" sx={commonStyles}>Time Difference</Typography>
+              <TextField label="Time" select fullWidth margin="dense"  InputProps={{ sx: { height: '50px' }}}>
                 <MenuItem value="">Select Time Difference</MenuItem>
                 <MenuItem value="-12">UTC-12</MenuItem>
                 <MenuItem value="-11">UTC-11</MenuItem>
                 <MenuItem value="-10">UTC-10</MenuItem>
                 <MenuItem value="-9">UTC-9</MenuItem>
                 {/* Add other time differences as needed */}
-              </Select>
+              </TextField>
 
               <Button variant="contained" color="primary" onClick={handleSave} sx={{ mr: 1, mt: 3 }}>
                 SAVE

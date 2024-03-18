@@ -11,7 +11,7 @@ const MapContainer = () => {
   const mapStyles = {
     height: '50vh',
     width: '100%',
-    borderRadius:"10px"
+    borderRadius: "10px"
   };
 
   const defaultCenter = {
@@ -38,10 +38,13 @@ const PropertyOnboarding = ({ dropdownData }) => {
     <Box sx={{ padding: "20px" }}>
       <Grid container spacing={2} display="flex" gap={2} >
         {/* Left side */}
-        <Grid md={6} sm={12} xs={12} padding="10px" spacing={2}>
+        <Grid md={7} sm={12} xs={12} padding="10px" spacing={2}>
           <Grid item xs={12} md={12}>
             <Typography variant="body2" sx={commonStyles} >Property Name / ID</Typography>
-            <TextField label="Property Name / ID" fullWidth margin="dense" size="small" sx={commonStyles} />
+            <TextField label="Property Name / ID" fullWidth margin="dense" 
+            InputProps={{
+              sx: { height: '50px' }
+            }} sx={commonStyles} />
           </Grid>
           <Grid item xs={12} md={12} marginTop={3} >
             <Typography variant="body2" sx={commonStyles}>Search</Typography>
@@ -51,8 +54,9 @@ const PropertyOnboarding = ({ dropdownData }) => {
               fontSize="14px"
               variant="outlined"
               style={{ marginBottom: '20px', border: 'solid 1px #2465e9' }}
-              size="small"
+             margin='dense'
               InputProps={{
+                sx:{height:"50px"},
                 endAdornment: (
                   <InputAdornment position="end">
                     <SearchIcon />
@@ -73,52 +77,74 @@ const PropertyOnboarding = ({ dropdownData }) => {
 
 
         {/* Right side */}
-        <Grid md={6} padding="10px" container spacing={2}>
-        <Grid item xs={12} md={11}>
-          <Typography variant="body2" sx={commonStyles}>Property Type</Typography>
-          <TextField
-            label="Property Type"
-            select
-            fullWidth
-            margin="dense"
-            size="small"
-            value={propertyType}
-            onChange={(e) => setPropertyType(e.target.value)}
-          >
-            {dropdownData && dropdownData.data && dropdownData.data.property_types && dropdownData.data.property_types.map((propertyType) => (
-              <MenuItem key={propertyType.id} value={propertyType.id}>
-                {propertyType.name}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Grid>
+        <Grid md={5} padding="10px" container spacing={2}>
+          <Grid item xs={12} md={11}>
+            <Typography variant="body2" sx={commonStyles}>Property Type</Typography>
+            <TextField
+              label="Property Type"
+              select
+              fullWidth
+              margin="dense"
+              InputProps={{
+                sx: { height: '50px' }
+              }}
+              value={propertyType}
+              onChange={(e) => setPropertyType(e.target.value)}
+            >
+              {dropdownData && dropdownData.data && dropdownData.data.property_types && dropdownData.data.property_types.map((propertyType) => (
+                <MenuItem key={propertyType.id} value={propertyType.id}>
+                  {propertyType.name}
+                </MenuItem>
+              ))}
+            </TextField>
+          </Grid>
           <Grid item xs={12} md={11}>
             <Typography variant="body2" sx={commonStyles}>Address</Typography>
-            <TextField label="Address" fullWidth margin="dense" size="small" />
+            <TextField label="Address" fullWidth margin="dense" 
+            InputProps={{
+              sx: { height: '50px' }
+            }} />
           </Grid>
           <Grid item xs={12} md={11}>
             <Typography variant="body2" sx={commonStyles}>City</Typography>
-            <TextField label="City" fullWidth margin="dense" size="small" />
+            <TextField label="City" fullWidth margin="dense" 
+            InputProps={{
+              sx: { height: '50px' }
+            }} />
           </Grid>
           <Grid item xs={12} md={11}>
             <Typography variant="body2" sx={commonStyles}>state</Typography>
-            <TextField label="State" fullWidth margin="dense" size="small" />
+            <TextField label="State" fullWidth margin="dense"
+             InputProps={{
+              sx: { height: '50px' }
+            }} />
           </Grid>
           <Grid item xs={12} md={11}>
             <Typography variant="body2" sx={commonStyles}>Country</Typography>
-            <TextField label="Country" fullWidth margin="dense" size="small" />
+            <TextField label="Country" fullWidth margin="dense" 
+            InputProps={{
+              sx: { height: '50px' }
+            }} />
           </Grid>
           <Grid item xs={12} md={11}>
             <Typography variant="body2" sx={commonStyles}>Pincode</Typography>
-            <TextField label="Pincode" fullWidth margin="dense" size="small" />
+            <TextField label="Pincode" fullWidth margin="dense" 
+            InputProps={{
+              sx: { height: '50px' }
+            }} />
           </Grid>
           {/* <Grid item xs={12} md={12}>
             <Typography variant="body2" sx={commonStyles}>Address</Typography>
-            <TextField label="Text Field 6" fullWidth margin="dense" size="small" />
+            <TextField label="Text Field 6" fullWidth margin="dense"     InputProps={{
+                  sx: { height: '50px' } 
+                }} />
           </Grid> */}
           <Grid item xs={12} md={11}>
             <Typography variant="body2" sx={commonStyles}>Time Zone</Typography>
-            <TextField label="Time Zone" select fullWidth margin="dense" size="small">
+            <TextField label="Time Zone" select fullWidth margin="dense" 
+            InputProps={{
+              sx: { height: '50px' }
+            }}>
               <MenuItem value="option1">Option 1</MenuItem>
               <MenuItem value="option2">Option 2</MenuItem>
             </TextField>
