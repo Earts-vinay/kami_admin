@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Grid, TextField, MenuItem, Typography, InputAdornment } from '@mui/material';
 import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
 import SearchIcon from '@mui/icons-material/Search';
@@ -10,6 +10,7 @@ import InputField from '../../CommonComponent/InputField';
 import CustomButton from '../../CommonComponent/CustomButton';
 import SideNav from '../../SideNav';
 import { selectToken } from '../../../redux/apiResponse/loginApiSlice';
+import { useParams } from 'react-router-dom';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -43,9 +44,9 @@ const AddProperty = () => {
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
 
-
   const [propertyName, setPropertyName] = useState('');
-  const [propertyType, setPropertyType] = useState('');
+  const [propertyType, setPropertyType] = useState({});
+  const [propertyType1, setPropertyType1] = useState("");
   const [searchInput, setSearchInput] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
@@ -63,9 +64,8 @@ const AddProperty = () => {
 
   const selectPropertyTypes = state => {
     const dictionaryData = selectDictionary(state);
-
     if (dictionaryData && Array.isArray(dictionaryData.data.property_types)) {
-      return dictionaryData.data.property_types.map(type => type.name);
+      return dictionaryData.data.property_types.map(type => ({ id: type.id, name: type.name }));
     } else {
       return [];
     }
@@ -73,19 +73,18 @@ const AddProperty = () => {
 
   const propertyTypes = useSelector(selectPropertyTypes);
 
-  // console.log(propertyTypes);
-
-
   const handleTableRowClick = () => {
-    navigate(`/dashboard`);
+    navigate(`/organization`);
   };
 
-  const handlePropertyNameChange = (event) => {
-    setPropertyName(event.target.value);
+  const handlePropertyChange = (event) => {
+    const newValue = event.target.value;
+    setPropertyName(newValue);
   };
 
   const handlePropertyTypeChange = (event) => {
-    setPropertyName(event.target.value);
+    const selectedType = propertyTypes.find(type => type.id === event.target.value);
+    setPropertyType(selectedType);
   };
 
   const handleSearchInputChange = (event) => {
@@ -116,23 +115,25 @@ const AddProperty = () => {
     setTimeZone(event.target.value);
   };
 
-  const handleSave = () => {
-    // Prepare the payload
+  const handleSaveOrUpdate = () => {
     const payload = new URLSearchParams({
       name: propertyName,
-      type_id: propertyType,
-      searchInput,
-      address,
-      city,
-      state,
-      country,
-      pincode,
-      timeZone
+      type_id: propertyType.id,
+      description: searchInput,
+      address: address,
+      city: city,
+      state: state,
+      country: country,
+      pin_code: pincode,
+      timezone: timeZone
     });
-  
-    // Call the API here using fetch or your preferred HTTP client library
-    fetch('http://35.239.192.201:9092/api/property', {
-      method: 'POST',
+
+    const url = propertyId ? `http://35.239.192.201:9092/api/property/${propertyId}` : 'http://35.239.192.201:9092/api/property';
+
+    const method = propertyId ? 'PUT' : 'POST';
+
+    fetch(url, {
+      method: method,
       headers: {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/x-www-form-urlencoded'
@@ -141,21 +142,52 @@ const AddProperty = () => {
     })
       .then(response => {
         if (response.ok) {
-          // Handle success
-          console.log('Property saved successfully');
-          // Redirect or perform any other action as needed
+          console.log(propertyId ? 'Property updated successfully' : 'Property saved successfully');
           navigate(`/organization`);
         } else {
-          // Handle error
-          console.error('Failed to save property');
+          console.error(propertyId ? 'Failed to update property' : 'Failed to save property');
         }
       })
       .catch(error => {
-        // Handle error
         console.error('Error:', error);
       });
-  };  
+  };
 
+  const { id } = useParams();
+  const [propertyId, setPropertyId] = useState(id);
+  const [propertyData, setPropertyData] = useState(null);
+
+  useEffect(() => {
+    const fetchPropertyData = async () => {
+      try {
+        const response = await fetch(`http://35.239.192.201:9092/api/property/${id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await response.json();
+        if (response.ok) {
+          setPropertyData(data.data);
+          setPropertyName(data.data.name);
+          setPropertyType1(data.data.type_name);
+          setAddress(data.data.address);
+          setCity(data.data.city);
+          setState(data.data.state);
+          setCountry(data.data.country);
+          setPincode(data.data.pin_code);
+          setTimeZone(data.data.timezone);
+          setSearchInput(data.data.description)
+        } else {
+          console.error('Failed to fetch property data:', data.msg);
+        }
+      } catch (error) {
+        console.error('Error fetching property data:', error);
+      }
+    };
+
+    fetchPropertyData();
+  }, [id, token]);
 
   return (
     <div style={{ display: 'flex' }}>
@@ -168,15 +200,18 @@ const AddProperty = () => {
 
           <Box sx={{ padding: "20px" }}>
             <Grid container spacing={2}>
-              {/* Left side */}
               <Grid md={6} sm={12} xs={12} padding="10px" spacing={2}>
                 <Grid item xs={12} md={12}>
                   <Typography variant="body2" sx={commonStyles}>Property Name / ID</Typography>
-
-                  <InputField id="outlined-basic" label="Input Field 1" size="small" value={propertyName}
-                    onChange={handlePropertyNameChange} />
-
+                  <TextField
+                    fullWidth
+                    margin="dense"
+                    size="small"
+                    value={propertyName}
+                    onChange={handlePropertyChange}
+                  />
                 </Grid>
+
                 <Grid item xs={12} md={12} sm={12} marginTop={3} >
                   <Typography variant="body2" sx={commonStyles}>Search</Typography>
                   <TextField
@@ -205,16 +240,25 @@ const AddProperty = () => {
                 </Box>
               </Grid>
 
-
-              {/* Right side */}
               <Grid md={6} paddingLeft="25px" paddingY="10px" container spacing={2}>
-              <Grid item xs={12} md={12}>
+                <Grid item xs={12} md={12}>
                   <Typography variant="body2" sx={commonStyles}>Property Type</Typography>
-                  <TextField label="Property Type" select fullWidth margin="dense" size="small" value={propertyType}
-                    onChange={handlePropertyTypeChange}>
-                    {propertyTypes.map((type, index) => (
-                      <MenuItem key={index} value={type}>{type}</MenuItem>
-                    ))}
+                  <TextField
+                    label="Property Type"
+                    select
+                    fullWidth
+                    margin="dense"
+                    size="small"
+                    value={propertyId ? propertyType1 : propertyType.id || ''}
+                    onChange={handlePropertyTypeChange}
+                  >
+                    {propertyId ? (
+                      <MenuItem value={propertyType1}>{propertyType1}</MenuItem>
+                    ) : (
+                      propertyTypes.map((type, index) => (
+                        <MenuItem key={index} value={type.id}>{type.name}</MenuItem>
+                      ))
+                    )}
                   </TextField>
                 </Grid>
                 <Grid item xs={12} md={12}>
@@ -256,7 +300,12 @@ const AddProperty = () => {
 
             <Box sx={{ marginTop: '20px', gap: "10px", display: "flex", justifyContent: "center" }}>
               <CustomButton onClick={() => handleTableRowClick()}>Back</CustomButton>
-              <CustomButton onClick={handleSave}>Save</CustomButton>
+
+              {propertyId ? (
+                <CustomButton onClick={handleSaveOrUpdate}>Update</CustomButton>
+              ) : (
+                <CustomButton onClick={handleSaveOrUpdate}>Save</CustomButton>
+              )}
             </Box>
 
           </Box>

@@ -52,6 +52,8 @@ function App() {
             {/* Property Routes */}
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/addproperty" element={<AddProperty />} />
+
+            <Route path="/addproperty/:id" element={<AddProperty />} />
             <Route path="/addpole" element={<AddPole/>} />
             <Route path="/viewpole" element={<ViewPole/>} />
             <Route path="/pairdevice" element={<PairDevice/>} />
