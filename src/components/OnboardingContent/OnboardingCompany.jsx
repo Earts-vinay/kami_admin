@@ -8,13 +8,14 @@ import { InputAdornment, Select, Typography } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
 import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
-
 import axios from 'axios';
-import SearchIcon from '@mui/icons-material/Search';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import { setUploadResponse } from '../../redux/onBoarding/onboardingCompanySlice';
 import { toast } from 'react-toastify';
 import CustomButton from '../CommonComponent/CustomButton';
+import CustomTextField from '../CommonComponent/CustomTextField';
+import CustomSearch from '../CommonComponent/CustomSearch';
+import CustomDropdown from '../CommonComponent/CustomDropdown';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -23,7 +24,7 @@ const commonStyles = {
 
 const MapContainer = () => {
   const mapStyles = {
-    height: '60vh',
+    height: '50vh',
     width: '100%',
     borderRadius: "10px"
   };
@@ -182,23 +183,12 @@ const OnboardingCompany = ({ dropdownData }) => {
       <Grid container spacing={3}>
 
         {/* Company Name */}
-        <Grid item xs={7}>
-          <Typography variant="body2" sx={commonStyles} >Company Name</Typography>
-          <TextField
-            label="Company Name"
-            fullWidth
-            margin="dense"
-            value={companyName}
-            onChange={handleCompanyNameChange}
-            InputProps={{
-              sx: { height: '50px' } 
-            }}
-          />
-
+        <Grid item xs={7} >
+          <CustomTextField label="Company Name"  value={companyName}  onChange={handleCompanyNameChange} borderColor="green" />
         </Grid>
 
         <Grid item xs={5}>
-          <Typography variant="body2" sx={commonStyles}>Industry</Typography>
+{/*          
           <TextField
             label="Dropdown"
             fullWidth
@@ -215,31 +205,41 @@ const OnboardingCompany = ({ dropdownData }) => {
                 {industry.name}
               </MenuItem>
             ))}
-          </TextField>
+          </TextField> */}
+
+          <CustomDropdown label="Industry" value={industry}  onChange={(e) => setIndustry(e.target.value)}> 
+          {dropdownData && dropdownData.data && dropdownData.data.industrys && dropdownData.data.industrys.map((industry) => (
+              <MenuItem key={industry.id} value={industry.id}>
+                {industry.name}
+              </MenuItem>
+            ))}
+          </CustomDropdown>
         </Grid>
 
 
         {/* Logo Upload Section */}
-        <Grid item xs={12} padding="0px">
+        <Grid item xs={12}  padding="0px">
           <Typography variant="body2" sx={commonStyles} marginBottom="10px">Logo</Typography>
+          <Box sx={{ background: '#E3EBFC',padding:'8px',borderRadius:"5px"}}>
           <Box
             sx={{
-              background: '#E3EBFC',
+             
               padding: '20px',
               display: 'flex',
               justifyContent: 'space-around',
               alignItems: 'center',
-              borderRadius: '10px',
+              borderRadius: '5px',
+              border:"1px dotted #2465e9"
             }}
           >
             <div {...getRootProps()} style={{ cursor: 'pointer', marginTop: '5px', display: 'flex', alignItems: 'center', gap: '20px',justifyContent:"space-around" }}>
               <input {...getInputProps()} />
               <img src="assets/icons/uploadicon.svg" alt="" />
               <Box>
-                <Typography sx={{ color: '#2465e9' }}>Drag Your logo here</Typography>
+                <Typography sx={{ color: '#2465e9',...commonStyles }}>Drag Your logo here</Typography>
                 <Box display="flex" flexDirection="column">
-                  <Typography variant="body-2">Preferred File 512*512</Typography>
-                  <Typography variant="body-2">Format Supported .jpg & .png</Typography>
+                  <Typography variant="body-2" sx={commonStyles} >Preferred File 512*512</Typography>
+                  <Typography variant="body-2" sx={commonStyles}>Format Supported .jpg & .png</Typography>
                 </Box>
               </Box>
             </div>
@@ -251,124 +251,52 @@ const OnboardingCompany = ({ dropdownData }) => {
               </CustomButton>
             </Box>
           </Box>
+          </Box>
+        
         </Grid>
 
         {/* Left Side */}
-        <Grid item md={7} xs={12} paddingX="20px">
-          <Typography variant="body2" sx={commonStyles}>Search</Typography>
-          <TextField
-            fullWidth
-            label="Search"
-            value={searchValue}
-            onChange={handleSearchChange}
-            fontSize="14px"
-            variant="outlined"
-            margin="dense"
-            style={{ marginBottom: '20px' }}
-            
-            InputProps={{
-              sx:{height:"50px"},
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-            }}
-            sx={{ backgroundColor: 'linear-gradient(119deg, #ebeffa 2%, #e8ebfd 30%, #f0ecf9 51%, #efeefb 70%, #eef7ff 100%)', border: 'none', borderRadius: '5px' }}
-          />
-
+        <Grid item md={7} xs={12} paddingX="0px">
+          <CustomSearch  label="Search"  value={searchValue} onChange={handleSearchChange}/>
           {/* Implement Map */}
-          <Box marginTop={2}>
+          <Box marginTop={1}>
             <MapContainer />
           </Box>
         </Grid>
 
         {/* Right Side */}
         <Grid item md={5} xs={12} paddingX="20px">
-          <Grid container spacing={2}>
+          <Grid container spacing={3}>
             <Grid item xs={12}>
-              <Typography variant="body2" sx={commonStyles}>Address</Typography>
-              <TextField
-                label="Address"
-                value={address}
-                onChange={handleAddressChange}
-                fullWidth
-                InputProps={{
-                  sx: { height: '50px' } 
-                }}
-                margin="dense"
-              />
+              <CustomTextField label="Address" value={address} onChange={handleAddressChange}  />
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2" sx={commonStyles}>City</Typography>
-              <TextField
-                label="City"
-                value={city}
-                onChange={handleCityChange}
-                fullWidth
-                InputProps={{
-                  sx: { height: '50px' } 
-                }}
-                margin="dense"
-              />
+              <CustomTextField  label="City" value={city} onChange={handleCityChange}/> 
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2" sx={commonStyles}>State</Typography>
-              <TextField
-                label="State"
-                value={state}
-                onChange={handleStateChange}
-                fullWidth
-                InputProps={{
-                  sx: { height: '50px' } 
-                }}
-                margin="dense"
-              />
+              <CustomTextField label="State"  value={state} onChange={handleStateChange}/>
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2" sx={commonStyles}>Country</Typography>
-              <TextField
-                label="Country"
-                value={country}
-                onChange={handleCountryChange}
-                fullWidth
-                InputProps={{
-                  sx: { height: '50px' } 
-                }}
-                margin="dense"
-              />
+              <CustomTextField  label="Country" value={country} onChange={handleCountryChange}/>
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2" sx={commonStyles}>Pincode</Typography>
-              <TextField
-                label="Pincode"
-                value={pincode}
-                onChange={handlePincodeChange}
-                fullWidth
-                InputProps={{
-                  sx: { height: '50px' } 
-                }}
-                margin="dense"
-              />
+              <CustomTextField label="Pincode" value={pincode}  onChange={handlePincodeChange}/>
             </Grid>
 
             <Grid item xs={12}>
-              <Typography variant="body2" sx={commonStyles}>Time Difference</Typography>
-              <TextField label="Time" select fullWidth margin="dense"  InputProps={{ sx: { height: '50px' }}}>
-                <MenuItem value="">Select Time Difference</MenuItem>
+             <CustomDropdown label="Time" >
+             <MenuItem value="">Select Time Difference</MenuItem>
                 <MenuItem value="-12">UTC-12</MenuItem>
                 <MenuItem value="-11">UTC-11</MenuItem>
                 <MenuItem value="-10">UTC-10</MenuItem>
                 <MenuItem value="-9">UTC-9</MenuItem>
-                {/* Add other time differences as needed */}
-              </TextField>
-
+             </CustomDropdown>
               <Button variant="contained" color="primary" onClick={handleSave} sx={{ mr: 1, mt: 3 }}>
-                SAVE
+                Save
               </Button>
             </Grid>
           </Grid>
