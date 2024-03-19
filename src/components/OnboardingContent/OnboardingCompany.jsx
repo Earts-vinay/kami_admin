@@ -178,6 +178,7 @@ const OnboardingCompany = ({ dropdownData }) => {
     }
   };
 
+  console.log("dropdown",dropdownData);
   return (
     <Box sx={{ padding: '20px' }}>
       <Grid container spacing={3}>
@@ -188,34 +189,14 @@ const OnboardingCompany = ({ dropdownData }) => {
         </Grid>
 
         <Grid item xs={5}>
-{/*          
-          <TextField
-            label="Dropdown"
-            fullWidth
-            InputProps={{
-              sx: { height: '50px' } 
-            }}
-            select
-            margin="dense"
-            value={industry}
-            onChange={(e) => setIndustry(e.target.value)}
-          >
-            {dropdownData && dropdownData.data && dropdownData.data.industrys && dropdownData.data.industrys.map((industry) => (
-              <MenuItem key={industry.id} value={industry.id}>
-                {industry.name}
-              </MenuItem>
-            ))}
-          </TextField> */}
-
           <CustomDropdown label="Industry" value={industry}  onChange={(e) => setIndustry(e.target.value)}> 
-          {dropdownData && dropdownData.data && dropdownData.data.industrys && dropdownData.data.industrys.map((industry) => (
+          {dropdownData && dropdownData?.data && dropdownData?.data?.company_industrys && dropdownData?.data?.company_industrys.map((industry) => (
               <MenuItem key={industry.id} value={industry.id}>
                 {industry.name}
               </MenuItem>
             ))}
           </CustomDropdown>
         </Grid>
-
 
         {/* Logo Upload Section */}
         <Grid item xs={12}  padding="0px">
@@ -257,7 +238,7 @@ const OnboardingCompany = ({ dropdownData }) => {
 
         {/* Left Side */}
         <Grid item md={7} xs={12} paddingX="0px">
-          <CustomSearch  label="Search"  value={searchValue} onChange={handleSearchChange}/>
+          <CustomSearch  label="Search by name or location"  value={searchValue} onChange={handleSearchChange}/>
           {/* Implement Map */}
           <Box marginTop={1}>
             <MapContainer />
