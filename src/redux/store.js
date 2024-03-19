@@ -22,7 +22,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage: storageSession,
-  whitelist: ['loginApi', 'onboardingcompany', 'dictionary'], 
+  whitelist: ['loginApi', 'onboardingcompany', 'dictionary', 'auth'], 
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

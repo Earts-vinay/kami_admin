@@ -85,7 +85,7 @@ const Login = () => {
       };
     
       const callTokenAPI = (token) => {
-        console.log("==================token is calling");
+        // console.log("==================token is calling");
         axios.request({
           headers: {
             Authorization: `Bearer ${token}`
@@ -94,12 +94,16 @@ const Login = () => {
           url: `${BaseUrl}auth`
         }).then(response => {
           const { data } = response.data;
-          if (data && data.role && data.role.level === 'property') {
+          if (data && data.role && data.role.level === 'company') {
             dispatch(setAuthentication(data));
             toast.success('Login successful');
             navigate('/onboard');
-        } else {
-            throw new Error('User does not have access to map');
+          } else if (data && data.role && data.role.level === 'property') {
+            dispatch(setAuthentication(data));
+            toast.success('Login successful');
+            navigate('/dashboard');
+          } else {
+            throw new Error('User does not have valid access level');
           }
         }).catch(error => {
           console.error('Error authenticating:', error);
@@ -107,6 +111,7 @@ const Login = () => {
           toast.error('Authentication failed');
         });
       };
+      
 
     const handleForgotPassword = () => {
         navigate('/forgot-password');

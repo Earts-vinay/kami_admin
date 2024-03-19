@@ -9,10 +9,18 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ContactEmergencyOutlinedIcon from '@mui/icons-material/ContactEmergencyOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import sideButton from '../assets/sideButton.svg';
+import { selectIsAuthenticated, selectUser } from '../redux/apiResponse/authSlice';
+import { useSelector } from 'react-redux';
 
 const SideNav = ({ open, handleToggle }) => {
     const location = useLocation();
     const isActive = (path) => location.pathname === path;
+
+    const user = useSelector(selectUser);
+
+    const userLevel = user && user.role ? user.role.level : null;
+
+    // console.log(userLevel);
 
     const useStyles = () => ({
         drawer: {
@@ -28,7 +36,7 @@ const SideNav = ({ open, handleToggle }) => {
         },
         drawerContainer: {
             overflow: 'auto',
-            position: 'relative', 
+            position: 'relative',
         },
         logo: {
             height: '50px',
@@ -78,7 +86,7 @@ const SideNav = ({ open, handleToggle }) => {
                         borderRadius: "10px",
                         height: '96vh'
                     },
-    
+
                 }}
             >
                 <div className={classes.drawerContainer}>
@@ -110,15 +118,16 @@ const SideNav = ({ open, handleToggle }) => {
                         <ListItem
                             button
                             component={Link}
-                            to="/organization"
+                            to={userLevel === 'company' ? "/organization" : "/dashboard"} 
                             sx={listItemStyle}
-                            className={isActive("/organization") ? "active" : ""}
+                            className={isActive(userLevel === 'company' ? "/organization" : "/dashboard") ? "active" : ""}
                         >
-                            <ListItemIcon style={{ fontSize: '24px' }}> {/* Adjust the font size as needed */}
-                                <DashboardIcon />
+                            <ListItemIcon style={{ fontSize: '24px' }}>
+                                {userLevel === 'company' ? <DashboardIcon /> : <DashboardIcon />} 
                             </ListItemIcon>
-                            <ListItemText primary={open && 'Organization'} />
+                            <ListItemText primary={open && (userLevel === 'company' ? 'Organization' : 'Dashboard')} />
                         </ListItem>
+
                         <ListItem
                             button
                             component={Link}

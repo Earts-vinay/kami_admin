@@ -122,7 +122,7 @@ const AddProperty = () => {
       type_id: propertyType.id,
       // description: searchInput,
       address: address,
-      city: city || '', // Include city field if available, or default to an empty string
+      city: '', 
       state: state,
       country: country,
       pin_code: pincode,
