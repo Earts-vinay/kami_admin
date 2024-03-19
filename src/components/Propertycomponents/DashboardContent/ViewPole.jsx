@@ -10,6 +10,7 @@ import ReactMapGL from 'react-map-gl';
 import Map  ,{GeolocateControl,Marker}  from "react-map-gl";
 import {setAddPoleApiResponse} from '../../../redux/apiResponse/addpoleSlice';
 import { selectToken } from '../../../redux/apiResponse/loginApiSlice';
+import CustomTextField from '../../CommonComponent/CustomTextField';
 
 
 const commonStyles = {
@@ -127,19 +128,16 @@ useEffect(() => {
             <Box sx={{ display: 'flex', flexWrap:"wrap", gap: '10px' }}>
               <Box sx={{ width: { xs: '100%',sm:"100%", md: '48%' }, padding: '10px' }}>
                 <Box paddingBottom={2}>
-                  <Typography variant="body2" sx={commonStyles} >Pole ID</Typography>
-                  <TextField label="Pole Id" fullWidth margin="dense" size="small" value={propertyId} onChange={(e) => setpropertyId(e.target.value)} />
+              <CustomTextField  label="Pole Id" value={propertyId} onChange={(e) => setpropertyId(e.target.value)}/>
                 </Box>
                 <Typography variant="body2" sx={commonStyles} py={2}>
                   Mark on Map
                 </Typography>
                 <Box paddingBottom={2}>
-                  <Typography variant="body2" sx={commonStyles}>Lat</Typography>
-                  <TextField label="Pole Id" fullWidth margin="dense" size="small" value={locationLat} onChange={(e)=>setLocationLat(e.target.value)} />
+                  <CustomTextField label="Latitude" value={locationLat} onChange={(e)=>setLocationLat(e.target.value)} />
                 </Box>
                 <Box paddingBottom={2}>
-                  <Typography variant="body2" sx={commonStyles}>Long</Typography>
-                  <TextField label="Pole Id" fullWidth margin="dense" size="small" value={locationLang} onChange={(e)=>SetLocationLang(e.target.value)} />
+                  <CustomTextField label="Longitude" value={locationLang} onChange={(e)=>SetLocationLang(e.target.value)}/>
                 </Box>
               </Box>
 

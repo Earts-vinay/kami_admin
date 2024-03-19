@@ -70,7 +70,7 @@ const PropertyOnboarding = ({ dropdownData }) => {
     <Box sx={{ padding: "20px" }}>
     <Grid container spacing={2}>
       {/* Left side */}
-      <Grid md={7} sm={12} xs={12} padding="10px" spacing={2}>
+      <Grid md={7} sm={12} xs={12} padding="15px" spacing={2}>
           <Grid item xs={12} md={12}>
            <CustomTextField label="Property Name / ID" />
           </Grid>
@@ -86,8 +86,8 @@ const PropertyOnboarding = ({ dropdownData }) => {
         </Grid>
 
       {/* Right side */}
-      <Grid item md={5} padding="10px" spacing={2}>
-        <Grid container spacing={3}>
+      <Grid item md={5} spacing={2}>
+        <Grid container spacing={3} >
           <Grid item xs={12}>
             <CustomDropdown label="Property Type" value={propertyType} onChange={(e) => setPropertyType(e.target.value)}>
             {dropdownData && dropdownData.data && dropdownData.data.property_types && dropdownData.data.property_types.map((propertyType) => (

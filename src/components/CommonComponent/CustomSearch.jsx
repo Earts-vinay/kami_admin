@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchIcon from '@mui/icons-material/Search';
 
-const CustomSearch = ({ searchValue, handleSearchChange,label }) => {
+const CustomSearch = ({ searchValue, handleSearchChange,label,customSx }) => {
   return (
     <TextField
       fullWidth
@@ -18,9 +18,10 @@ const CustomSearch = ({ searchValue, handleSearchChange,label }) => {
           },
         "& .MuiOutlinedInput-root": {
             "& > fieldset": { border: "solid 1px #2465e9"},
-          },}}
+          },  ...customSx,}}
           InputLabelProps={{
             style: { fontFamily: 'montserrat-regular' },
+          
           }}
       InputProps={{
             style: {  

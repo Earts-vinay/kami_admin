@@ -1,6 +1,7 @@
 import React from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { Grid, Typography, TextField, Box } from '@mui/material'; // Importing Material-UI components
+import CustomTextField from '../../../../../CommonComponent/CustomTextField';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -31,23 +32,19 @@ const DeviceSetup = () => {
     <Grid container spacing={5} sx={{ padding: '20px' }}>
       <Grid item xs={12} sm={12} md={6} >
         <Box sx={{ marginBottom: '20px' }}>
-          <Typography variant="body2" sx={commonStyles}>Device / Camera Name</Typography>
-          <TextField label="Device Name" fullWidth margin="dense" size="small" />
+        <CustomTextField label="Device Name"/>
         </Box>
         
         <Box sx={{ marginBottom: '20px' }}>
-          <Typography variant="body2" sx={commonStyles}>Pole ID</Typography>
-          <TextField label="Pole ID" fullWidth margin="dense" size="small" />
+        <CustomTextField label="Pole Id"/>
         </Box>
 
         <Box sx={{ marginBottom: '20px' }}>
-          <Typography variant="body2" sx={commonStyles}>Lat</Typography>
-          <TextField label="Lat" fullWidth margin="dense" size="small" />
+        <CustomTextField label="Latitude"/>
         </Box>
 
         <Box sx={{ marginBottom: '20px' }}>
-          <Typography variant="body2" sx={commonStyles}>Long</Typography>
-          <TextField label="Long" fullWidth margin="dense" size="small" />
+        <CustomTextField label="Longitude"/>
         </Box>
       </Grid>
       <Grid item xs={12} sm={12} md={6}>

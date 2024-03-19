@@ -20,6 +20,7 @@ import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavS
 import SideNav from '../../components/SideNav';
 import { useNavigate } from 'react-router-dom';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
+import CustomSearch from '../../components/CommonComponent/CustomSearch';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -71,22 +72,8 @@ const Devices = () => {
         padding: '10px', width: '100%', transition: 'margin 0.3s ease'
       }}>
         <div style={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", overflow: 'auto' }}>
-          <Box sx={{ paddingTop: "10px", textAlign: "end" }}>
-            <TextField
-              label="Search"
-              fontSize="14px"
-              variant="outlined"
-              style={{ marginBottom: '20px', border: 'solid 1px #2465e9', }}
-              size="small"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{ backgroundColor: 'linear-gradient(119deg, #ebeffa 2%, #e8ebfd 30%, #f0ecf9 51%, #efeefb 70%, #eef7ff 100%)', border: 'none', borderRadius: '5px' }}
-            />
+          <Box sx={{ paddingY: "5px", textAlign: "end" }}>
+            <CustomSearch label="Search" customSx={{ width: '500px',size:"small" }}/>
           </Box>
 
           <TableContainer component={Paper}>

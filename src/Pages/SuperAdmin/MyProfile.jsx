@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import { MuiTelInput } from 'mui-tel-input';
 import CustomButton from '../../components/CommonComponent/CustomButton';
+import CustomTextField from '../../components/CommonComponent/CustomTextField';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -102,31 +103,13 @@ const MyProfile = () => {
               <Grid container spacing={2} style={{ marginTop: '20px', padding: "40px", }}>
                 {/* User Information and Save Button Section */}
                 <Grid item xs={12} md={7}>
-                  <Typography variant="body1" sx={commonStyles}>User Name</Typography>
-                  <TextField
-                    label="User Name"
-                    variant="outlined"
-                    fullWidth
-                    margin="dense"
-                    size="small"
-                    sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#2465E9' } } }}
-                  />
+              <CustomTextField label="User Name"/>
                 </Grid>
                 <Grid item xs={12} md={7}>
-                  <Typography variant="body1" sx={commonStyles}>Email</Typography>
-                  <TextField
-                    label="Email"
-                    variant="outlined"
-                    fullWidth
-                    margin="dense"
-                    size="small"
-                    sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#2465E9' } } }}
-
-                  />
+                  <CustomTextField label="Email"/>
                 </Grid>
 
                 <Grid item xs={12} md={7}>
-                  <Typography variant="body1" sx={commonStyles}>Phone Number</Typography>
                   <MuiTelInput
                     label="Phone Number"
                     value={phone || ''}
@@ -135,7 +118,7 @@ const MyProfile = () => {
                     margin="dense"
                     variant="outlined"
                     defaultCountry="US"
-                    inputProps={{ maxLength: 15 }}
+                    inputProps={{ maxLength: 15,sx:{height:"35px"} }}
                     size="small"
                     sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#2465E9' } } }}
                   />

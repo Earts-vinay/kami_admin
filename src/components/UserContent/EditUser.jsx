@@ -8,6 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import { MuiTelInput } from 'mui-tel-input';
 import CustomButton from '../CommonComponent/CustomButton';
+import CustomTextField from '../CommonComponent/CustomTextField';
+import CustomDropdown from '../CommonComponent/CustomDropdown';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -105,27 +107,11 @@ const EditUser = () => {
             <Grid container spacing={2} style={{ marginTop: '20px', padding: "40px", width: '80%' }}>
               {/* User Information and Save Button Section */}
               <Grid item xs={12} md={7}>
-                <Typography variant="body1" sx={commonStyles}>User Name</Typography>
-                <TextField
-                  label="User Name"
-                  variant="outlined"
-                  fullWidth
-                  margin="dense"
-                  size="small"
-                  sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#2465E9' } } }}
-                />
+              <CustomTextField label="User Name"/>
               </Grid>
               <Grid item xs={12} md={7}>
-                <Typography variant="body1" sx={commonStyles}>Email</Typography>
-                <TextField
-                  label="Email"
-                  variant="outlined"
-                  fullWidth
-                  margin="dense"
-                  size="small"
-                  sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#2465E9' } } }}
-
-                />
+              <CustomTextField label="Email"/>
+           
               </Grid>
 
               <Grid item xs={12} md={7}>
@@ -138,7 +124,7 @@ const EditUser = () => {
                   margin="dense"
                   variant="outlined"
                   defaultCountry="US"
-                  inputProps={{ maxLength: 15 }}
+                  inputProps={{ maxLength: 15,sx:{height:"30px"} }}
 
                   size="small"
                   sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#2465E9' } } }}
@@ -147,30 +133,15 @@ const EditUser = () => {
 
               </Grid>
               <Grid item xs={12} md={7}>
-              <Typography variant="body1" sx={commonStyles}>Access Level</Typography>
-              <FormControl fullWidth margin="dense" sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#2465E9' } } }}>
-                <InputLabel id="access-level-label">Access Level</InputLabel>
-                <Select
-                  labelId="access-level-label"
-                  label="Access Level"
-                  defaultValue=""
-                />
-                 </FormControl>
+                 <CustomDropdown label="Access Level">
+                 <MenuItem value="mui">Mui</MenuItem>
+                 </CustomDropdown>
               </Grid>
 
               <Grid item xs={12} md={7}>
-              <Typography variant="body1" sx={commonStyles}>Property Name</Typography>
-              <FormControl fullWidth margin="dense" sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#2465E9' } } }}>
-                <InputLabel id="property-name-label">Property Name</InputLabel>
-                <Select
-                  labelId="property-name-label"
-                  label="Property Name"
-                  defaultValue=""
-                >
-                  <MenuItem value="mui">Mui</MenuItem>
-                  {/* Add more property names as needed */}
-                </Select>
-              </FormControl>
+              <CustomDropdown label="Property Name">
+                 <MenuItem value="mui">Mui</MenuItem>
+                 </CustomDropdown>
             </Grid>
               
             </Grid>

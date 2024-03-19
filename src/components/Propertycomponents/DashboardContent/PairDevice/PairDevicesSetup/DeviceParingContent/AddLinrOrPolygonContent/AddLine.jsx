@@ -590,6 +590,8 @@ import SnowshoeingIcon from "@mui/icons-material/Snowshoeing";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import { styled } from '@mui/material/styles';
 import CustomButton from '../../../../../../CommonComponent/CustomButton';
+import CustomTextField from '../../../../../../CommonComponent/CustomTextField';
+import CustomDropdown from '../../../../../../CommonComponent/CustomDropdown';
 
 const DrawOnImage = () => {
   const [open, setOpen] = useState(false);
@@ -728,10 +730,8 @@ const DrawOnImage = () => {
       >
       {/* Compass Image */}
       <Box sx={{ width: { xs: '100%', md: '50%', sm: "80%" }, padding: '20px' }}>
-          {/* Textfield */}
-          <Typography sx={commonStyles}> Line Name</Typography>
-          <TextField label="Line Name" variant="outlined" size="small" fullWidth margin="dense" />
-
+          {/* Textfield */}  
+          <CustomTextField label="Line Name"/>
           {/* MUI Table */}
           <Table>
             <TableBody>
@@ -779,15 +779,14 @@ const DrawOnImage = () => {
 
           {/* MUI Dropdown */}
           <Box py={3}>
-            <Typography sx={commonStyles}> Zone Name</Typography>
-            <TextField label="Zone Name" select fullWidth margin="dense" size="small">
-              <Button px={3} color="primary" onClick={handleOpen} sx={commonStyles}>
+            <CustomDropdown label="Zone Name">
+            <Button px={3} color="primary" onClick={handleOpen} sx={commonStyles}>
                 Add New Zone
               </Button>
               <MenuItem value={10}>Option 1</MenuItem>
               <MenuItem value={20}>Option 2</MenuItem>
               <MenuItem value={30}>Option 3</MenuItem>
-            </TextField>
+            </CustomDropdown>
           </Box>
         </Box>
         {/* Drawing Canvas */}

@@ -12,6 +12,9 @@ import SideNav from '../../SideNav';
 import { selectToken } from '../../../redux/apiResponse/loginApiSlice';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import CustomTextField from '../../CommonComponent/CustomTextField';
+import CustomSearch from '../../CommonComponent/CustomSearch';
+import CustomDropdown from '../../CommonComponent/CustomDropdown';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -216,38 +219,10 @@ const AddProperty = () => {
             <Grid container spacing={2}>
               <Grid md={6} sm={12} xs={12} padding="10px" spacing={2}>
                 <Grid item xs={12} md={12}>
-                  <Typography variant="body2" sx={commonStyles}>Property Name / ID</Typography>
-                  <TextField
-                    fullWidth
-                    label="Property Name"
-                    margin="dense"
-                    size="small"
-                    value={propertyName}
-                    onChange={handlePropertyChange}
-                  />
+                  <CustomTextField  label="Property Name" value={propertyName}  onChange={handlePropertyChange}/>
                 </Grid>
-
                 <Grid item xs={12} md={12} sm={12} marginTop={3} >
-                  <Typography variant="body2" sx={commonStyles}>Search</Typography>
-                  <TextField
-                    fullWidth
-                    label="Search"
-                    fontSize="14px"
-                    variant="outlined"
-                    style={{ marginBottom: '20px', border: 'solid 1px #2465e9' }}
-                    size="small"
-                    value={searchInput}
-                    onChange={handleSearchInputChange}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <SearchIcon />
-                        </InputAdornment>
-                      ),
-                    }}
-                    sx={{ backgroundColor: 'linear-gradient(119deg, #ebeffa 2%, #e8ebfd 30%, #f0ecf9 51%, #efeefb 70%, #eef7ff 100%)', border: 'none', borderRadius: '5px' }}
-                  />
-
+<CustomSearch label="Search"  value={searchInput} onChange={handleSearchInputChange}/>
                 </Grid>
 
                 <Box marginTop={2}>
@@ -257,57 +232,37 @@ const AddProperty = () => {
 
               <Grid md={6} paddingLeft="25px" paddingY="10px" container spacing={2}>
                 <Grid item xs={12} md={12}>
-                  <Typography variant="body2" sx={commonStyles}>Property Type</Typography>
-                  <TextField
-                    label="Property Type"
-                    select
-                    fullWidth
-                    margin="dense"
-                    size="small"
-                    value={propertyId ? propertyType1 : propertyType.id || ''}
-                    onChange={handlePropertyTypeChange}
-                  >
-                    {propertyId ? (
+               
+                  <CustomDropdown label="Property Type"  value={propertyId ? propertyType1 : propertyType.id || ''}  onChange={handlePropertyTypeChange}>
+                  {propertyId ? (
                       <MenuItem value={propertyType1}>{propertyType1}</MenuItem>
                     ) : (
                       propertyTypes.map((type, index) => (
                         <MenuItem key={index} value={type.id}>{type.name}</MenuItem>
                       ))
                     )}
-                  </TextField>
+                  </CustomDropdown>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                  <Typography variant="body2" sx={commonStyles}>Address</Typography>
-                  <TextField label="Address" fullWidth margin="dense" size="small" value={address}
-                    onChange={handleAddressChange} />
+                    <CustomTextField label="Address" value={address}  onChange={handleAddressChange}/>             
                 </Grid>
                 <Grid item xs={12} md={12}>
-                  <Typography variant="body2" sx={commonStyles}>City</Typography>
-                  <TextField label="City" fullWidth margin="dense" size="small" value={city}
-                    onChange={handleCityChange} />
+                    <CustomTextField label="City" value={city}  onChange={handleCityChange}/>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                  <Typography variant="body2" sx={commonStyles}>State</Typography>
-                  <TextField label="State" fullWidth margin="dense" size="small" value={state}
-                    onChange={handleStateChange} />
+                    <CustomTextField label="State" value={state}  onChange={handleStateChange}/>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                  <Typography variant="body2" sx={commonStyles}>Country</Typography>
-                  <TextField label="Country" fullWidth margin="dense" size="small" value={country}
-                    onChange={handleCountryChange} />
+                    <CustomTextField label="Country" value={country} onChange={handleCountryChange}/>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                  <Typography variant="body2" sx={commonStyles}>Pincode</Typography>
-                  <TextField label="Pincode" fullWidth margin="dense" size="small" value={pincode}
-                    onChange={handlePincodeChange} />
+                    <CustomTextField label="Pincode" value={pincode}  onChange={handlePincodeChange}/>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                  <Typography variant="body2" sx={commonStyles}>Time Zone</Typography>
-                  <TextField label="Time Zone" select fullWidth margin="dense" size="small" value={timeZone}
-                    onChange={handleTimeZoneChange}>
-                    <MenuItem value="option1">Option 1</MenuItem>
+                  <CustomDropdown value={timeZone}    onChange={handleTimeZoneChange}>
+                  <MenuItem value="option1">Option 1</MenuItem>
                     <MenuItem value="option2">Option 2</MenuItem>
-                  </TextField>
+                  </CustomDropdown  >
                 </Grid>
               </Grid>
             </Grid>

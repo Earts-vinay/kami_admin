@@ -10,6 +10,7 @@ import FilterListIcon from '@mui/icons-material/FilterList';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CommonComponent/CustomButton';
+import CustomSearch from '../../components/CommonComponent/CustomSearch';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -87,27 +88,7 @@ const Users = () => {
       }}>
         <Box style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px', overflow: "auto" }}>
           <Box sx={{ display:"flex",justifyContent:"end",alignItems:"center",gap:'10px',padding:"10px"}}>
-            <TextField
-              label="Search"
-              fontSize="14px"
-              variant="outlined"
-              style={{  border: 'solid 1px #61A0E9', outline: 'none' }}
-              size="small"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                backgroundColor: 'linear-gradient(119deg, #ebeffa 2%, #e8ebfd 30%, #f0ecf9 51%, #efeefb 70%, #eef7ff 100%)',
-                borderRadius: '5px',
-                height: '40px' // Set the height
-              }}
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
+             <CustomSearch label="Search" customSx={{ width: '500px',size:"small" }} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
             <CustomButton onClick={handleAddUser}>Add User</CustomButton>
           </Box>
 
