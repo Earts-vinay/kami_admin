@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
-import { Box, Grid, TextField, MenuItem, Typography, InputAdornment } from '@mui/material';
+import { Box, Grid, TextField, MenuItem, Typography, InputAdornment, InputLabel, Select } from '@mui/material';
 import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
 import SearchIcon from '@mui/icons-material/Search';
+import CustomSearch from '../CommonComponent/CustomSearch';
+import CustomTextField from '../CommonComponent/CustomTextField';
+import CustomDropdown from '../CommonComponent/CustomDropdown';
+import  Autocomplete  from '@mui/material/Autocomplete';
+import { Country, State, City } from 'country-state-city';
+import { FormControl } from '@mui/base';
+
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -9,7 +16,7 @@ const commonStyles = {
 
 const MapContainer = () => {
   const mapStyles = {
-    height: '60vh',
+    height: '50vh',
     width: '100%',
     borderRadius: "10px"
   };
@@ -32,40 +39,43 @@ const MapContainer = () => {
 
 const PropertyOnboarding = ({ dropdownData }) => {
   const [propertyType, setPropertyType] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedState, setSelectedState] = useState(null);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+
+  // Fetch states based on the selected country
+  const handleCountryChange = (_, value) => {
+    setSelectedCountry(value);
+    setSelectedState(null);
+    setCities([]);
+  };
+
+  // Fetch cities based on the selected state
+  const handleStateChange = (_, value) => {
+    setSelectedState(value);
+    const stateId = value?.value?.id;
+    const cities = stateId ? State.getCities(stateId) : [];
+    // Update cities dropdown
+    setCities(cities);
+  };
+
+  const countries = Country.getAllCountries();
+  const countryOptions = countries.map((country) => ({ value: country, label: country.name }));
+
+
 
   // console.log(dropdownData);
   return (
     <Box sx={{ padding: "20px" }}>
-      <Grid container spacing={2} display="flex" gap={2} >
-        {/* Left side */}
-        <Grid md={7} sm={12} xs={12} padding="10px" spacing={2}>
+    <Grid container spacing={2}>
+      {/* Left side */}
+      <Grid md={7} sm={12} xs={12} padding="10px" spacing={2}>
           <Grid item xs={12} md={12}>
-            <Typography variant="body2" sx={commonStyles} >Property Name / ID</Typography>
-            <TextField label="Property Name / ID" fullWidth margin="dense" 
-            InputProps={{
-              sx: { height: '50px' }
-            }} sx={commonStyles} />
+           <CustomTextField label="Property Name / ID" />
           </Grid>
           <Grid item xs={12} md={12} marginTop={3} >
-            <Typography variant="body2" sx={commonStyles}>Search</Typography>
-            <TextField
-              fullWidth
-              label="Search"
-              fontSize="14px"
-              variant="outlined"
-              style={{ marginBottom: '20px', border: 'solid 1px #2465e9' }}
-             margin='dense'
-              InputProps={{
-                sx:{height:"50px"},
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{ backgroundColor: 'linear-gradient(119deg, #ebeffa 2%, #e8ebfd 30%, #f0ecf9 51%, #efeefb 70%, #eef7ff 100%)', border: 'none', borderRadius: '5px' }}
-            />
-
+            <CustomSearch label="search by name or location" />
           </Grid>
 
           <Box marginTop={2}>
@@ -75,83 +85,57 @@ const PropertyOnboarding = ({ dropdownData }) => {
           {/* Implement your map component here */}
         </Grid>
 
-
-        {/* Right side */}
-        <Grid md={5} padding="10px" container spacing={2}>
-          <Grid item xs={12} md={11}>
-            <Typography variant="body2" sx={commonStyles}>Property Type</Typography>
-            <TextField
-              label="Property Type"
-              select
-              fullWidth
-              margin="dense"
-              InputProps={{
-                sx: { height: '50px' }
-              }}
-              value={propertyType}
-              onChange={(e) => setPropertyType(e.target.value)}
-            >
-              {dropdownData && dropdownData.data && dropdownData.data.property_types && dropdownData.data.property_types.map((propertyType) => (
+      {/* Right side */}
+      <Grid item md={5} padding="10px" spacing={2}>
+        <Grid container spacing={3}>
+          <Grid item xs={12}>
+            <CustomDropdown label="Property Type" value={propertyType} onChange={(e) => setPropertyType(e.target.value)}>
+            {dropdownData && dropdownData.data && dropdownData.data.property_types && dropdownData.data.property_types.map((propertyType) => (
                 <MenuItem key={propertyType.id} value={propertyType.id}>
                   {propertyType.name}
                 </MenuItem>
               ))}
-            </TextField>
+            </CustomDropdown>
           </Grid>
-          <Grid item xs={12} md={11}>
-            <Typography variant="body2" sx={commonStyles}>Address</Typography>
-            <TextField label="Address" fullWidth margin="dense" 
-            InputProps={{
-              sx: { height: '50px' }
-            }} />
+          <Grid item xs={12}>
+            <CustomTextField label="Address" />
           </Grid>
-          <Grid item xs={12} md={11}>
-            <Typography variant="body2" sx={commonStyles}>City</Typography>
-            <TextField label="City" fullWidth margin="dense" 
-            InputProps={{
-              sx: { height: '50px' }
-            }} />
+          <Grid item xs={12}>
+            <CustomTextField label="City" />
           </Grid>
-          <Grid item xs={12} md={11}>
-            <Typography variant="body2" sx={commonStyles}>state</Typography>
-            <TextField label="State" fullWidth margin="dense"
-             InputProps={{
-              sx: { height: '50px' }
-            }} />
+          <Grid item xs={12}>
+            <CustomTextField label="State" />
           </Grid>
-          <Grid item xs={12} md={11}>
-            <Typography variant="body2" sx={commonStyles}>Country</Typography>
-            <TextField label="Country" fullWidth margin="dense" 
-            InputProps={{
-              sx: { height: '50px' }
-            }} />
+          <Grid item xs={12}>
+            <FormControl>
+              <Autocomplete
+                options={countryOptions}
+                value={selectedCountry}
+                onChange={handleCountryChange}
+                getOptionLabel={(option) => option?.label || ''}
+                sx={{"& .MuiOutlinedInput-root": {
+                  padding:"6px",
+                  fontFamily:"montserrat-regular"
+                },}}
+                renderInput={(params) => (
+                  <CustomTextField {...params} label="Country" />
+                )}
+              />
+            </FormControl>
           </Grid>
-          <Grid item xs={12} md={11}>
-            <Typography variant="body2" sx={commonStyles}>Pincode</Typography>
-            <TextField label="Pincode" fullWidth margin="dense" 
-            InputProps={{
-              sx: { height: '50px' }
-            }} />
+          <Grid item xs={12}>
+            <CustomTextField label="Pincode" />
           </Grid>
-          {/* <Grid item xs={12} md={12}>
-            <Typography variant="body2" sx={commonStyles}>Address</Typography>
-            <TextField label="Text Field 6" fullWidth margin="dense"     InputProps={{
-                  sx: { height: '50px' } 
-                }} />
-          </Grid> */}
-          <Grid item xs={12} md={11}>
-            <Typography variant="body2" sx={commonStyles}>Time Zone</Typography>
-            <TextField label="Time Zone" select fullWidth margin="dense" 
-            InputProps={{
-              sx: { height: '50px' }
-            }}>
+          <Grid item xs={12}>
+            <CustomDropdown label="Time Zone">
               <MenuItem value="option1">Option 1</MenuItem>
               <MenuItem value="option2">Option 2</MenuItem>
-            </TextField>
+            </CustomDropdown>
           </Grid>
         </Grid>
       </Grid>
-    </Box>
+    </Grid>
+  </Box>
   );
 };
 

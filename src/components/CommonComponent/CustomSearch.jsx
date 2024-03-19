@@ -23,7 +23,12 @@ const CustomSearch = ({ searchValue, handleSearchChange,label }) => {
             style: { fontFamily: 'montserrat-regular' },
           }}
       InputProps={{
-        sx: { height: "50px" },
+            style: {  
+              fontFamily: 'montserrat-regular',
+              padding: '10px', // Adjust padding as needed
+              height: '50px', // Set the height of the input
+            },
+      
         endAdornment: (
           <InputAdornment position="end">
             <SearchIcon sx={{color:"#2465e9"}}/>
