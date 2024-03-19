@@ -15,7 +15,7 @@ import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import { setUploadResponse } from '../../redux/onBoarding/onboardingCompanySlice';
 import { toast } from 'react-toastify';
 import CustomButton from '../CommonComponent/CustomButton';
-
+const BaseUrl = process.env.REACT_APP_API_URL
 const commonStyles = {
   fontFamily: "montserrat-regular",
 
@@ -113,8 +113,7 @@ const OnboardingCompany = ({ dropdownData }) => {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'multipart/form-data'
       };
-
-      const response = await axios.post('http://35.239.192.201:9092/api/uploads', formData, { headers });
+      const response = await axios.post(`${BaseUrl}uploads`, formData, { headers });
 
       dispatch(setUploadResponse(response.data));
       toast.success('File uploaded successfully');
