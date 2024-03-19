@@ -11,6 +11,7 @@ import CustomButton from '../../CommonComponent/CustomButton';
 import SideNav from '../../SideNav';
 import { selectToken } from '../../../redux/apiResponse/loginApiSlice';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -119,19 +120,19 @@ const AddProperty = () => {
     const payload = new URLSearchParams({
       name: propertyName,
       type_id: propertyType.id,
-      description: searchInput,
+      // description: searchInput,
       address: address,
-      city: city,
+      city: city || '', // Include city field if available, or default to an empty string
       state: state,
       country: country,
       pin_code: pincode,
       timezone: timeZone
     });
-
+  
     const url = propertyId ? `http://35.239.192.201:9092/api/property/${propertyId}` : 'http://35.239.192.201:9092/api/property';
-
+  
     const method = propertyId ? 'PUT' : 'POST';
-
+  
     fetch(url, {
       method: method,
       headers: {
@@ -142,22 +143,30 @@ const AddProperty = () => {
     })
       .then(response => {
         if (response.ok) {
-          console.log(propertyId ? 'Property updated successfully' : 'Property saved successfully');
+          toast.success(propertyId ? 'Property updated successfully' : 'Property saved successfully');
           navigate(`/organization`);
         } else {
-          console.error(propertyId ? 'Failed to update property' : 'Failed to save property');
+          response.text().then(errorMessage => {
+            toast.error(errorMessage || (propertyId ? 'Failed to update property' : 'Failed to save property'));
+          });
         }
       })
       .catch(error => {
         console.error('Error:', error);
+        toast.error('An error occurred while processing your request');
       });
   };
+  
+
 
   const { id } = useParams();
   const [propertyId, setPropertyId] = useState(id);
   const [propertyData, setPropertyData] = useState(null);
 
   useEffect(() => {
+    //   console.log('ID:', id);
+    // console.log('Token:', token);
+
     const fetchPropertyData = async () => {
       try {
         const response = await fetch(`http://35.239.192.201:9092/api/property/${id}`, {
@@ -166,8 +175,9 @@ const AddProperty = () => {
             'Authorization': `Bearer ${token}`
           }
         });
-        const data = await response.json();
+
         if (response.ok) {
+          const data = await response.json();
           setPropertyData(data.data);
           setPropertyName(data.data.name);
           setPropertyType1(data.data.type_name);
@@ -177,17 +187,21 @@ const AddProperty = () => {
           setCountry(data.data.country);
           setPincode(data.data.pin_code);
           setTimeZone(data.data.timezone);
-          setSearchInput(data.data.description)
+          setSearchInput(data.data.description);
+          // toast.success('Property data fetched successfully');
         } else {
-          console.error('Failed to fetch property data:', data.msg);
+          const errorMessage = await response.text();
+          console.error('Failed to fetch property data:', errorMessage);
+          toast.error(errorMessage || 'Failed to fetch property data');
         }
       } catch (error) {
         console.error('Error fetching property data:', error);
+        toast.error('An error occurred while fetching property data');
       }
     };
 
     fetchPropertyData();
-  }, [id, token]);
+  }, []);
 
   return (
     <div style={{ display: 'flex' }}>
@@ -205,6 +219,7 @@ const AddProperty = () => {
                   <Typography variant="body2" sx={commonStyles}>Property Name / ID</Typography>
                   <TextField
                     fullWidth
+                    label="Property Name"
                     margin="dense"
                     size="small"
                     value={propertyName}

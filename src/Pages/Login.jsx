@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { setLoginApiResponse } from '../redux/apiResponse/loginApiSlice';
 import { useDispatch } from 'react-redux';
 import { setAuthentication, setAuthenticationError } from '../redux/apiResponse/authSlice';
+const BaseUrl = process.env.REACT_APP_API_URL
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -52,18 +53,21 @@ const Login = () => {
         const formData = new URLSearchParams();
         formData.append('email', email);
         formData.append('password', password);
-    
+        console.log(password);
+        console.log(email);
         try {
           const apiUrl = process.env.REACT_APP_API_URL;
-          const response = await fetch(`${apiUrl}/api/login`, {
+          const response = await fetch(`${BaseUrl}login`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded',
             },
             body: formData,
           });
+          console.log(formData);
     
           const data = await response.json();
+          console.log(data);
     
           dispatch(setLoginApiResponse(data));
     
@@ -81,15 +85,16 @@ const Login = () => {
       };
     
       const callTokenAPI = (token) => {
+        console.log("==================token is calling");
         axios.request({
           headers: {
             Authorization: `Bearer ${token}`
           },
           method: "POST",
-          url: `${process.env.REACT_APP_API_URL}/api/auth`
+          url: `${BaseUrl}auth`
         }).then(response => {
           const { data } = response.data;
-          if (data && data.role && data.role.level === 'company') {
+          if (data && data.role && data.role.level === 'property') {
             dispatch(setAuthentication(data));
             toast.success('Login successful');
             navigate('/onboard');
