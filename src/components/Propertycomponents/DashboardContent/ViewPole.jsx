@@ -9,6 +9,7 @@ import CustomButton from '../../CommonComponent/CustomButton';
 import ReactMapGL from 'react-map-gl';
 import Map  ,{GeolocateControl,Marker}  from "react-map-gl";
 import {setAddPoleApiResponse} from '../../../redux/apiResponse/addpoleSlice';
+import { selectToken } from '../../../redux/apiResponse/loginApiSlice';
 
 
 const commonStyles = {
@@ -23,10 +24,8 @@ const ViewPole = () => {
   const [propertyId, setpropertyId] = useState('');
   const [locationLat, setLocationLat] = useState();
   const [locationLang, SetLocationLang] = useState();
-  const [token, setToken] = useState('');
-  const storedToken = localStorage.getItem('token');
-
-console.log('storedToken' ,storedToken);
+  const token = useSelector(selectToken);
+ 
   const [viewport, setViewport] = React.useState({
     
     width: '500px',
@@ -63,8 +62,8 @@ console.log('storedToken' ,storedToken);
         const response = await fetch(`${apiUrl}/api/pole `, {
             method: 'POST',
             headers: {
-              Authorization: `Bearer ${storedToken}`
-          },
+              'Authorization': `Bearer ${token}`
+            },
             body: formpoleData,
         });
 
@@ -72,19 +71,12 @@ console.log('storedToken' ,storedToken);
         console.log("poledata", data)
 
          dispatch(setAddPoleApiResponse(data));
-
-        const newToken = data?.data?.token; 
-        localStorage.setItem('token', newToken);
-        setToken(newToken);
-
-        // if (data.code !== 200) {
-        //     toast.error(data.msg);
-        // } else {
-        //     callTokenAPI(newToken);
-        // }
+        if (data.code == 200) {
+          navigate("/addpole")
+        } 
     } catch (error) {
         console.error('Error logging in:', error);
-        // toast.error('An error occurred while logging in');
+         
     }
 };
 useEffect(() => {
