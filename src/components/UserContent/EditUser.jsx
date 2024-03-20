@@ -1,7 +1,7 @@
 
 
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Box, TextField, Button, MenuItem, FormControl, InputAdornment, InputLabel, Select, Input, Typography, Grid } from '@mui/material';
 import SideNav from '../../components/SideNav';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +10,12 @@ import { MuiTelInput } from 'mui-tel-input';
 import CustomButton from '../CommonComponent/CustomButton';
 import CustomTextField from '../CommonComponent/CustomTextField';
 import CustomDropdown from '../CommonComponent/CustomDropdown';
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { selectToken } from '../../redux/apiResponse/loginApiSlice';
+import { toast } from 'react-toastify';
+
+const BaseUrl = process.env.REACT_APP_API_URL
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -20,7 +26,32 @@ const EditUser = () => {
   const [imageSrc, setImageSrc] = useState('assets/icons/girlicon.svg');
   const isOpen = useSelector(selectIsSideNavOpen);
   const dispatch = useDispatch();
+  const token = useSelector(selectToken);
+
   const [phone, setPhone] = useState('');
+  const [userName, setUserName] = useState('');
+  const [email, setEmail] = useState('');
+  const [accessLevel, setAccessLevel] = useState('');
+  const [propertyName, setPropertyName] = useState('');
+
+  const handleUserNameChange = (event) => {
+    setUserName(event.target.value);
+  };
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handleAccessLevelChange = (event) => {
+    setAccessLevel(event.target.value);
+  };
+
+  const handlePropertyNameChange = (event) => {
+    setPropertyName(event.target.value);
+  };
+
+  const { id } = useParams();
+
  
 
   const handleChange = (value) => {
@@ -45,7 +76,78 @@ const EditUser = () => {
       reader.readAsDataURL(file);
     }
   };
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.put(
+        `${BaseUrl}user/${id}`,
+        {
+          username:"",
+          first_name:"",
+          last_name: "", 
+          office_phone: '',
+          mobile_phone:""
+        },
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+  
+      const responseData = response.data;
+      console.log('Response:', responseData);
+    } catch (error) {
+      // Handle error
+      console.error('Error:', error);
+    }
+  };
 
+  useEffect(() => {
+    //   console.log('ID:', id);
+    // console.log('Token:', token);
+
+    const fetchPropertyData = async () => {
+      try {
+        const response = await fetch(`http://35.239.192.201:9092/api/user/${id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+    
+        if (response.ok) {
+          const data1 = await response.json();
+          console.log('User data:', data1);
+          const {data}=data1;
+    
+          // Extract data from the response and set the state values
+          setUserName(data.username);
+          setEmail(data.email);
+          setAccessLevel(data.role_name);
+    
+          // Check if propertys array is not empty before accessing its first element
+          if (data.propertys && data.propertys.length > 0) {
+            setPropertyName(data.propertys[0].name);
+          } else {
+            console.warn('No properties found for this user.');
+          }
+    
+          // toast.success('Property data fetched successfully');
+        } else {
+          const errorMessage = await response.text();
+          console.error('Failed to fetch user data:', errorMessage);
+          toast.error(errorMessage || 'Failed to fetch user data');
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        toast.error('An error occurred while fetching user data');
+      }
+    };
+    
+
+    fetchPropertyData();
+  }, []);
 
   return (
     <div style={{ display: 'flex' }}>
@@ -107,15 +209,21 @@ const EditUser = () => {
             <Grid container spacing={2} style={{ marginTop: '20px', padding: "40px", width: '80%' }}>
               {/* User Information and Save Button Section */}
               <Grid item xs={12} md={7}>
-              <CustomTextField label="User Name"/>
-              </Grid>
+        <CustomTextField
+          label="User Name"
+          value={userName}
+          onChange={handleUserNameChange}
+        />
+      </Grid>
+      <Grid item xs={12} md={7}>
+        <CustomTextField
+          label="Email"
+          value={email}
+          onChange={handleEmailChange}
+        />
+      </Grid>
               <Grid item xs={12} md={7}>
-              <CustomTextField label="Email"/>
-           
-              </Grid>
-
-              <Grid item xs={12} md={7}>
-                <Typography variant="body1" sx={commonStyles}>Phone Number</Typography>
+                {/* <Typography variant="body1" sx={commonStyles}>Phone Number</Typography> */}
                 <MuiTelInput
                   label="Phone Number"
                   value={phone || ''}
@@ -133,17 +241,23 @@ const EditUser = () => {
 
               </Grid>
               <Grid item xs={12} md={7}>
-                 <CustomDropdown label="Access Level">
-                 <MenuItem value="mui">Mui</MenuItem>
-                 </CustomDropdown>
-              </Grid>
-
-              <Grid item xs={12} md={7}>
-              <CustomDropdown label="Property Name">
-                 <MenuItem value="mui">Mui</MenuItem>
-                 </CustomDropdown>
-            </Grid>
-              
+        <CustomDropdown
+          label="Access Level"
+          value={accessLevel}
+          onChange={handleAccessLevelChange}
+        >
+          <MenuItem value="mui">Mui</MenuItem>
+        </CustomDropdown>
+      </Grid>
+      <Grid item xs={12} md={7}>
+        <CustomDropdown
+          label="Property Name"
+          value={propertyName}
+          onChange={handlePropertyNameChange}
+        >
+          <MenuItem value="mui">Mui</MenuItem>
+        </CustomDropdown>
+      </Grid>
             </Grid>
           </Box>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>

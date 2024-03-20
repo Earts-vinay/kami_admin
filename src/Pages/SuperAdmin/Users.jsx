@@ -11,10 +11,13 @@ import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CommonComponent/CustomButton';
 import CustomSearch from '../../components/CommonComponent/CustomSearch';
+import axios from 'axios';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
 };
+
+const BaseUrl = process.env.REACT_APP_API_URL
 
 const Users = () => {
   const isOpen = useSelector(selectIsSideNavOpen);
@@ -30,6 +33,10 @@ const Users = () => {
   const [usersData, setUsersData] = useState([]);
   const [loading, setLoading] = useState(true); // State for loading indicator
   const token = useSelector(selectToken);
+
+  const handleEdit = (id) => {
+    navigate(`/edituser/${id}`);
+  };
 
   useEffect(() => {
     fetchData();
@@ -56,6 +63,30 @@ const Users = () => {
       console.error('Error fetching data:', error);
     } finally {
       setLoading(false); // Update loading state after fetching data
+    }
+  };
+
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `${BaseUrl}user`,
+        {
+          id:'',
+        },
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+  
+      const responseData = response.data;
+      console.log('Response:', responseData);
+    } catch (error) {
+      // Handle error
+      console.error('Error:', error);
     }
   };
 
@@ -160,7 +191,10 @@ const Users = () => {
                       </TableCell>
                       <TableCell>{user.role_name}</TableCell>
                       <TableCell>
-                        <IconButton color="primary" aria-label="edit">
+                        <IconButton color="primary" aria-label="edit"  onClick={(event) => {
+                              event.stopPropagation();
+                              handleEdit(user.id);
+                            }} >
                           <img src="assets/icons/editicon.svg" alt="" width="35px" />
                         </IconButton>
                         <IconButton color="secondary" aria-label="delete">

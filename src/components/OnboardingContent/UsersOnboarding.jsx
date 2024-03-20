@@ -1,49 +1,105 @@
-import { Box, Button, Grid, MenuItem, TextField, Typography } from '@mui/material';
+import { Box, Button, Grid, MenuItem } from '@mui/material';
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import SendIcon from '@mui/icons-material/Send';
 import CustomTextField from '../CommonComponent/CustomTextField';
 import CustomDropdown from '../CommonComponent/CustomDropdown';
-
-const commonStyles = {
-    fontFamily: "montserrat-regular",
-};
-
+import { selectToken } from '../../redux/apiResponse/loginApiSlice';
+import axios from 'axios';
+const BaseUrl = process.env.REACT_APP_API_URL
 const UsersOnboarding = ({ dropdownData }) => {
+    console.log(dropdownData);
     const [accessLevel, setAccessLevel] = useState("");
+    const [userName, setUserName] = useState('');
+    const [email, setEmail] = useState('');
+    const [propertyName, setPropertyName] = useState("");
+    const token = useSelector(selectToken);
+
+    // console.log(accessLevel, userName,emailId,propertyName );
+
+    const handleUserNameChange = (event) => {
+        setUserName(event.target.value);
+    };
+
+    const handleEmailIdChange = (event) => {
+        setEmail(event.target.value);
+    };
+
+    const handleAccessLevelChange = (event) => {
+        setAccessLevel(event.target.value);
+    };
+
+    const handlePropertyNameChange = (event) => {
+        setPropertyName(event.target.value);
+    };
+
+
+    const handleSubmit = async () => {
+        try {
+          const response = await axios.post(
+            `${BaseUrl}user/invite`,
+            {
+                username:userName,
+                email:email,
+                role_id: parseInt(accessLevel), // Convert to integer
+                property_id: parseInt(propertyName) 
+            },
+            {
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Authorization': `Bearer ${token}`
+              }
+            }
+          );
+      
+          const responseData = response.data;
+          console.log('Response:', responseData);
+        } catch (error) {
+          // Handle error
+          console.error('Error:', error);
+        }
+      };
+    
 
     return (
         <Box sx={{ padding: "20px", marginX: "auto", maxWidth: "1200px", height: '65vh' }}>
             <Grid container spacing={2} alignItems="center">
                 {/* First Row */}
                 <Grid item xs={12} md={4} sm={4}>
-                 <CustomTextField label="User Name"/>
+                    <CustomTextField label="User Name" value={userName} onChange={handleUserNameChange} />
                 </Grid>
                 <Grid item xs={12} md={4} sm={4}>
-                <CustomTextField label="Email Id"/>
+                    <CustomTextField label="Email Id" value={email} onChange={handleEmailIdChange} />
                 </Grid>
-                <Grid item xs={12} md={4} sm={4} sx={{ textAlign:"center" }}>
-                    <Button variant="outlined"
+                <Grid item xs={12} md={4} sm={4} sx={{ textAlign: "center" }}>
+                    <Button
+                        variant="outlined"
                         margin="dense"
                         size="small"
                         sx={{
                             textTransform: "capitalize",
                             width: "180px",
                             padding: "12px",
-                            ...commonStyles,
                             '&:hover': {
-
                                 backgroundColor: "#2465e9",
                                 color: "white",
                             },
-                        }} startIcon={<SendIcon />}  >
+                        }}
+                        startIcon={<SendIcon />}
+                        onClick={handleSubmit}
+                    >
                         Send Invite
                     </Button>
                 </Grid>
 
                 {/* Second Row */}
-                <Grid item xs={12} md={4} sm={6}>                  
-                    <CustomDropdown label="Access Level" value={accessLevel} onChange={(e) => setAccessLevel(e.target.value)}>
-                    {dropdownData && dropdownData.data && dropdownData.data.roles && dropdownData.data.roles.map((role) => (
+                <Grid item xs={12} md={4} sm={6}>
+                    <CustomDropdown
+                        label="Access Level"
+                        value={accessLevel}
+                        onChange={handleAccessLevelChange}
+                    >
+                        {dropdownData && dropdownData.data && dropdownData.data.roles && dropdownData.data.roles.map((role) => (
                             <MenuItem key={role.id} value={role.id}>
                                 {role.name}
                             </MenuItem>
@@ -51,8 +107,17 @@ const UsersOnboarding = ({ dropdownData }) => {
                     </CustomDropdown>
                 </Grid>
                 <Grid item xs={12} md={4} sm={6}>
-                 <CustomTextField label="Property Name"/>
-                </Grid>
+                <CustomDropdown
+                        label="Property Type"
+                        value={propertyName}
+                        onChange={handlePropertyNameChange}
+                    >
+                        {dropdownData && dropdownData.data && dropdownData.data.property_types && dropdownData.data.property_types.map((property) => (
+                            <MenuItem key={property.id} value={property.id}>
+                                {property.name}
+                            </MenuItem>
+                        ))}
+                    </CustomDropdown>                </Grid>
             </Grid>
         </Box>
     );

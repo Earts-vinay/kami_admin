@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, Grid, TextField, MenuItem, Typography, InputAdornment, InputLabel, Select } from '@mui/material';
+import { Box, Grid, TextField, MenuItem, Typography, InputAdornment, InputLabel, Select, Button } from '@mui/material';
 import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
 import SearchIcon from '@mui/icons-material/Search';
 import CustomSearch from '../CommonComponent/CustomSearch';
@@ -8,6 +8,9 @@ import CustomDropdown from '../CommonComponent/CustomDropdown';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Country, State, City } from 'country-state-city';
 import { FormControl } from '@mui/base';
+import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
+import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 
 
 const commonStyles = {
@@ -40,36 +43,115 @@ const MapContainer = () => {
 const PropertyOnboarding = ({ dropdownData }) => {
   const [propertyType, setPropertyType] = useState("");
   const [selectedCountry, setSelectedCountry] = useState(null);
-  const [selectedState, setSelectedState] = useState(null);
-  const [states, setStates] = useState([]);
-  const [cities, setCities] = useState([]);
 
-  // Fetch states based on the selected country
-  const handleCountryChange = (_, value) => {
-    setSelectedCountry(value);
-    setSelectedState(null);
-    setCities([]);
-  };
+  const token = useSelector(selectToken);
 
   const [timeDifference, setTimeDifference] = useState('');
+  const [propertyName, setPropertyName] = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [country, setCountry] = useState('');
+
+  const [pincode, setPincode] = useState('');
+
+  console.log(propertyType);
+  console.log(searchQuery);
+
+
+  const handlePropertyNameChange = (event) => {
+    console.log("Property Name:", event.target.value);
+    setPropertyName(event.target.value);
+  };
+
+  const handleCountryChange = (event) => {
+    setCountry(event.target.value);
+  };
+
+  const handleSearchQueryChange = (event) => {
+    console.log("Search Query:", event.target.value);
+    setSearchQuery(event.target.value);
+  };
+
+  // const handleCountryChange = (_, { value }) => {
+  //   // Destructure the `value` object from the second argument
+  //   if (value && value.name) {
+  //     const countryName = value.name;
+  //     console.log("Selected Country Name:", countryName);
+  //     setSelectedCountry(value);
+  //   } else {
+  //     console.error("Selected country does not contain a name property:", value);
+  //   }
+  // };
+  
+
+  const handleAddressChange = (event) => {
+    console.log("Address:", event.target.value);
+    setAddress(event.target.value);
+  };
+
+  const handleCityChange = (event) => {
+    console.log("City:", event.target.value);
+    setCity(event.target.value);
+  };
+
+  const handleStateChange = (event) => {
+    console.log("State:", event.target.value);
+    setState(event.target.value);
+  };
+
+  const handlePincodeChange = (event) => {
+    console.log("Pincode:", event.target.value);
+    setPincode(event.target.value);
+  };
 
   const handleTimeDifferenceChange = (event) => {
+    console.log("Time Difference:", event.target.value);
     setTimeDifference(event.target.value);
   };
-
-  // Fetch cities based on the selected state
-  const handleStateChange = (_, value) => {
-    setSelectedState(value);
-    const stateId = value?.value?.id;
-    const cities = stateId ? State.getCities(stateId) : [];
-    // Update cities dropdown
-    setCities(cities);
-  };
-
+  
   const countries = Country.getAllCountries();
   const countryOptions = countries.map((country) => ({ value: country, label: country.name }));
 
-
+  const handleSaveOrUpdate = () => {
+    const payload = new URLSearchParams({
+      name: propertyName,
+      type_id: propertyType,
+      address: address,
+      city: city,
+      state: state,
+      country: country,
+      pin_code: pincode,
+      timezone: timeDifference
+    });
+  
+    const url = 'http://35.239.192.201:9092/api/property';
+  
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: payload.toString()
+    })
+    .then(response => {
+      if (response.ok) {
+        toast.success('Property saved successfully');
+        // Redirect or perform any action upon successful save
+      } else {
+        response.text().then(errorMessage => {
+          toast.error(errorMessage || 'Failed to save property');
+        });
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      toast.error('An error occurred while processing your request');
+    });
+  };
+  
 
   // console.log(dropdownData);
   return (
@@ -77,12 +159,12 @@ const PropertyOnboarding = ({ dropdownData }) => {
       <Grid container spacing={2}>
         {/* Left side */}
         <Grid md={7} sm={12} xs={12} padding="15px" spacing={2}>
-          <Grid item xs={12} md={12}>
-            <CustomTextField label="Property Name / ID" />
-          </Grid>
-          <Grid item xs={12} md={12} marginTop={3} >
-            <CustomSearch label="search by name or location" />
-          </Grid>
+        <Grid item xs={12} md={12}>
+          <CustomTextField label="Property Name / ID" value={propertyName} onChange={handlePropertyNameChange} />
+        </Grid>
+        <Grid item xs={12} md={12} marginTop={3}>
+          <CustomSearch label="Search by name or location" value={searchQuery} onChange={handleSearchQueryChange} />
+        </Grid>
 
           <Box marginTop={2}>
             <MapContainer />
@@ -104,15 +186,15 @@ const PropertyOnboarding = ({ dropdownData }) => {
               </CustomDropdown>
             </Grid>
             <Grid item xs={12}>
-              <CustomTextField label="Address" />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextField label="City" />
-            </Grid>
-            <Grid item xs={12}>
-              <CustomTextField label="State" />
-            </Grid>
-            <Grid item xs={12}>
+          <CustomTextField label="Address" value={address} onChange={handleAddressChange} />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextField label="City" value={city} onChange={handleCityChange} />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomTextField label="State" value={state} onChange={handleStateChange} />
+        </Grid>
+            {/* <Grid item xs={12}>
               <FormControl>
                 <Autocomplete
                   options={countryOptions}
@@ -130,10 +212,13 @@ const PropertyOnboarding = ({ dropdownData }) => {
                   )}
                 />
               </FormControl>
-            </Grid>
+            </Grid> */}
+             <Grid item xs={12} md={12}>
+                    <CustomTextField label="Country" value={country} onChange={handleCountryChange}/>
+                </Grid>
             <Grid item xs={12}>
-              <CustomTextField label="Pincode" />
-            </Grid>
+          <CustomTextField label="Pincode" value={pincode} onChange={handlePincodeChange} />
+        </Grid>
             <Grid item xs={12}>
               <CustomDropdown label="Time" value={timeDifference}
                 onChange={handleTimeDifferenceChange} >
@@ -145,6 +230,9 @@ const PropertyOnboarding = ({ dropdownData }) => {
               </CustomDropdown>
             </Grid>
           </Grid>
+          <Button variant="contained" color="primary" onClick={handleSaveOrUpdate} sx={{ mr: 1, mt: 3 }}>
+                Save
+              </Button>
         </Grid>
       </Grid>
     </Box>

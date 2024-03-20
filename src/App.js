@@ -41,6 +41,7 @@ function App() {
             <Route path="/devicesinside" element={<DevicesInside />} />
             <Route path="/users" element={<Users />} />
             <Route path="/edituser" element={<EditUser />} />
+            <Route path="/edituser/:id" element={<EditUser />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/settingsinside" element={<SettingsInside />} />
             <Route path="/myprofile" element={<MyProfile />} />
