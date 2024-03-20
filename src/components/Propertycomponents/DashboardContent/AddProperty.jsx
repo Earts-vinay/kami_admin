@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import CustomTextField from '../../CommonComponent/CustomTextField';
 import CustomSearch from '../../CommonComponent/CustomSearch';
 import CustomDropdown from '../../CommonComponent/CustomDropdown';
+import HeaderLayout from '../../CommonComponent/HeaderLayout';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -125,17 +126,17 @@ const AddProperty = () => {
       type_id: propertyType.id,
       // description: searchInput,
       address: address,
-      city: '', 
+      city: '',
       state: state,
       country: country,
       pin_code: pincode,
       timezone: timeZone
     });
-  
+
     const url = propertyId ? `http://35.239.192.201:9092/api/property/${propertyId}` : 'http://35.239.192.201:9092/api/property';
-  
+
     const method = propertyId ? 'PUT' : 'POST';
-  
+
     fetch(url, {
       method: method,
       headers: {
@@ -159,7 +160,7 @@ const AddProperty = () => {
         toast.error('An error occurred while processing your request');
       });
   };
-  
+
 
 
   const { id } = useParams();
@@ -207,81 +208,72 @@ const AddProperty = () => {
   }, []);
 
   return (
-    <div style={{ display: 'flex' }}>
-      <SideNav open={isOpen} handleToggle={handleToggle} />
-      <div style={{
-        marginLeft: isOpen ? '220px' : '90px',
-        padding: '10px', width: '100%', transition: 'margin 0.3s ease'
-      }}>
-        <div style={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", marginRight: "10px", overflow: "auto" }}>
-
-          <Box sx={{ padding: "20px" }}>
-            <Grid container spacing={2}>
-              <Grid md={6} sm={12} xs={12} padding="10px" spacing={2}>
-                <Grid item xs={12} md={12}>
-                  <CustomTextField  label="Property Name" value={propertyName}  onChange={handlePropertyChange}/>
-                </Grid>
-                <Grid item xs={12} md={12} sm={12} marginTop={3} >
-<CustomSearch label="Search"  value={searchInput} onChange={handleSearchInputChange}/>
-                </Grid>
-
-                <Box marginTop={2}>
-                  <MapContainer />
-                </Box>
-              </Grid>
-
-              <Grid md={6} paddingLeft="25px" paddingY="10px" container spacing={2}>
-                <Grid item xs={12} md={12}>
-               
-                  <CustomDropdown label="Property Type"  value={propertyId ? propertyType1 : propertyType.id || ''}  onChange={handlePropertyTypeChange}>
-                  {propertyId ? (
-                      <MenuItem value={propertyType1}>{propertyType1}</MenuItem>
-                    ) : (
-                      propertyTypes.map((type, index) => (
-                        <MenuItem key={index} value={type.id}>{type.name}</MenuItem>
-                      ))
-                    )}
-                  </CustomDropdown>
-                </Grid>
-                <Grid item xs={12} md={12}>
-                    <CustomTextField label="Address" value={address}  onChange={handleAddressChange}/>             
-                </Grid>
-                <Grid item xs={12} md={12}>
-                    <CustomTextField label="City" value={city}  onChange={handleCityChange}/>
-                </Grid>
-                <Grid item xs={12} md={12}>
-                    <CustomTextField label="State" value={state}  onChange={handleStateChange}/>
-                </Grid>
-                <Grid item xs={12} md={12}>
-                    <CustomTextField label="Country" value={country} onChange={handleCountryChange}/>
-                </Grid>
-                <Grid item xs={12} md={12}>
-                    <CustomTextField label="Pincode" value={pincode}  onChange={handlePincodeChange}/>
-                </Grid>
-                <Grid item xs={12} md={12}>
-                  <CustomDropdown value={timeZone}    onChange={handleTimeZoneChange}>
-                  <MenuItem value="option1">Option 1</MenuItem>
-                    <MenuItem value="option2">Option 2</MenuItem>
-                  </CustomDropdown  >
-                </Grid>
-              </Grid>
+    <HeaderLayout>
+      <Box sx={{ padding: "20px" }}>
+        <Grid container spacing={2}>
+          <Grid md={6} sm={12} xs={12} padding="10px" spacing={2}>
+            <Grid item xs={12} md={12}>
+              <CustomTextField label="Property Name" value={propertyName} onChange={handlePropertyChange} />
+            </Grid>
+            <Grid item xs={12} md={12} sm={12} marginTop={3} >
+              <CustomSearch label="Search" value={searchInput} onChange={handleSearchInputChange} />
             </Grid>
 
-
-            <Box sx={{ marginTop: '20px', gap: "10px", display: "flex", justifyContent: "center" }}>
-              <CustomButton onClick={() => handleTableRowClick()}>Back</CustomButton>
-
-              {propertyId ? (
-                <CustomButton onClick={handleSaveOrUpdate}>Update</CustomButton>
-              ) : (
-                <CustomButton onClick={handleSaveOrUpdate}>Save</CustomButton>
-              )}
+            <Box marginTop={2}>
+              <MapContainer />
             </Box>
+          </Grid>
 
-          </Box>
-        </div>
-      </div>
-    </div>
+          <Grid md={6} paddingLeft="25px" paddingY="10px" container spacing={2}>
+            <Grid item xs={12} md={12}>
+
+              <CustomDropdown label="Property Type" value={propertyId ? propertyType1 : propertyType.id || ''} onChange={handlePropertyTypeChange}>
+                {propertyId ? (
+                  <MenuItem value={propertyType1}>{propertyType1}</MenuItem>
+                ) : (
+                  propertyTypes.map((type, index) => (
+                    <MenuItem key={index} value={type.id}>{type.name}</MenuItem>
+                  ))
+                )}
+              </CustomDropdown>
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <CustomTextField label="Address" value={address} onChange={handleAddressChange} />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <CustomTextField label="City" value={city} onChange={handleCityChange} />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <CustomTextField label="State" value={state} onChange={handleStateChange} />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <CustomTextField label="Country" value={country} onChange={handleCountryChange} />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <CustomTextField label="Pincode" value={pincode} onChange={handlePincodeChange} />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <CustomDropdown value={timeZone} onChange={handleTimeZoneChange}>
+                <MenuItem value="option1">Option 1</MenuItem>
+                <MenuItem value="option2">Option 2</MenuItem>
+              </CustomDropdown  >
+            </Grid>
+          </Grid>
+        </Grid>
+
+
+        <Box sx={{ marginTop: '20px', gap: "10px", display: "flex", justifyContent: "center" }}>
+          <CustomButton onClick={() => handleTableRowClick()}>Back</CustomButton>
+
+          {propertyId ? (
+            <CustomButton onClick={handleSaveOrUpdate}>Update</CustomButton>
+          ) : (
+            <CustomButton onClick={handleSaveOrUpdate}>Save</CustomButton>
+          )}
+        </Box>
+
+      </Box>
+    </HeaderLayout>
   );
 };
 

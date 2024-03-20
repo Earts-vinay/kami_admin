@@ -10,6 +10,7 @@ import { MuiTelInput } from 'mui-tel-input';
 import CustomButton from '../CommonComponent/CustomButton';
 import CustomTextField from '../CommonComponent/CustomTextField';
 import CustomDropdown from '../CommonComponent/CustomDropdown';
+import HeaderLayout from '../CommonComponent/HeaderLayout';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -48,15 +49,8 @@ const EditUser = () => {
 
 
   return (
-    <div style={{ display: 'flex' }}>
-      <SideNav open={isOpen} handleToggle={handleToggle} />
-      <div style={{
-        marginLeft: isOpen ? '220px' : '90px', padding: '10px', width: '100%', transition: 'margin 0.3s ease'
-      }}>
-        <Box sx={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", marginRight: "10px" }}>
-
-
-          <Box sx={{ display: "flex", gap: "40px", justifyContent: "start", alignItems: "start", }}>
+  <HeaderLayout>
+    <Box sx={{ display: "flex", gap: "40px", justifyContent: "start", alignItems: "start", }}>
             <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
               <Box sx={{ padding: '40px', width: '20%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '40px', }}>
                 <img src={imageSrc} alt="" width="200px" />
@@ -149,10 +143,7 @@ const EditUser = () => {
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
          <CustomButton>Save</CustomButton>
           </Grid>
-        </Box>
-      </div>
-
-    </div>
+  </HeaderLayout>
 
   );
 };

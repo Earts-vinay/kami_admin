@@ -8,10 +8,11 @@ import DeviceSetup from './DeviceParingContent/DeviceSetup';
 import DeviceView from './DeviceParingContent/DeviceView';
 import AddLineOrPolygon from './DeviceParingContent/AddLineOrPolygon';
 import CustomButton from '../../../../CommonComponent/CustomButton';
+import HeaderLayout from '../../../../CommonComponent/HeaderLayout';
 
 const commonStyles = {
     fontFamily: "montserrat-regular",
-  };
+};
 const DevicesParing = () => {
     const [activeStep, setActiveStep] = useState(0);
     const navigate = useNavigate();
@@ -40,73 +41,67 @@ const DevicesParing = () => {
     };
 
     return (
-        <div style={{ display: 'flex' }}>
-            <SideNav open={isOpen} handleToggle={handleToggle} />
-            <div style={{
-                marginLeft: isOpen ? '220px' : '90px',
-                padding: '10px', width: '100%', transition: 'margin 0.3s ease'
-            }}>
-                <Box style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', overflow: "auto" }}>
-                    <Box padding="15px"  flexGrow={1}>
-                        <Typography varient="h6" sx={commonStyles} >Pair a new Device / Camera</Typography>
-                        <Typography varient="body-2" sx={commonStyles} fontSize="12px">Configure the device and setup the events that you want each camera to detect.</Typography>
-                    </Box>
-                    <Box paddingY="10px">
-                        <Stepper activeStep={activeStep} alternativeLabel>
-                            <Step>
-                                <StepLabel sx={commonStyles}>Devices Setup</StepLabel>
-                            </Step>
-                            <Step>
-                                <StepLabel sx={commonStyles}>View Setup</StepLabel>
-                            </Step>
-                            <Step>
-                                <StepLabel sx={commonStyles}>Add Lines & Polygons </StepLabel>
-                            </Step>
-                        </Stepper>
-                    </Box>
+        <HeaderLayout>
+            <Box padding="15px" flexGrow={1}>
+                <Typography varient="h6" sx={commonStyles} >Pair a new Device / Camera</Typography>
+                <Typography varient="body-2" sx={commonStyles} fontSize="12px">Configure the device and setup the events that you want each camera to detect.</Typography>
+            </Box>
+            <Box paddingY="10px">
+                <Stepper activeStep={activeStep} alternativeLabel>
+                    <Step>
+                        <StepLabel sx={commonStyles}>Devices Setup</StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel sx={commonStyles}>View Setup</StepLabel>
+                    </Step>
+                    <Step>
+                        <StepLabel sx={commonStyles}>Add Lines & Polygons </StepLabel>
+                    </Step>
+                </Stepper>
+            </Box>
 
-                    <Box sx={{ display: "flex", flexDirection: "column", overflow: "auto" }}>
-                        {activeStep === 0 && (
-                            <Box>
-                                <DeviceSetup />
-                            </Box>
-                        )}
-                        {activeStep === 1 && (
-                            <Box>
-                                <DeviceView />
-                            </Box>
-                        )}
-                        {activeStep === 2 && (
-                            <Box>
-                                <AddLineOrPolygon />
-                            </Box>
-                        )}
+            <Box sx={{ display: "flex", flexDirection: "column", overflow: "auto" }}>
+                {activeStep === 0 && (
+                    <Box>
+                        <DeviceSetup />
                     </Box>
+                )}
+                {activeStep === 1 && (
+                    <Box>
+                        <DeviceView />
+                    </Box>
+                )}
+                {activeStep === 2 && (
+                    <Box>
+                        <AddLineOrPolygon />
+                    </Box>
+                )}
+            </Box>
 
-                    {/* Buttons */}
-                    <Box sx={{ display: "flex", justifyContent: "center",gap:'10px' }}>
-                        {activeStep === 0 && (
-                            <>
-                            <CustomButton onClick={handleBack} sx={{ mr: 1 }}>Cancel</CustomButton>
-                            <CustomButton onClick={handleNext} sx={{ mr: 1 }}>Next</CustomButton>
-                            </>
-                        )}
-                        {activeStep !== 0 && activeStep !== 2 && (
-                            <>
-                            <CustomButton onClick={handleBack} sx={{ mr: 1 }}>Back</CustomButton>
-                            <CustomButton onClick={handleNext} sx={{ mr: 1 }}>Next</CustomButton>                     
-                            </>
-                        )}
-                        {activeStep === 2 && (
-                            <>
-                            <CustomButton onClick={handleBack} sx={{ mr: 1 }}>Back</CustomButton>
-                            <CustomButton onClick={handleReset} sx={{ mr: 1 }}>Save</CustomButton>
-                            </>
-                        )}
-                    </Box>
-                </Box>
-            </div>
-        </div>
+            {/* Buttons */}
+            <Box sx={{ display: "flex", justifyContent: "center", gap: '10px' }}>
+                {activeStep === 0 && (
+                    <>
+                        <CustomButton onClick={handleBack} sx={{ mr: 1 }}>Cancel</CustomButton>
+                        <CustomButton onClick={handleNext} sx={{ mr: 1 }}>Next</CustomButton>
+                    </>
+                )}
+                {activeStep !== 0 && activeStep !== 2 && (
+                    <>
+                        <CustomButton onClick={handleBack} sx={{ mr: 1 }}>Back</CustomButton>
+                        <CustomButton onClick={handleNext} sx={{ mr: 1 }}>Next</CustomButton>
+                    </>
+                )}
+                {activeStep === 2 && (
+                    <>
+                        <CustomButton onClick={handleBack} sx={{ mr: 1 }}>Back</CustomButton>
+                        <CustomButton onClick={handleReset} sx={{ mr: 1 }}>Save</CustomButton>
+                    </>
+                )}
+            </Box>
+        </HeaderLayout>
+
+
     )
 }
 

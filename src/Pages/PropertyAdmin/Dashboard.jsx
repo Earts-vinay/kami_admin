@@ -8,6 +8,7 @@ import SideNav from '../../components/SideNav';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { useNavigate } from 'react-router-dom';
+import HeaderLayout from '../../components/CommonComponent/HeaderLayout';
 
 
 const commonStyles = {
@@ -54,14 +55,8 @@ const Dashboard = () => {
 
   return (
 
-    <div style={{ display: 'flex' }}>
-    <SideNav open={isOpen} handleToggle={handleToggle} />
-    <div style={{
-      marginLeft: isOpen ? '220px' : '90px',
-      padding: '10px', width: '100%', transition: 'margin 0.3s ease'
-    }}>
-      <div style={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", marginRight: "10px" }}>
-        <Box padding="10px">
+<HeaderLayout>
+<Box padding="10px">
           {/* Add Property Button */}
          
 
@@ -92,9 +87,7 @@ const Dashboard = () => {
             </Box>
           </Box>
         </Box>
-      </div>
-    </div>
-  </div>
+</HeaderLayout>      
 
   );
 };
