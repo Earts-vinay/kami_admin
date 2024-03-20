@@ -14,9 +14,9 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import { toast } from 'react-toastify';
+import HeaderLayout from '../CommonComponent/HeaderLayout';
 
 const BaseUrl = process.env.REACT_APP_API_URL
-import HeaderLayout from '../CommonComponent/HeaderLayout';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
