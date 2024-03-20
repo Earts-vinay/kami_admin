@@ -10,17 +10,25 @@ import ContactEmergencyOutlinedIcon from '@mui/icons-material/ContactEmergencyOu
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import sideButton from '../assets/sideButton.svg';
 import { selectIsAuthenticated, selectUser } from '../redux/apiResponse/authSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectUrls } from '../redux/onBoarding/onboardingCompanySlice';
+import { clearTokenAndUser } from '../redux/apiResponse/loginApiSlice';
 
 const SideNav = ({ open, handleToggle }) => {
     const location = useLocation();
     const isActive = (path) => location.pathname === path;
+    const dispatch = useDispatch();
 
     const user = useSelector(selectUser);
 
     const userLevel = user && user.role ? user.role.level : null;
 
     // console.log(userLevel);
+
+    const urls = useSelector(selectUrls);
+    // console.log(urls);
+
+    const logoUrl = urls.length > 0 ? urls[0] : (open ? "assets/logos/logo.png" : "assets/logos/smalllogo.svg");
 
     const useStyles = () => ({
         drawer: {
@@ -71,6 +79,11 @@ const SideNav = ({ open, handleToggle }) => {
         marginBottom: "15px", // Add some gap between list items
     };
 
+    const handleLogout = () => {
+        dispatch(clearTokenAndUser());
+    };
+    
+
     return (
         <>
             <Drawer
@@ -91,15 +104,31 @@ const SideNav = ({ open, handleToggle }) => {
             >
                 <div className={classes.drawerContainer}>
                     <List>
-                        <Box display="flex" justifyContent="center" px={2} mb={open ? 2 : 0} pt={3}>
-                            <img
-                                src={open ? "assets/logos/logo.png" : "assets/logos/smalllogo.svg"}
-                                alt="Logo"
+                        <Box
+                            display="flex"
+                            justifyContent="center"
+                            alignItems="center"
+                            px={2}
+                            mb={open ? 2 : 0}
+                            pt={3}
+                            style={{
+                                backgroundColor: open ? 'rgba(0, 0, 0, 0)' : 'inherit', 
+                                width: open ? '180px' : 'auto', 
+                                height: open ? '50px' : 'auto', 
+                            }}
+                        >
+                            <div
                                 className={classes.logo}
                                 style={{
-                                    display: open ? 'block' : 'none',
                                     width: open ? '180px' : '50px',
-                                    transition: 'width 0.3s ease'
+
+
+                                    height: '100%',
+                                    backgroundImage: `url(${logoUrl})`,
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundSize: 'contain',
+                                    backgroundPosition: 'center',
+                                    transition: 'width 0.3s ease', 
                                 }}
                             />
                         </Box>
@@ -118,12 +147,12 @@ const SideNav = ({ open, handleToggle }) => {
                         <ListItem
                             button
                             component={Link}
-                            to={userLevel === 'company' ? "/organization" : "/dashboard"} 
+                            to={userLevel === 'company' ? "/organization" : "/dashboard"}
                             sx={listItemStyle}
                             className={isActive(userLevel === 'company' ? "/organization" : "/dashboard") ? "active" : ""}
                         >
                             <ListItemIcon style={{ fontSize: '24px' }}>
-                                {userLevel === 'company' ? <DashboardIcon /> : <DashboardIcon />} 
+                                {userLevel === 'company' ? <DashboardIcon /> : <DashboardIcon />}
                             </ListItemIcon>
                             <ListItemText primary={open && (userLevel === 'company' ? 'Organization' : 'Dashboard')} />
                         </ListItem>
@@ -182,6 +211,7 @@ const SideNav = ({ open, handleToggle }) => {
                             to="/"
                             sx={listItemStyle}
                             className={isActive("/") ? "active" : ""}
+                            onClick={handleLogout}
                         >
                             <ListItemIcon>
                                 <ExitToAppOutlinedIcon />

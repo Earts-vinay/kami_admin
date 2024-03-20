@@ -15,4 +15,6 @@ const onboardingCompanySlice = createSlice({
 
 export const { setUploadResponse } = onboardingCompanySlice.actions;
 
+export const selectUrls = state => state.onboardingcompany.urls; 
+
 export default onboardingCompanySlice.reducer;

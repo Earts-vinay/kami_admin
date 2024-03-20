@@ -130,14 +130,19 @@ const OnboardingCompany = ({ dropdownData }) => {
   const industries = useSelector(state => state.dictionary.data);
   console.log(industries);
 
-  const industryid = industries && industries.data && industries.data.industrys?.length > 0
-    ? industries.data.industrys[0].id
-    : "";
+  const industryIds = industries && industries.data && industries.data.company_industrys
+    ? industries.data.company_industrys.map(industry => industry.id)
+    : [];
+
+  // console.log(industryIds);
+
+  const industryid = industryIds.length > 0 ? industryIds[0] : "";
+
+  // console.log(industryid);
 
   useState(() => {
     setIndustryId(industryid);
   }, [industryid]);
-
 
 
   const handleSave = async () => {
@@ -154,7 +159,7 @@ const OnboardingCompany = ({ dropdownData }) => {
           logo_url: selectUrls || [],
           industry_id: industryId || '',
           timeZone: timeDifference,
-          description: '',
+          description: searchValue,
         },
         {
           headers: {
@@ -178,19 +183,19 @@ const OnboardingCompany = ({ dropdownData }) => {
     }
   };
 
-  console.log("dropdown",dropdownData);
+  // console.log("dropdown", dropdownData);
   return (
     <Box sx={{ padding: '20px' }}>
       <Grid container spacing={3}>
 
         {/* Company Name */}
         <Grid item xs={7} >
-          <CustomTextField label="Company Name"  value={companyName}  onChange={handleCompanyNameChange} borderColor="green" />
+          <CustomTextField label="Company Name" value={companyName} onChange={handleCompanyNameChange} borderColor="green" />
         </Grid>
 
         <Grid item xs={5}>
-          <CustomDropdown label="Industry" value={industry}  onChange={(e) => setIndustry(e.target.value)}> 
-          {dropdownData && dropdownData?.data && dropdownData?.data?.company_industrys && dropdownData?.data?.company_industrys.map((industry) => (
+          <CustomDropdown label="Industry" value={industry} onChange={(e) => setIndustry(e.target.value)}>
+            {dropdownData && dropdownData?.data && dropdownData?.data?.company_industrys && dropdownData?.data?.company_industrys.map((industry) => (
               <MenuItem key={industry.id} value={industry.id}>
                 {industry.name}
               </MenuItem>
@@ -199,46 +204,46 @@ const OnboardingCompany = ({ dropdownData }) => {
         </Grid>
 
         {/* Logo Upload Section */}
-        <Grid item xs={12}  padding="0px">
+        <Grid item xs={12} padding="0px">
           <Typography variant="body2" sx={commonStyles} marginBottom="10px">Logo</Typography>
-          <Box sx={{ background: '#E3EBFC',padding:'8px',borderRadius:"5px"}}>
-          <Box
-            sx={{
-             
-              padding: '20px',
-              display: 'flex',
-              justifyContent: 'space-around',
-              alignItems: 'center',
-              borderRadius: '5px',
-              border:"1px dotted #2465e9"
-            }}
-          >
-            <div {...getRootProps()} style={{ cursor: 'pointer', marginTop: '5px', display: 'flex', alignItems: 'center', gap: '20px',justifyContent:"space-around" }}>
-              <input {...getInputProps()} />
-              <img src="assets/icons/uploadicon.svg" alt="" />
-              <Box>
-                <Typography sx={{ color: '#2465e9',...commonStyles }}>Drag Your logo here</Typography>
-                <Box display="flex" flexDirection="column">
-                  <Typography variant="body-2" sx={commonStyles} >Preferred File 512*512</Typography>
-                  <Typography variant="body-2" sx={commonStyles}>Format Supported .jpg & .png</Typography>
-                </Box>
-              </Box>
-            </div>
-            <Typography sx={commonStyles}>- OR -</Typography>
-            <Box>
-              <CustomButton {...getRootProps()}>
+          <Box sx={{ background: '#E3EBFC', padding: '8px', borderRadius: "5px" }}>
+            <Box
+              sx={{
+
+                padding: '20px',
+                display: 'flex',
+                justifyContent: 'space-around',
+                alignItems: 'center',
+                borderRadius: '5px',
+                border: "1px dotted #2465e9"
+              }}
+            >
+              <div {...getRootProps()} style={{ cursor: 'pointer', marginTop: '5px', display: 'flex', alignItems: 'center', gap: '20px', justifyContent: "space-around" }}>
                 <input {...getInputProps()} />
-                Browse Files
-              </CustomButton>
+                <img src="assets/icons/uploadicon.svg" alt="" />
+                <Box>
+                  <Typography sx={{ color: '#2465e9', ...commonStyles }}>Drag Your logo here</Typography>
+                  <Box display="flex" flexDirection="column">
+                    <Typography variant="body-2" sx={commonStyles} >Preferred File 512*512</Typography>
+                    <Typography variant="body-2" sx={commonStyles}>Format Supported .jpg & .png</Typography>
+                  </Box>
+                </Box>
+              </div>
+              <Typography sx={commonStyles}>- OR -</Typography>
+              <Box>
+                <CustomButton {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  Browse Files
+                </CustomButton>
+              </Box>
             </Box>
           </Box>
-          </Box>
-        
+
         </Grid>
 
         {/* Left Side */}
         <Grid item md={7} xs={12} paddingX="0px">
-          <CustomSearch  label="Search by name or location"  value={searchValue} onChange={handleSearchChange}/>
+          <CustomSearch label="Search by name or location" value={searchValue} onChange={handleSearchChange} />
           {/* Implement Map */}
           <Box marginTop={1}>
             <MapContainer />
@@ -249,33 +254,34 @@ const OnboardingCompany = ({ dropdownData }) => {
         <Grid item md={5} xs={12} paddingX="20px">
           <Grid container spacing={3}>
             <Grid item xs={12}>
-              <CustomTextField label="Address" value={address} onChange={handleAddressChange}  />
+              <CustomTextField label="Address" value={address} onChange={handleAddressChange} />
             </Grid>
 
             <Grid item xs={12}>
-              <CustomTextField  label="City" value={city} onChange={handleCityChange}/> 
+              <CustomTextField label="City" value={city} onChange={handleCityChange} />
             </Grid>
 
             <Grid item xs={12}>
-              <CustomTextField label="State"  value={state} onChange={handleStateChange}/>
+              <CustomTextField label="State" value={state} onChange={handleStateChange} />
             </Grid>
 
             <Grid item xs={12}>
-              <CustomTextField  label="Country" value={country} onChange={handleCountryChange}/>
+              <CustomTextField label="Country" value={country} onChange={handleCountryChange} />
             </Grid>
 
             <Grid item xs={12}>
-              <CustomTextField label="Pincode" value={pincode}  onChange={handlePincodeChange}/>
+              <CustomTextField label="Pincode" value={pincode} onChange={handlePincodeChange} />
             </Grid>
 
             <Grid item xs={12}>
-             <CustomDropdown label="Time" >
-             <MenuItem value="">Select Time Difference</MenuItem>
+              <CustomDropdown label="Time" value={timeDifference}
+                onChange={handleTimeDifferenceChange} >
+                <MenuItem value="">Select Time Difference</MenuItem>
                 <MenuItem value="-12">UTC-12</MenuItem>
                 <MenuItem value="-11">UTC-11</MenuItem>
                 <MenuItem value="-10">UTC-10</MenuItem>
                 <MenuItem value="-9">UTC-9</MenuItem>
-             </CustomDropdown>
+              </CustomDropdown>
               <Button variant="contained" color="primary" onClick={handleSave} sx={{ mr: 1, mt: 3 }}>
                 Save
               </Button>
