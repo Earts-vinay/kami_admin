@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import SideNav from '../../components/SideNav';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CommonComponent/CustomButton';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
@@ -22,19 +22,69 @@ const MapContainer = () => {
     width: '100%',
     borderRadius: "10px"
   };
+  const defaultCenter={
+    lat: 17.4399,
+      lng: 78.4983
+  }
+  const { isLoaded } = useJsApiLoader({
+    id: '2baa9d8a0c4e66b5',
+    googleMapsApiKey: "AIzaSyCRQBtQkOyqMNr0YheCgm9LVbvjRtnbo6Y"
+  })
+  const [map, setMap] = React.useState(null)
+  const onLoad = React.useCallback(function callback(map) {
+    // This is just an example of getting and using the map instance!!! don't just blindly copy!
+    const bounds = new window.google.maps.LatLngBounds(defaultCenter);
+    map.fitBounds(bounds);
 
-  const defaultCenter = {
-    lat: 37.7749, // Default latitude
-    lng: -122.4194, // Default longitude
-  };
+    setMap(map)
+  }, [])
+
+  const onUnmount = React.useCallback(function callback(map) {
+    setMap(null)
+  }, [])
+
+  const hyderabadAreas = [
+    {
+      lat: 17.4489, // Hitech City latitude
+      lng: 78.3907, // Hitech City longitude
+    },
+    {
+      lat: 17.3616, // Charminar latitude
+      lng: 78.4747, // Charminar longitude
+    },
+    {
+      lat: 17.4432, // Gachibowli latitude
+      lng: 78.3497, // Gachibowli longitude
+    },
+    {
+      lat: 17.4156, // Banjara Hills latitude
+      lng: 78.4347, // Banjara Hills longitude
+    },
+    {
+      lat: 17.4399, // Secunderabad latitude
+      lng: 78.4983, // Secunderabad longitude
+    },
+  ];
+ 
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyCRQBtQkOyqMNr0YheCgm9LVbvjRtnbo6Y">
-      <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={defaultCenter}>
-        {/* You can customize the map as needed */}
-        <Marker position={defaultCenter} />
-      </GoogleMap>
-    </LoadScript>
+    <React.Fragment>
+      {
+        isLoaded?(<GoogleMap mapContainerStyle={mapStyles} zoom={10} center={defaultCenter}  onLoad={onLoad}
+          onUnmount={onUnmount}>
+          {/* You can customize the map as needed */}
+         {
+          hyderabadAreas.map((obj,val)=>{
+            return  <MarkerF key={val} position={obj} />
+          })
+         }
+        </GoogleMap>):(<div>
+          loading...
+          </div>)
+      }
+
+    </React.Fragment>
+       
   );
 };
 

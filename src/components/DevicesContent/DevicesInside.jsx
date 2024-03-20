@@ -5,6 +5,7 @@ import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavS
 import { useNavigate } from 'react-router-dom';
 import SearchIcon from '@mui/icons-material/Search';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, TextField, InputAdornment } from '@mui/material';
+import HeaderLayout from '../CommonComponent/HeaderLayout';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -27,14 +28,8 @@ const DevicesInside = () => {
 
   return (
     <>
-      <div style={{ display: 'flex' }}>
-        <SideNav open={isOpen} handleToggle={handleToggle} />
-        <div style={{ 
-          marginLeft: isOpen ? '220px' : '90px',
-          padding: '10px', width: '100%', transition: 'margin 0.3s ease' }}>
-            <div style={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", marginRight: "10px" }}>
-
-            <Box sx={{ paddingTop: "10px", textAlign: "end" }}>
+ <HeaderLayout>
+ <Box sx={{ paddingTop: "10px", textAlign: "end" }}>
             <TextField
               label="Search"
               fontSize="14px"
@@ -85,9 +80,7 @@ const DevicesInside = () => {
               </TableBody>
             </Table>
           </TableContainer>
-        </div>
-        </div>
-      </div>
+ </HeaderLayout>
     </>
   );
 };
