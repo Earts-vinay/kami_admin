@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, InputAdornment, Popover, FormControlLabel, Checkbox, Typography, CircularProgress } from '@mui/material';
+import { Box, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Button, InputAdornment, Popover, FormControlLabel, Checkbox, Typography, CircularProgress, Dialog, DialogContent, DialogActions } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CommonComponent/CustomButton';
 import CustomSearch from '../../components/CommonComponent/CustomSearch';
 import HeaderLayout from '../../components/CommonComponent/HeaderLayout';
+import CloseIcon from '@mui/icons-material/Close';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -21,6 +22,7 @@ const Users = () => {
   const isOpen = useSelector(selectIsSideNavOpen);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
   const handleToggle = () => {
     dispatch(toggleSideNav());
@@ -68,6 +70,13 @@ const Users = () => {
     setAnchorEl(null);
   };
 
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const handleAccessLevelChange = (event) => {
     const { value, checked } = event.target;
     if (checked) {
@@ -158,8 +167,8 @@ const Users = () => {
                         <IconButton color="primary" aria-label="edit">
                           <img src="assets/icons/editicon.svg" alt="" width="35px" />
                         </IconButton>
-                        <IconButton color="secondary" aria-label="delete">
-                          <img src="assets/icons/deleteicon.svg" alt="" width="35px" />
+                        <IconButton color="secondary" aria-label="delete" >
+                          <img src="assets/icons/deleteicon.svg" alt="" width="35px" onClick={handleOpen}/>
                         </IconButton>
                       </TableCell>
                     </TableRow>
@@ -168,6 +177,32 @@ const Users = () => {
               </TableBody>
             </Table>
           </TableContainer>
+
+          <Dialog open={open} onClose={handleClose}>
+         <Typography backgroundColor=" #2465e9" color="white" borderRadius="5px 5px 0px 0px" p={2} sx={commonStyles}>
+           Delete User
+         </Typography>
+         <CloseIcon
+          sx={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            color: 'white',
+            cursor: 'pointer',
+            paddingY: '6px',
+            paddingX: '10px',
+          }}
+          onClick={handleClose}
+        />
+        <DialogContent>
+          <Typography width="500px" sx={commonStyles}>Please Confirm to Delete user</Typography>
+         
+        </DialogContent>
+        <DialogActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <CustomButton onClick={handleClose}>Cancel</CustomButton>
+          <CustomButton onClick={handleClose}>Delete</CustomButton>
+        </DialogActions>
+      </Dialog>
  </HeaderLayout>
       
    

@@ -84,9 +84,7 @@ const MapContainer = () => {
       }
 
     </React.Fragment>
-    
-      
-    
+       
   );
 };
 
