@@ -5,7 +5,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import CustomSearch from '../CommonComponent/CustomSearch';
 import CustomTextField from '../CommonComponent/CustomTextField';
 import CustomDropdown from '../CommonComponent/CustomDropdown';
-import  Autocomplete  from '@mui/material/Autocomplete';
+import Autocomplete from '@mui/material/Autocomplete';
 import { Country, State, City } from 'country-state-city';
 import { FormControl } from '@mui/base';
 
@@ -51,6 +51,12 @@ const PropertyOnboarding = ({ dropdownData }) => {
     setCities([]);
   };
 
+  const [timeDifference, setTimeDifference] = useState('');
+
+  const handleTimeDifferenceChange = (event) => {
+    setTimeDifference(event.target.value);
+  };
+
   // Fetch cities based on the selected state
   const handleStateChange = (_, value) => {
     setSelectedState(value);
@@ -68,11 +74,11 @@ const PropertyOnboarding = ({ dropdownData }) => {
   // console.log(dropdownData);
   return (
     <Box sx={{ padding: "20px" }}>
-    <Grid container spacing={2}>
-      {/* Left side */}
-      <Grid md={7} sm={12} xs={12} padding="15px" spacing={2}>
+      <Grid container spacing={2}>
+        {/* Left side */}
+        <Grid md={7} sm={12} xs={12} padding="15px" spacing={2}>
           <Grid item xs={12} md={12}>
-           <CustomTextField label="Property Name / ID" />
+            <CustomTextField label="Property Name / ID" />
           </Grid>
           <Grid item xs={12} md={12} marginTop={3} >
             <CustomSearch label="search by name or location" />
@@ -85,57 +91,63 @@ const PropertyOnboarding = ({ dropdownData }) => {
           {/* Implement your map component here */}
         </Grid>
 
-      {/* Right side */}
-      <Grid item md={5} spacing={2}>
-        <Grid container spacing={3} >
-          <Grid item xs={12}>
-            <CustomDropdown label="Property Type" value={propertyType} onChange={(e) => setPropertyType(e.target.value)}>
-            {dropdownData && dropdownData.data && dropdownData.data.property_types && dropdownData.data.property_types.map((propertyType) => (
-                <MenuItem key={propertyType.id} value={propertyType.id}>
-                  {propertyType.name}
-                </MenuItem>
-              ))}
-            </CustomDropdown>
-          </Grid>
-          <Grid item xs={12}>
-            <CustomTextField label="Address" />
-          </Grid>
-          <Grid item xs={12}>
-            <CustomTextField label="City" />
-          </Grid>
-          <Grid item xs={12}>
-            <CustomTextField label="State" />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl>
-              <Autocomplete
-                options={countryOptions}
-                value={selectedCountry}
-                onChange={handleCountryChange}
-                getOptionLabel={(option) => option?.label || ''}
-                sx={{"& .MuiOutlinedInput-root": {
-                  padding:"6px",
-                  fontFamily:"montserrat-regular"
-                },}}
-                renderInput={(params) => (
-                  <CustomTextField {...params} label="Country" />
-                )}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item xs={12}>
-            <CustomTextField label="Pincode" />
-          </Grid>
-          <Grid item xs={12}>
-            <CustomDropdown label="Time Zone">
-              <MenuItem value="option1">Option 1</MenuItem>
-              <MenuItem value="option2">Option 2</MenuItem>
-            </CustomDropdown>
+        {/* Right side */}
+        <Grid item md={5} spacing={2}>
+          <Grid container spacing={3} >
+            <Grid item xs={12}>
+              <CustomDropdown label="Property Type" value={propertyType} onChange={(e) => setPropertyType(e.target.value)}>
+                {dropdownData && dropdownData.data && dropdownData.data.property_types && dropdownData.data.property_types.map((propertyType) => (
+                  <MenuItem key={propertyType.id} value={propertyType.id}>
+                    {propertyType.name}
+                  </MenuItem>
+                ))}
+              </CustomDropdown>
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextField label="Address" />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextField label="City" />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextField label="State" />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl>
+                <Autocomplete
+                  options={countryOptions}
+                  value={selectedCountry}
+                  onChange={handleCountryChange}
+                  getOptionLabel={(option) => option?.label || ''}
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      padding: "6px",
+                      fontFamily: "montserrat-regular"
+                    },
+                  }}
+                  renderInput={(params) => (
+                    <CustomTextField {...params} label="Country" />
+                  )}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextField label="Pincode" />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomDropdown label="Time" value={timeDifference}
+                onChange={handleTimeDifferenceChange} >
+                <MenuItem value="">Select Time Difference</MenuItem>
+                <MenuItem value="-12">UTC-12</MenuItem>
+                <MenuItem value="-11">UTC-11</MenuItem>
+                <MenuItem value="-10">UTC-10</MenuItem>
+                <MenuItem value="-9">UTC-9</MenuItem>
+              </CustomDropdown>
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
-  </Box>
+    </Box>
   );
 };
 
