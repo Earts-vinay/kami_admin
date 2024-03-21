@@ -1,6 +1,6 @@
 import React, { useState ,useEffect} from 'react';
-import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@mui/material';
+import { useNavigate, useParams } from 'react-router-dom';
 import SideNav from '../../SideNav';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../../redux/sidenav/sidenavSlice';
@@ -107,7 +107,9 @@ const AddPole = () => {
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
   const [responseData, setResponseData] = useState(null);
-  const [id, setId] = useState('2');
+  const [propertyId, setPropertyId] = useState('2');
+  const {id} = useParams();
+  const [poleId, setPoleId] = useState(id);
   const [query, setQuery] = useState('Hyderabad');
   const [viewport, setViewport] = React.useState({
     
@@ -125,15 +127,42 @@ const AddPole = () => {
     dispatch(toggleSideNav());
   };
 
-  const handleEditPole = () => {
-    navigate(`/viewpole`);
+  const [deleteDataUpdated, setDeleteDataUpdated] = useState(false)
+
+  
+  const handledelete = async(poleId, token) => {
+
+    try {
+      const requestBody = new URLSearchParams({
+          id: poleId.toString()
+      });
+
+      const response = await axios.delete(`${BaseUrl}pole`, {
+          headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Authorization': `Bearer ${token}`
+          },
+          data: requestBody.toString()
+      });
+
+      const data = response.data;
+      console.log(data);
+      if (data.msg === "ok") {
+          console.log(`Record with ID ${poleId} deleted successfully`);
+          setDeleteDataUpdated(true) 
+      } else {
+          console.error('Failed to delete record');
+      }
+  } catch (error) {
+      console.error('Error deleting record:', error);
+  }
   };
 
 
 useEffect(() => {
   try {
     axios.get(
-        `${BaseUrl}pole?property_id=${id}&search=${query}`,
+        `${BaseUrl}pole?property_id=${propertyId}&search=${query}`,
     
         {
           headers: {
@@ -156,8 +185,33 @@ useEffect(() => {
 } catch (error) {
     console.error('Error:', error);
 }
-},[]);
+},[deleteDataUpdated]);
 
+const handleEditPole = async () => {
+  navigate(`/viewpole`);
+
+  try {
+    const response = await axios.put(
+      `${BaseUrl}pole/${poleId}`,
+      {
+        username: userName,
+      },
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': `Bearer ${token}`
+        }
+      }
+    );
+
+    if (response.data.code === 200 && response.data.msg === "ok") {
+      console.log("Success: Pole updated successfully");
+    }
+  } catch (error) {
+    // Handle error scenario
+    console.error('Error:', error);
+  }
+};
   
   const handlePair = () => {
     navigate('/pairdevice');
@@ -183,7 +237,7 @@ useEffect(() => {
         <Box
        
          
-          style={{ height: '90vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px',overflow:"auto" }}
+          style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px',overflow:"auto" }}
         >
 
           <Box textAlign="right" p={1}>
@@ -217,12 +271,22 @@ useEffect(() => {
         <>
           {responseData?.list?.map((row, index) => (
             <TableRow key={index}>
-              <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>{row.property_id}</TableCell>
+              <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>{row.id}</TableCell>
               <TableCell sx={{ ...commonStyles, minWidth: '150px' }}>{row.location_lat}, {row.location_lng}</TableCell>
               <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>-</TableCell>
-              <TableCell sx={{ ...commonStyles, minWidth: '120px',alignItems:"center",display:"flex",gap:"10px" }}>
-                <Button variant="contained" style={{ backgroundColor: "#007acc", color: 'white', borderRadius: "5px" }}>3</Button>
-                <img src="assets/icons/editicon.svg" alt="" width="35px" onClick={handleEditPole} />
+              <TableCell sx={{ ...commonStyles, minWidth: '100px',alignItems:"center",display:"flex",gap:"10px" }}>
+              <Button variant="contained" style={{ backgroundColor: "#007acc", color: 'white', borderRadius: "5px" }}>3</Button>
+                    <IconButton color="primary" aria-label="edit" onClick={() => {
+                      handleEditPole();
+                    }} >
+                      <img src="assets/icons/editicon.svg" alt="" width="35px" />
+                    </IconButton>
+                    <IconButton color="secondary" aria-label="delete">
+                      <img src="assets/icons/deleteicon.svg" alt="" width="35px" onClick={() => handledelete(row.id,token)} />
+                    </IconButton>
+
+                {/* <img src="assets/icons/editicon.svg" alt="" width="35px" onClick={handleEditPole} />
+                <img src="assets/icons/deleteicon.svg" alt="" width="35px" onClick={handledelete} /> */}
               </TableCell>
             </TableRow>
           ))}

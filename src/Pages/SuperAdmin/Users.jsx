@@ -41,6 +41,34 @@ const Users = () => {
     navigate(`/edituser/${id}`);
   };
 
+  const handleDeleteRecord = async (recordId) => {
+    try {
+      const requestBody = new URLSearchParams({
+        id: recordId.toString()
+      });
+  
+      const response = await fetch(`http://35.239.192.201:9092/api/user`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': `Bearer ${token}`
+        },
+        body: requestBody.toString()
+      });
+  
+      const data = await response.json();
+      if (data.msg === "ok") {
+        console.log(`Record with ID ${recordId} deleted successfully`);
+        fetchData();
+      } else {
+        console.error('Failed to delete record');
+      }
+    } catch (error) {
+      console.error('Error deleting record:', error);
+    }
+  };
+  
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -75,7 +103,7 @@ const Users = () => {
       const response = await axios.delete(
         `${BaseUrl}user`,
         {
-          id:'',
+          id: '',
         },
         {
           headers: {
@@ -84,7 +112,7 @@ const Users = () => {
           }
         }
       );
-  
+
       const responseData = response.data;
       console.log('Response:', responseData);
     } catch (error) {
@@ -121,102 +149,103 @@ const Users = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   return (
- <HeaderLayout>
-    <Box sx={{ display:"flex",justifyContent:"end",alignItems:"center",gap:'10px',padding:"10px"}}>
-             <CustomSearch label="Search" customSx={{ width: '500px',size:"small" }} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
-            <CustomButton onClick={handleAddUser}>Add User</CustomButton>
-          </Box>
+    <HeaderLayout>
+      <Box sx={{ display: "flex", justifyContent: "end", alignItems: "center", gap: '10px', padding: "10px" }}>
+        <CustomSearch label="Search" customSx={{ width: '500px', size: "small" }} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+        <CustomButton onClick={handleAddUser}>Add User</CustomButton>
+      </Box>
 
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead sx={{ "& .css-15wwp11-MuiTableHead-root": { background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4)) !important' } }}>
-                <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)' }}>
-                  <TableCell></TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>User Names</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles }}>Property</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px',...commonStyles, display: "flex", alignItems: "center", gap: "5px" }} >
-                    <FilterListIcon />
-                    <Typography onClick={openPopover} > Access Level</Typography>
-                    <Popover
-                      open={isPopoverOpen}
-                      anchorEl={anchorEl}
-                      onClose={closePopover}
-                      anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'center',
-                      }}
-                      transformOrigin={{
-                        vertical: 'top',
-                        horizontal: 'center',
-                      }}
-                    >
-                      <Box p={2} display="flex" flexDirection="column">
-                        <FormControlLabel
-                          control={<Checkbox checked={selectedAccessLevels.includes('Super Admin')} onChange={handleAccessLevelChange} value="Super Admin" />}
-                          label="Super Admin"
-                        />
-                        <FormControlLabel
-                          control={<Checkbox checked={selectedAccessLevels.includes('Property Admin')} onChange={handleAccessLevelChange} value="Property Admin" />}
-                          label="Property Admin"
-                        />
-                        <FormControlLabel
-                          control={<Checkbox checked={selectedAccessLevels.includes('Property Manager')} onChange={handleAccessLevelChange} value="Property Manager" />}
-                          label="Property Manager"
-                        />
-                      </Box>
-                    </Popover></TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Action</TableCell>
+      <TableContainer component={Paper}>
+        <Table>
+          <TableHead sx={{ "& .css-15wwp11-MuiTableHead-root": { background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4)) !important' } }}>
+            <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)' }}>
+              <TableCell></TableCell>
+              <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px', ...commonStyles }}>User Names</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px', ...commonStyles }}>Property</TableCell>
+              <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px', ...commonStyles, display: "flex", alignItems: "center", gap: "5px" }} >
+                <FilterListIcon />
+                <Typography onClick={openPopover} > Access Level</Typography>
+                <Popover
+                  open={isPopoverOpen}
+                  anchorEl={anchorEl}
+                  onClose={closePopover}
+                  anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'center',
+                  }}
+                  transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'center',
+                  }}
+                >
+                  <Box p={2} display="flex" flexDirection="column">
+                    <FormControlLabel
+                      control={<Checkbox checked={selectedAccessLevels.includes('Super Admin')} onChange={handleAccessLevelChange} value="Super Admin" />}
+                      label="Super Admin"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={selectedAccessLevels.includes('Property Admin')} onChange={handleAccessLevelChange} value="Property Admin" />}
+                      label="Property Admin"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox checked={selectedAccessLevels.includes('Property Manager')} onChange={handleAccessLevelChange} value="Property Manager" />}
+                      label="Property Manager"
+                    />
+                  </Box>
+                </Popover></TableCell>
+              <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', fontSize: '15px' }}>Action</TableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {loading ? (
+              <TableRow>
+                <TableCell colSpan={5} style={{ textAlign: 'center' }}>
+                  <CircularProgress />
+                </TableCell>
+              </TableRow>
+            ) : (
+              usersData.map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell width="20px"><img src="assets/icons/girlicon.svg" alt="" width="40px" /></TableCell>
+                  <TableCell>{user.username}</TableCell>
+                  <TableCell>
+                    {user.propertys.length > 0 ? (
+                      user.propertys.map((property, index) => (
+                        <span key={index}>
+                          {property.name} {/* Assuming 'name' is the property you want to display */}
+                          {index !== user.propertys.length - 1 && ', '}
+                        </span>
+                      ))
+                    ) : (
+                      'No properties'
+                    )}
+                  </TableCell>
+                  <TableCell>{user.role_name}</TableCell>
+                  <TableCell>
+                    <IconButton color="primary" aria-label="edit" onClick={(event) => {
+                      event.stopPropagation();
+                      handleEdit(user.id);
+                    }} >
+                      <img src="assets/icons/editicon.svg" alt="" width="35px" />
+                    </IconButton>
+                    <IconButton color="secondary" aria-label="delete">
+                      <img src="assets/icons/deleteicon.svg" alt="" width="35px" onClick={() => handleDeleteRecord(user.id)} />
+                    </IconButton>
+
+                  </TableCell>
                 </TableRow>
-              </TableHead>
+              ))
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
 
-              <TableBody>
-                {loading ? (
-                  <TableRow>
-                    <TableCell colSpan={5} style={{ textAlign: 'center' }}>
-                      <CircularProgress />
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  usersData.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell width="20px"><img src="assets/icons/girlicon.svg" alt="" width="40px" /></TableCell>
-                      <TableCell>{user.username}</TableCell>
-                      <TableCell>
-                        {user.propertys.length > 0 ? (
-                          user.propertys.map((property, index) => (
-                            <span key={index}>
-                              {property.name} {/* Assuming 'name' is the property you want to display */}
-                              {index !== user.propertys.length - 1 && ', '}
-                            </span>
-                          ))
-                        ) : (
-                          'No properties'
-                        )}
-                      </TableCell>
-                      <TableCell>{user.role_name}</TableCell>
-                      <TableCell>
-                        <IconButton color="primary" aria-label="edit"  onClick={(event) => {
-                              event.stopPropagation();
-                              handleEdit(user.id);
-                            }} >
-                          <img src="assets/icons/editicon.svg" alt="" width="35px" />
-                        </IconButton>
-                        <IconButton color="secondary" aria-label="delete" >
-                          <img src="assets/icons/deleteicon.svg" alt="" width="35px" onClick={handleOpen}/>
-                        </IconButton>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          <Dialog open={open} onClose={handleClose}>
-         <Typography backgroundColor=" #2465e9" color="white" borderRadius="5px 5px 0px 0px" p={2} sx={commonStyles}>
-           Delete User
-         </Typography>
-         <CloseIcon
+      <Dialog open={open} onClose={handleClose}>
+        <Typography backgroundColor=" #2465e9" color="white" borderRadius="5px 5px 0px 0px" p={2} sx={commonStyles}>
+          Delete User
+        </Typography>
+        <CloseIcon
           sx={{
             position: 'absolute',
             top: 0,
@@ -230,16 +259,16 @@ const Users = () => {
         />
         <DialogContent>
           <Typography width="500px" sx={commonStyles}>Please Confirm to Delete user</Typography>
-         
+
         </DialogContent>
         <DialogActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <CustomButton onClick={handleClose}>Cancel</CustomButton>
           <CustomButton onClick={handleClose}>Delete</CustomButton>
         </DialogActions>
       </Dialog>
- </HeaderLayout>
-      
-   
+    </HeaderLayout>
+
+
   );
 }
 

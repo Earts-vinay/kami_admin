@@ -38,7 +38,7 @@ const Devices = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/api/property/stat`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}property/stat`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -100,9 +100,10 @@ const Devices = () => {
                     <Typography variant="body1" sx={{ ...commonStyles, fontSize: 'small' }}>
                         {row.property_name}
                       </Typography>
-                      <Typography variant="body2" component="span" sx={{ fontSize: '13px',...commonStyles }}>
+                      <Typography variant="body2" component="span" sx={{ fontSize: '13px',...commonStyles ,display: "flex", alignItems: "center" }}>
                         <FmdGoodOutlinedIcon fontSize="13px" sx={{ color: 'blue', verticalAlign: 'middle', marginRight: 0.5 }} />
                         {/* Replace with actual state and country values if available in the API response */}
+                        <Typography sx={{...commonStyles,fontSize:"10px"}}>Hyderabad</Typography>
                       </Typography>
                     </TableCell>
                     <TableCell align="center">{row.raise_alert}</TableCell>

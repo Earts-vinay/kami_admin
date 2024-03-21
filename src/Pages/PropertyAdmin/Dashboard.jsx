@@ -63,6 +63,13 @@ const Dashboard = () => {
           <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between",py:"10px" }}>
             {/* Left Side */}
             <Box sx={{ width: { xs: "100%", sm: "100%",md:"48%" } }}>
+            <Box display="flex" justifyContent="space-between" my={1} p={2}  sx={{backgroundColor:"#80808017",borderRadius:"5px"}}>
+                    <Typography>Property Name</Typography>
+                   <Box display="flex" justifyContent="" gap="80px">
+                   <Typography>Poles</Typography>
+                    <Typography>Actions</Typography>
+                   </Box>
+                  </Box>
               <Box onClick={() => handleClick()} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "#f8f7fa", height: "50px", borderRadius: "5px", paddingY: "5px", paddingX: "20px", cursor: "pointer" }}>
                 <Box display="flex" flexDirection="column">
                   <Typography variant="body-2" style={{ marginRight: '10px',...commonStyles }}>
