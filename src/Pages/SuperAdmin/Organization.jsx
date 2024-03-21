@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import SideNav from '../../components/SideNav';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
-import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CommonComponent/CustomButton';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
@@ -17,77 +17,110 @@ const commonStyles = {
   fontFamily: "montserrat-regular",
 };
 
+// const MapContainer = () => {
+//   const mapStyles = {
+//     height: '350px',
+//     width: '100%',
+//     borderRadius: "10px"
+//   };
+//   const defaultCenter={
+//     lat: 17.4399,
+//       lng: 78.4983
+//   }
+//   const { isLoaded } = useJsApiLoader({
+//     id: '2baa9d8a0c4e66b5',
+//     googleMapsApiKey: "AIzaSyAp3UpXOj22Gy-w1I7gF2k6I3AYqglEqvw"
+//   })
+//   const [map, setMap] = React.useState(null)
+//   const onLoad = React.useCallback(function callback(map) {
+//     // This is just an example of getting and using the map instance!!! don't just blindly copy!
+//     const bounds = new window.google.maps.LatLngBounds(defaultCenter);
+//     map.fitBounds(bounds);
+
+//     setMap(map)
+//   }, [])
+
+//   const onUnmount = React.useCallback(function callback(map) {
+//     setMap(null)
+//   }, [])
+
+//   const hyderabadAreas = [
+//     {
+//       lat: 17.4489, // Hitech City latitude
+//       lng: 78.3907, // Hitech City longitude
+//     },
+//     {
+//       lat: 17.3616, // Charminar latitude
+//       lng: 78.4747, // Charminar longitude
+//     },
+//     {
+//       lat: 17.4432, // Gachibowli latitude
+//       lng: 78.3497, // Gachibowli longitude
+//     },
+//     {
+//       lat: 17.4156, // Banjara Hills latitude
+//       lng: 78.4347, // Banjara Hills longitude
+//     },
+//     {
+//       lat: 17.4399, // Secunderabad latitude
+//       lng: 78.4983, // Secunderabad longitude
+//     },
+//   ];
+ 
+
+//   return (
+//     <React.Fragment>
+//       {
+//         isLoaded?(<GoogleMap mapContainerStyle={mapStyles} zoom={10} center={defaultCenter}  onLoad={onLoad}
+//           onUnmount={onUnmount}>
+//           {/* You can customize the map as needed */}
+//          {
+//           hyderabadAreas.map((obj,val)=>{
+//             return  <MarkerF key={val} position={obj} />
+//           })
+//          }
+//         </GoogleMap>):(<div>
+//           loading...
+//           </div>)
+//       }
+
+//     </React.Fragment>
+       
+//   );
+// };
+
 const MapContainer = () => {
   const mapStyles = {
     height: '350px',
     width: '100%',
-    borderRadius: "10px"
+    borderRadius: '10px',
   };
-  const defaultCenter={
+
+  const defaultCenter = {
     lat: 17.4399,
-      lng: 78.4983
-  }
-  const { isLoaded } = useJsApiLoader({
-    id: '2baa9d8a0c4e66b5',
-    googleMapsApiKey: "AIzaSyAp3UpXOj22Gy-w1I7gF2k6I3AYqglEqvw"
-  })
-  const [map, setMap] = React.useState(null)
-  const onLoad = React.useCallback(function callback(map) {
-    // This is just an example of getting and using the map instance!!! don't just blindly copy!
-    const bounds = new window.google.maps.LatLngBounds(defaultCenter);
-    map.fitBounds(bounds);
+    lng: 78.4983,
+  };
 
-    setMap(map)
-  }, [])
-
-  const onUnmount = React.useCallback(function callback(map) {
-    setMap(null)
-  }, [])
-
-  const hyderabadAreas = [
-    {
-      lat: 17.4489, // Hitech City latitude
-      lng: 78.3907, // Hitech City longitude
-    },
-    {
-      lat: 17.3616, // Charminar latitude
-      lng: 78.4747, // Charminar longitude
-    },
-    {
-      lat: 17.4432, // Gachibowli latitude
-      lng: 78.3497, // Gachibowli longitude
-    },
-    {
-      lat: 17.4156, // Banjara Hills latitude
-      lng: 78.4347, // Banjara Hills longitude
-    },
-    {
-      lat: 17.4399, // Secunderabad latitude
-      lng: 78.4983, // Secunderabad longitude
-    },
+  const locations = [
+    { lat: 17.4489, lng: 78.3907 }, // Hitech City
+    { lat: 17.3616, lng: 78.4747 }, // Charminar
+    { lat: 17.4432, lng: 78.3497 }, // Gachibowli
+    { lat: 17.4156, lng: 78.4347 }, // Banjara Hills
+    { lat: 17.4399, lng: 78.4983 }, // Secunderabad (Default Center)
   ];
- 
 
   return (
-    <React.Fragment>
-      {
-        isLoaded?(<GoogleMap mapContainerStyle={mapStyles} zoom={10} center={defaultCenter}  onLoad={onLoad}
-          onUnmount={onUnmount}>
-          {/* You can customize the map as needed */}
-         {
-          hyderabadAreas.map((obj,val)=>{
-            return  <MarkerF key={val} position={obj} />
-          })
-         }
-        </GoogleMap>):(<div>
-          loading...
-          </div>)
-      }
-
-    </React.Fragment>
-       
+    <LoadScript googleMapsApiKey="AIzaSyAp3UpXOj22Gy-w1I7gF2k6I3AYqglEqvw">
+      <GoogleMap mapContainerStyle={mapStyles} zoom={10} center={defaultCenter}>
+        {/* Render markers for each location */}
+        {locations.map((location, index) => (
+          <MarkerF key={index} position={location} />
+        ))}
+      </GoogleMap>
+    </LoadScript>
   );
 };
+
 
 const Organization = () => {
   const [loading, setLoading] = useState(true);

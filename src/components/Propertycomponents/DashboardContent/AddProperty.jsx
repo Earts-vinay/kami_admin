@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Grid, TextField, MenuItem, Typography, InputAdornment } from '@mui/material';
-import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+import { LoadScript, GoogleMap, MarkerF } from '@react-google-maps/api';
 import SearchIcon from '@mui/icons-material/Search';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -23,21 +23,31 @@ const commonStyles = {
 
 const MapContainer = () => {
   const mapStyles = {
-    height: '400px',
+    height: '350px',
     width: '100%',
-    borderRadius: "10px"
+    borderRadius: '10px',
   };
 
   const defaultCenter = {
-    lat: 37.7749, // Default latitude
-    lng: -122.4194, // Default longitude
+    lat: 17.4399,
+    lng: 78.4983,
   };
 
+  const locations = [
+    { lat: 17.4489, lng: 78.3907 }, // Hitech City
+    { lat: 17.3616, lng: 78.4747 }, // Charminar
+    { lat: 17.4432, lng: 78.3497 }, // Gachibowli
+    { lat: 17.4156, lng: 78.4347 }, // Banjara Hills
+    { lat: 17.4399, lng: 78.4983 }, // Secunderabad (Default Center)
+  ];
+
   return (
-    <LoadScript googleMapsApiKey="AIzaSyCRQBtQkOyqMNr0YheCgm9LVbvjRtnbo6Y">
-      <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={defaultCenter}>
-        {/* You can customize the map as needed */}
-        <Marker position={defaultCenter} />
+    <LoadScript googleMapsApiKey="AIzaSyAp3UpXOj22Gy-w1I7gF2k6I3AYqglEqvw">
+      <GoogleMap mapContainerStyle={mapStyles} zoom={10} center={defaultCenter}>
+        {/* Render markers for each location */}
+        {locations.map((location, index) => (
+          <MarkerF key={index} position={location} />
+        ))}
       </GoogleMap>
     </LoadScript>
   );
