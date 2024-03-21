@@ -78,6 +78,8 @@ const AddProperty = () => {
 
   const propertyTypes = useSelector(selectPropertyTypes);
 
+  // console.log(propertyTypes);
+
   const handleTableRowClick = () => {
     navigate(`/organization`);
   };
@@ -148,7 +150,7 @@ const AddProperty = () => {
       .then(response => {
         if (response.ok) {
           toast.success(propertyId ? 'Property updated successfully' : 'Property saved successfully');
-          navigate(`/organization`);
+          // navigate(`/organization`);
         } else {
           response.text().then(errorMessage => {
             toast.error(errorMessage || (propertyId ? 'Failed to update property' : 'Failed to save property'));

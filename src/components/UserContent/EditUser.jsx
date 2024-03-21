@@ -65,6 +65,8 @@ const EditUser = () => {
   };
 
   const { id } = useParams();
+  const [userId, setUserId] = useState(id);
+
 
 
 
@@ -113,6 +115,31 @@ const EditUser = () => {
       console.log('Response:', responseData);
     } catch (error) {
       // Handle error
+      console.error('Error:', error);
+    }
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const response = await axios.put(
+        `${BaseUrl}user/${id}`,
+        {
+          username: userName,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+
+      if (response.data.code === 200 && response.data.msg === "ok") {
+        console.log("Success: User updated successfully");
+        navigate('/users'); // Navigate to "/users" if update is successful
+      }
+    } catch (error) {
+      // Handle error scenario
       console.error('Error:', error);
     }
   };
@@ -252,8 +279,8 @@ const EditUser = () => {
               label="Access Level"
               value={accessLevel}
               onChange={handleAccessLevelChange}
-              onOpen={handleDropdownOpen}  
-              onClose={handleDropdownClose} 
+              onOpen={handleDropdownOpen}
+              onClose={handleDropdownClose}
             >
               {!isDropdownOpen && (
                 <MenuItem value={accessLevel}>{accessLevel}</MenuItem>
@@ -276,8 +303,16 @@ const EditUser = () => {
         </Grid>
       </Box>
       <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-        <CustomButton>Save</CustomButton>
+
+      {userId ? (
+        <CustomButton onClick={handleUpdate}>Update</CustomButton>
+      ) : (
+        <CustomButton onClick="">Save</CustomButton>
+      )}
       </Grid>
+      {/* <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+        <CustomButton>Save</CustomButton>
+      </Grid> */}
     </HeaderLayout>
 
   );
