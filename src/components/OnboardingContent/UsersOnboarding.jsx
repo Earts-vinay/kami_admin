@@ -6,6 +6,7 @@ import CustomTextField from '../CommonComponent/CustomTextField';
 import CustomDropdown from '../CommonComponent/CustomDropdown';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 const BaseUrl = process.env.REACT_APP_API_URL
 const UsersOnboarding = ({ dropdownData }) => {
     console.log(dropdownData);
@@ -36,30 +37,34 @@ const UsersOnboarding = ({ dropdownData }) => {
 
     const handleSubmit = async () => {
         try {
-          const response = await axios.post(
-            `${BaseUrl}user/invite`,
-            {
-                username:userName,
-                email:email,
-                role_id: parseInt(accessLevel), // Convert to integer
-                property_id: parseInt(propertyName) 
-            },
-            {
-              headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'Authorization': `Bearer ${token}`
-              }
+            const response = await axios.post(
+                `${BaseUrl}user/invite`,
+                {
+                    username: userName,
+                    email: email,
+                    role_id: parseInt(accessLevel), // Convert to integer
+                    property_id: parseInt(propertyName)
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': `Bearer ${token}`
+                    }
+                }
+            );
+
+            const responseData = response.data;
+            // console.log('Response:', responseData);
+            if (responseData.code === 200) {
+                toast.success(responseData.msg);
+            } else {
+                toast.error(responseData.msg);
             }
-          );
-      
-          const responseData = response.data;
-          console.log('Response:', responseData);
         } catch (error) {
-          // Handle error
-          console.error('Error:', error);
+            console.error('Error:', error);
         }
-      };
-    
+    };
+
 
     return (
         <Box sx={{ padding: "20px", marginX: "auto", maxWidth: "1200px", height: '65vh' }}>
@@ -107,7 +112,7 @@ const UsersOnboarding = ({ dropdownData }) => {
                     </CustomDropdown>
                 </Grid>
                 <Grid item xs={12} md={4} sm={6}>
-                <CustomDropdown
+                    <CustomDropdown
                         label="Property Type"
                         value={propertyName}
                         onChange={handlePropertyNameChange}

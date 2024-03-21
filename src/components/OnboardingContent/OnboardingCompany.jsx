@@ -157,7 +157,7 @@ const OnboardingCompany = ({ dropdownData }) => {
           pin_code: pincode,
           address,
           logo_url: selectUrls || [],
-          industry_id: industryId || '',
+          industry_id: parseInt(industryid) || 0, 
           timeZone: timeDifference,
           description: searchValue,
         },

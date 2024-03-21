@@ -33,7 +33,12 @@ const EditUser = () => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [accessLevel, setAccessLevel] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  // console.log(isDropdownOpen);
   const [propertyName, setPropertyName] = useState('');
+
+  const dictionaryData = useSelector(state => state.dictionary.data);
+  // console.log(dictionaryData);
 
   const handleUserNameChange = (event) => {
     setUserName(event.target.value);
@@ -41,6 +46,14 @@ const EditUser = () => {
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
+  };
+
+  const handleDropdownOpen = () => {
+    setIsDropdownOpen(true);
+  };
+
+  const handleDropdownClose = () => {
+    setIsDropdownOpen(false);
   };
 
   const handleAccessLevelChange = (event) => {
@@ -53,7 +66,7 @@ const EditUser = () => {
 
   const { id } = useParams();
 
- 
+
 
   const handleChange = (value) => {
     setPhone(value);
@@ -82,11 +95,11 @@ const EditUser = () => {
       const response = await axios.put(
         `${BaseUrl}user/${id}`,
         {
-          username:"",
-          first_name:"",
-          last_name: "", 
+          username: "",
+          first_name: "",
+          last_name: "",
           office_phone: '',
-          mobile_phone:""
+          mobile_phone: ""
         },
         {
           headers: {
@@ -95,7 +108,7 @@ const EditUser = () => {
           }
         }
       );
-  
+
       const responseData = response.data;
       console.log('Response:', responseData);
     } catch (error) {
@@ -116,24 +129,24 @@ const EditUser = () => {
             'Authorization': `Bearer ${token}`
           }
         });
-    
+
         if (response.ok) {
           const data1 = await response.json();
           console.log('User data:', data1);
-          const {data}=data1;
-    
+          const { data } = data1;
+
           // Extract data from the response and set the state values
           setUserName(data.username);
           setEmail(data.email);
           setAccessLevel(data.role_name);
-    
+
           // Check if propertys array is not empty before accessing its first element
           if (data.propertys && data.propertys.length > 0) {
             setPropertyName(data.propertys[0].name);
           } else {
             console.warn('No properties found for this user.');
           }
-    
+
           // toast.success('Property data fetched successfully');
         } else {
           const errorMessage = await response.text();
@@ -145,119 +158,127 @@ const EditUser = () => {
         toast.error('An error occurred while fetching user data');
       }
     };
-    
+
 
     fetchPropertyData();
   }, []);
 
   return (
-  <HeaderLayout>
-    <Box sx={{ display: "flex", gap: "40px", justifyContent: "start", alignItems: "start", }}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
-              <Box sx={{ padding: '40px', width: '20%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '40px', }}>
-                <img src={imageSrc} alt="" width="200px" />
-                <Box mt={7} sx={{
-                  padding: '20px 60px',
-                  width: "200px", border: '1px solid white', textAlign: 'center', backgroundColor: '#E3EBFC', borderRadius: '10px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.1)'
-                }}>
-                  {/* Custom Image Upload Label */}
-                  <Box display="flex" flexDirection="column" gap={2}>
-                    <InputLabel
-                      htmlFor="image-upload"
-                      onClick={handleUploadClick}
-                      sx={{
-                        cursor: 'pointer',
-                        textDecoration: 'none',
-                        marginTop: '10px',
-                        color: 'white',
-                        backgroundColor: '#2465E9',
-                        padding: '8px 16px', // Adjust padding as needed
-                        borderRadius: '5px', // Add border radius for rounded corners
-                        display: 'inline-block',
-                      }}
-                    >
-                      Upload Image
-                    </InputLabel>
+    <HeaderLayout>
+      <Box sx={{ display: "flex", gap: "40px", justifyContent: "start", alignItems: "start", }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', height: '100%' }}>
+          <Box sx={{ padding: '40px', width: '20%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '40px', }}>
+            <img src={imageSrc} alt="" width="200px" />
+            <Box mt={7} sx={{
+              padding: '20px 60px',
+              width: "200px", border: '1px solid white', textAlign: 'center', backgroundColor: '#E3EBFC', borderRadius: '10px', boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.1)'
+            }}>
+              {/* Custom Image Upload Label */}
+              <Box display="flex" flexDirection="column" gap={2}>
+                <InputLabel
+                  htmlFor="image-upload"
+                  onClick={handleUploadClick}
+                  sx={{
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                    marginTop: '10px',
+                    color: 'white',
+                    backgroundColor: '#2465E9',
+                    padding: '8px 16px',
+                    borderRadius: '5px',
+                    display: 'inline-block',
+                  }}
+                >
+                  Upload Image
+                </InputLabel>
 
-                    <Box flexDirection='column' display="flex">
-                      <Typography variant='body2' sx={{ color: '#A9A8AA', fontSize: '12px' }}>Preferred File 512*512</Typography>
-                      <Typography variant='body2' sx={{ color: '#A9A8AA', fontSize: '12px' }}>Format Supported .jpg & .png</Typography>
-                    </Box>
-
-                  </Box>
-                  {/* Hidden File Input */}
-                  <Input
-                    type="file"
-                    id="image-upload"
-                    inputProps={{ accept: 'image/*' }}
-                    ref={fileInputRef}
-                    style={{ display: 'none' }}
-                    onChange={handleFileChange}
-                  />
+                <Box flexDirection='column' display="flex">
+                  <Typography variant='body2' sx={{ color: '#A9A8AA', fontSize: '12px' }}>Preferred File 512*512</Typography>
+                  <Typography variant='body2' sx={{ color: '#A9A8AA', fontSize: '12px' }}>Format Supported .jpg & .png</Typography>
                 </Box>
+
               </Box>
+              {/* Hidden File Input */}
+              <Input
+                type="file"
+                id="image-upload"
+                inputProps={{ accept: 'image/*' }}
+                ref={fileInputRef}
+                style={{ display: 'none' }}
+                onChange={handleFileChange}
+              />
             </Box>
-
-
-
-            <Grid container spacing={2} style={{ marginTop: '20px', padding: "40px", width: '80%' }}>
-              {/* User Information and Save Button Section */}
-              <Grid item xs={12} md={7}>
-        <CustomTextField
-          label="User Name"
-          value={userName}
-          onChange={handleUserNameChange}
-        />
-      </Grid>
-      <Grid item xs={12} md={7}>
-        <CustomTextField
-          label="Email"
-          value={email}
-          onChange={handleEmailChange}
-        />
-      </Grid>
-              <Grid item xs={12} md={7}>
-                {/* <Typography variant="body1" sx={commonStyles}>Phone Number</Typography> */}
-                <MuiTelInput
-                  label="Phone Number"
-                  value={phone || ''}
-                  onChange={handleChange}
-                  fullWidth
-                  margin="dense"
-                  variant="outlined"
-                  defaultCountry="US"
-                  inputProps={{ maxLength: 15,sx:{height:"30px"} }}
-
-                  size="small"
-                  sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#2465E9' } } }}
-
-                />
-
-              </Grid>
-              <Grid item xs={12} md={7}>
-        <CustomDropdown
-          label="Access Level"
-          value={accessLevel}
-          onChange={handleAccessLevelChange}
-        >
-          <MenuItem value="mui">Mui</MenuItem>
-        </CustomDropdown>
-      </Grid>
-      <Grid item xs={12} md={7}>
-        <CustomDropdown
-          label="Property Name"
-          value={propertyName}
-          onChange={handlePropertyNameChange}
-        >
-          <MenuItem value="mui">Mui</MenuItem>
-        </CustomDropdown>
-      </Grid>
-            </Grid>
           </Box>
-          <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
-         <CustomButton>Save</CustomButton>
+        </Box>
+
+
+
+        <Grid container spacing={2} style={{ marginTop: '20px', padding: "40px", width: '80%' }}>
+          {/* User Information and Save Button Section */}
+          <Grid item xs={12} md={7}>
+            <CustomTextField
+              label="User Name"
+              value={userName}
+              onChange={handleUserNameChange}
+            />
           </Grid>
-  </HeaderLayout>
+          <Grid item xs={12} md={7}>
+            <CustomTextField
+              label="Email"
+              value={email}
+              onChange={handleEmailChange}
+            />
+          </Grid>
+          <Grid item xs={12} md={7}>
+            {/* <Typography variant="body1" sx={commonStyles}>Phone Number</Typography> */}
+            <MuiTelInput
+              label="Phone Number"
+              value={phone || ''}
+              onChange={handleChange}
+              fullWidth
+              margin="dense"
+              variant="outlined"
+              defaultCountry="US"
+              inputProps={{ maxLength: 15, sx: { height: "30px" } }}
+
+              size="small"
+              sx={{ '& .MuiOutlinedInput-root': { '& fieldset': { borderColor: '#2465E9' } } }}
+
+            />
+
+          </Grid>
+          <Grid item xs={12} md={7}>
+            <CustomDropdown
+              label="Access Level"
+              value={accessLevel}
+              onChange={handleAccessLevelChange}
+              onOpen={handleDropdownOpen}  
+              onClose={handleDropdownClose} 
+            >
+              {!isDropdownOpen && (
+                <MenuItem value={accessLevel}>{accessLevel}</MenuItem>
+              )}
+              {isDropdownOpen && dictionaryData && dictionaryData.data && dictionaryData.data.property_types && dictionaryData.data.property_types.map(propertyType => (
+                <MenuItem key={propertyType.id} value={propertyType.name}>{propertyType.name}</MenuItem>
+              ))}
+            </CustomDropdown>
+
+          </Grid>
+          <Grid item xs={12} md={7}>
+            <CustomDropdown
+              label="Property Name"
+              value={propertyName}
+              onChange={handlePropertyNameChange}
+            >
+              <MenuItem value={propertyName}>{propertyName}</MenuItem>
+            </CustomDropdown>
+          </Grid>
+        </Grid>
+      </Box>
+      <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'center' }}>
+        <CustomButton>Save</CustomButton>
+      </Grid>
+    </HeaderLayout>
 
   );
 };
