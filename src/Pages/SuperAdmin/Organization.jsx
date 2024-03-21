@@ -10,7 +10,8 @@ import { GoogleMap, LoadScript, MarkerF, useJsApiLoader } from '@react-google-ma
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CommonComponent/CustomButton';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
-import { IconButton } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -90,6 +91,7 @@ const MapContainer = () => {
 
 const Organization = () => {
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
   const [responseData, setResponseData] = useState([]);
   const navigate = useNavigate();
   const isOpen = useSelector(selectIsSideNavOpen);
@@ -130,6 +132,13 @@ const Organization = () => {
 
   const handleEdit = (id) => {
     navigate(`/addproperty/${id}`);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const handleDelete = async (ids) => {
@@ -192,7 +201,15 @@ const Organization = () => {
             </Box>
 
             <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", }}>
+          
               <Box sx={{ width: { xs: "100%", sm: "100%", md: "49%" } }}>
+              <Box display="flex" justifyContent="space-between" my={1} p={2}  sx={{backgroundColor:"#80808017",borderRadius:"5px"}}>
+                    <Typography>Property Name</Typography>
+                   <Box display="flex" justifyContent="" gap="80px">
+                   <Typography>Poles</Typography>
+                    <Typography>Actions</Typography>
+                   </Box>
+                  </Box>
                 {loading ? (
                   <Box
                     sx={{
@@ -208,6 +225,8 @@ const Organization = () => {
                   </Box>
                 ) : (
                   responseData.data && responseData.data.list.map((item, index) => (
+                 <>
+              
                     <Box
                     onClick={() => handleClick()}
                     sx={{
@@ -223,7 +242,9 @@ const Organization = () => {
                       marginBottom: "10px"
                     }}
                   >
+                  
                     <Box display="flex" flexDirection="column">
+                   
                       <Typography variant="body-2" style={{ marginRight: '10px', ...commonStyles }}>
                         {item.name}
                       </Typography>
@@ -233,8 +254,10 @@ const Organization = () => {
                       </Typography>
                     </Box>
                     <Box display="flex" gap={1} alignItems="center">
+                 
                       <Button variant="contained"> {item.id}</Button>
                       <Box display="flex" gap={0} alignItems="center">
+                       
                         <IconButton>
                           <img
                             src="assets/icons/editicon.svg"
@@ -246,15 +269,42 @@ const Organization = () => {
                             }}
                           />
                         </IconButton>
-                        <IconButton color="secondary" aria-label="delete" onClick={(event) => handleDeleteClick(event, item.id)}>
-                          <img src="assets/icons/deleteicon.svg" alt="" width="35px" />
+                        <IconButton color="secondary" aria-label="delete"  onClick={(event) => handleDeleteClick(event, item.id)}>
+                          <img src="assets/icons/deleteicon.svg" alt="" width="35px"/>
                         </IconButton>
                       </Box>
                     </Box>
                   </Box>
-                  
+                  <Dialog open={open} onClose={handleClose}>
+         <Typography backgroundColor=" #2465e9" color="white" borderRadius="5px 5px 0px 0px" p={2} sx={commonStyles}>
+           Delete User
+         </Typography>
+         <CloseIcon
+          sx={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            color: 'white',
+            cursor: 'pointer',
+            paddingY: '6px',
+            paddingX: '10px',
+          }}
+          onClick={handleClose}
+        />
+        <DialogContent>
+          <Typography width="500px" sx={commonStyles}>Please Confirm to Delete user</Typography>
+         
+        </DialogContent>
+        <DialogActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <CustomButton onClick={handleClose}>Cancel</CustomButton>
+          <CustomButton onClick={(event) => handleDeleteClick(event, item.id)}>Delete</CustomButton>
+        </DialogActions>
+      </Dialog>
+                  </>
                   ))
+                  
                 )}
+   
               </Box>
 
               <Box sx={{ width: { xs: "100%", sm: "100%", md: '48%' } }}>
@@ -262,6 +312,7 @@ const Organization = () => {
               </Box>
             </Box>
           </Box>
+      
         </div>
       </div>
     </div>
