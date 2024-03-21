@@ -8,7 +8,9 @@ import { selectToken } from '../../../redux/apiResponse/loginApiSlice';
 import CustomButton from '../../CommonComponent/CustomButton';
 import Map  ,{GeolocateControl,Marker}  from "react-map-gl";
 import { GoogleMap, LoadScript, MarkerF, useJsApiLoader } from '@react-google-maps/api';
-
+import axios from 'axios';
+import { toast } from 'react-toastify';
+const BaseUrl = process.env.REACT_APP_API_URL
 const commonStyles = {
   fontFamily: "montserrat-regular",
 };
@@ -104,8 +106,9 @@ const AddPole = () => {
   const isOpen = useSelector(selectIsSideNavOpen);
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
-  const [responseData, setResponseData] = useState({ code: 200, msg: 'ok', data: { list: [], total: 0 } });
-
+  const [responseData, setResponseData] = useState(null);
+  const [id, setId] = useState('2');
+  const [query, setQuery] = useState('Hyderabad');
   const [viewport, setViewport] = React.useState({
     
     width: '500px',
@@ -126,37 +129,36 @@ const AddPole = () => {
     navigate(`/viewpole`);
   };
 
-  useEffect(() => {
-    const fetchPoleData = async () => {   
 
-      try {
-        const response = await fetch(`http://35.239.192.201:9092/api/pole?search=sd`, {
-          method: 'GET',
+useEffect(() => {
+  try {
+    axios.get(
+        `${BaseUrl}pole?property_id=${id}&search=${query}`,
+    
+        {
           headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
             'Authorization': `Bearer ${token}`
           }
-        });
-        const data = await response.json();
-        if (response.ok) {
-         console.log("respon",data)
-        } else {
-          console.error('Failed to fetch property data:', data.msg);
         }
-      } catch (error) {
-        console.error('Error fetching property data:', error);
-      }
-    };
+    ).then((res)=>{
+      const {data} = res.data;
+    console.log("addpole",res,data)
+    if (res.data.code === 200) {
+        toast.success(data.msg);
+        setResponseData(data);
+    } else {
+        toast.error(data.msg);
+    }
+    }).catch((err)=>{})
 
-    fetchPoleData();
-  }, [token]);
+    
+} catch (error) {
+    console.error('Error:', error);
+}
+},[]);
 
-  // const data = [
-  //   { pole: 23643, latlong: 17.4948788988, cameras: 3, activeCameras: 3 },
-  //   { pole: 23643, latlong: 17.4948788988, cameras: 3, activeCameras: 3 },
-  //   { pole: 23643, latlong: 17.4948788988, cameras: 3, activeCameras: 3 },
-  //   { pole: 23643, latlong: 17.4948788988, cameras: 3, activeCameras: 3 },
-  // ];
-
+  
   const handlePair = () => {
     navigate('/pairdevice');
   };
@@ -206,12 +208,26 @@ const AddPole = () => {
                     <TableCell ></TableCell>
                   </TableRow>
                 </TableHead>
-                <TableBody style={{height:'380px'}}>
-                {responseData.code === 200 && responseData.data.list.length === 0 ? (
-        <div style={{textAlign:'center', padding:30}}>No records found</div>
+                <TableBody width="100%">
+                {responseData?.list?.length === 0 ? (
+        <div style={{display:"flex",justifyContent:"space-around"}}>No records found</div>
       ) : (
-        <div>
-          {/* Render your data */}
+        <div style={{ }}>
+         {responseData?.list?.map((row, index) => (
+         
+                    <TableRow
+                      key={index}
+                      // sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                    >
+                      <TableCell sx={commonStyles}>{row.property_id}</TableCell>
+                      <TableCell sx={commonStyles}>{row.location_lat},{row.location_lng}</TableCell>
+                      <TableCell sx={commonStyles}> -</TableCell>
+                      <TableCell sx={{ display: "flex", alignItems: "center", gap: "10px", }}>
+                        <Button variant="contained" style={{ backgroundColor: "#007acc", color: 'white', borderRadius: "5px" }}>3</Button>
+                        <img src="assets/icons/editicon.svg" alt="" width="35px" onClick={handleEditPole} />
+                      </TableCell>
+                    </TableRow>
+                  ))}
         </div>
       )}
       {/* Other JSX */}

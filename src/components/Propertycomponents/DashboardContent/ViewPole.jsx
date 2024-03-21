@@ -12,6 +12,7 @@ import {setAddPoleApiResponse} from '../../../redux/apiResponse/addpoleSlice';
 import { selectToken } from '../../../redux/apiResponse/loginApiSlice';
 import CustomTextField from '../../CommonComponent/CustomTextField';
 import { GoogleMap, LoadScript, MarkerF, useJsApiLoader } from '@react-google-maps/api';
+const BaseUrl = process.env.REACT_APP_API_URL
 
 
 const commonStyles = {
@@ -146,8 +147,7 @@ const ViewPole = () => {
     formpoleData.append('location_lng',locationLang);
 
     try {
-        const apiUrl = process.env.REACT_APP_API_URL;
-        const response = await fetch(`${apiUrl}/api/pole `, {
+        const response = await fetch(`${BaseUrl}pole`, {
             method: 'POST',
             headers: {
               'Authorization': `Bearer ${token}`
