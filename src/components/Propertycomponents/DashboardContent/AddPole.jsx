@@ -197,57 +197,41 @@ useEffect(() => {
 
        
           <Box width={{ xs: '100%', md: '50%' }}>
-            <TableContainer component={Paper}>
-              <Table aria-label="simple table">
-                <TableHead style={{ backgroundColor: "#80808017" }}>
-                  <TableRow>
-                    <TableCell sx={commonStyles}>pole ID</TableCell>
-                    <TableCell sx={commonStyles}> Lat,Long</TableCell>
-                    <TableCell sx={commonStyles}>Zone</TableCell>
-                    <TableCell sx={commonStyles}>Cameras</TableCell>
-                    <TableCell ></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody width="100%">
-                {responseData?.list?.length === 0 ? (
-        <div style={{display:"flex",justifyContent:"space-around"}}>No records found</div>
+          <TableContainer component={Paper}>
+  <Table aria-label="simple table">
+    <TableHead style={{ backgroundColor: "#80808017" }}>
+      <TableRow>
+        <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>pole ID</TableCell>
+        <TableCell sx={{ ...commonStyles, minWidth: '150px' }}>Lat, Long</TableCell>
+        <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>Zone</TableCell>
+        <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>Cameras</TableCell>
+        <TableCell></TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      {responseData?.list?.length === 0 ? (
+        <TableRow>
+          <TableCell colSpan={5} align="center" sx={{ ...commonStyles }}>No records found</TableCell>
+        </TableRow>
       ) : (
-        <div style={{ }}>
-         {responseData?.list?.map((row, index) => (
-         
-                    <TableRow
-                      key={index}
-                      // sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                      <TableCell sx={commonStyles}>{row.property_id}</TableCell>
-                      <TableCell sx={commonStyles}>{row.location_lat},{row.location_lng}</TableCell>
-                      <TableCell sx={commonStyles}> -</TableCell>
-                      <TableCell sx={{ display: "flex", alignItems: "center", gap: "10px", }}>
-                        <Button variant="contained" style={{ backgroundColor: "#007acc", color: 'white', borderRadius: "5px" }}>3</Button>
-                        <img src="assets/icons/editicon.svg" alt="" width="35px" onClick={handleEditPole} />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-        </div>
+        <>
+          {responseData?.list?.map((row, index) => (
+            <TableRow key={index}>
+              <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>{row.property_id}</TableCell>
+              <TableCell sx={{ ...commonStyles, minWidth: '150px' }}>{row.location_lat}, {row.location_lng}</TableCell>
+              <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>-</TableCell>
+              <TableCell sx={{ ...commonStyles, minWidth: '100px',alignItems:"center",display:"flex",gap:"10px" }}>
+                <Button variant="contained" style={{ backgroundColor: "#007acc", color: 'white', borderRadius: "5px" }}>3</Button>
+                <img src="assets/icons/editicon.svg" alt="" width="35px" onClick={handleEditPole} />
+              </TableCell>
+            </TableRow>
+          ))}
+        </>
       )}
-      {/* Other JSX */}
-                  {/* {data.map((row, index) => (
-                    <TableRow
-                      key={index}
-                      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                    >
-                      <TableCell sx={commonStyles}>{row.pole}</TableCell>
-                      <TableCell sx={commonStyles}>{row.latlong}</TableCell>
-                      <TableCell sx={commonStyles}> -</TableCell>
-                      <TableCell sx={{ display: "flex", alignItems: "center", gap: "10px", }}>
-                        <Button variant="contained" style={{ backgroundColor: "#007acc", color: 'white', borderRadius: "5px" }}>3</Button>
-                        <img src="assets/icons/editicon.svg" alt="" width="35px" onClick={handleEditPole} />
-                      </TableCell>
-                    </TableRow>
-                  ))} */}
-                </TableBody>
-              </Table>
-            </TableContainer>
+    </TableBody>
+  </Table>
+</TableContainer>
+
           </Box>
 
           <Box width={{ xs: '100%', md: '50%' }}>
