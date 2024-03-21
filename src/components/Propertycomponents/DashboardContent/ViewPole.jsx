@@ -11,12 +11,99 @@ import Map  ,{GeolocateControl,Marker}  from "react-map-gl";
 import {setAddPoleApiResponse} from '../../../redux/apiResponse/addpoleSlice';
 import { selectToken } from '../../../redux/apiResponse/loginApiSlice';
 import CustomTextField from '../../CommonComponent/CustomTextField';
+import { GoogleMap, LoadScript, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
 };
 
+const MapContainer = () => {
+
+
+  const mapStyles = {
+    height: '350px',
+    width: '100%',
+    borderRadius: "10px"
+  };
+  const defaultCenter={
+    lat: 17.4399,
+      lng: 78.4983
+  }
+  const { isLoaded } = useJsApiLoader({
+    id: '2baa9d8a0c4e66b5',
+    googleMapsApiKey: "AIzaSyCRQBtQkOyqMNr0YheCgm9LVbvjRtnbo6Y"
+  })
+  const [map, setMap] = React.useState(null)
+  const onLoad = React.useCallback(function callback(map) {
+    // This is just an example of getting and using the map instance!!! don't just blindly copy!
+    const bounds = new window.google.maps.LatLngBounds(defaultCenter);
+    map.fitBounds(bounds);
+
+    setMap(map)
+  }, [])
+
+  const onUnmount = React.useCallback(function callback(map) {
+    setMap(null)
+  }, [])
+
+ 
+
+
+  const data = [
+    {  lat: 17.4489,lng:78.3907 },
+    { lat: 17.6788421, lng: 79.6808767},
+    { lat:17.6788421, lng: 79.6808767 },
+    
+  ];
+
+  const hyderabadAreas = [
+    {
+      lat: 17.4489, // Hitech City latitude
+      lng: 78.3907, // Hitech City longitude
+    },
+    {
+      lat: 17.3616, // Charminar latitude
+      lng: 78.4747, // Charminar longitude
+    },
+    {
+      lat: 17.4432, // Gachibowli latitude
+      lng: 78.3497, // Gachibowli longitude
+    },
+    {
+      lat: 17.4156, // Banjara Hills latitude
+      lng: 78.4347, // Banjara Hills longitude
+    },
+    {
+      lat: 17.4399, // Secunderabad latitude
+      lng: 78.4983, // Secunderabad longitude
+    },
+  ];
+ 
+
+  return (
+    <React.Fragment>
+      {
+        isLoaded?(<GoogleMap mapContainerStyle={mapStyles} zoom={6} center={defaultCenter}  onLoad={onLoad}
+          onUnmount={onUnmount}>
+          {/* You can customize the map as needed */}
+        
+          {data.map((obj,val)=>{
+            return  <MarkerF key={val} position={obj} />
+          })
+        }
+         
+        </GoogleMap>):(<div>
+          loading...
+          </div>)
+      }
+
+    </React.Fragment>
+    
+      
+    
+  );
+};
 
 const ViewPole = () => {
   const navigate = useNavigate();
@@ -143,29 +230,7 @@ useEffect(() => {
 
               {/* Map */}
               <Box sx={{ width: { xs: '100%',sm:"100%", md: '48%' } }}>
-              <Map
-        mapboxAccessToken="pk.eyJ1Ijoic2FiaXRoYWthdGhpcmVzYW4iLCJhIjoiY2x0d210YndzMDE5YzJycDRrbmducDc3ciJ9.6-UYL7597oVdkkeFdOFp2A"
-        initialViewState={{
-          longitude: 78.3948765,
-          latitude: 17.4539766,
-          zoom: 12,
-         
-        
-        }}
-        style={{width: 500, height: 350}}
-        attributionControl={false}
-        mapStyle="mapbox://styles/mapbox/streets-v11"
-      >
-{/*       
-        <Marker
-                    latitude={locationLat} // Convert to float if necessary
-                    longitude={locationLang} // Convert to float if necessary
-                    zoom={10}
-                  >
-                    <img src='assets\images\loc.png' width="30px"></img>
-                    <div></div>
-                  </Marker> */}
-      </Map>
+              <MapContainer />
               </Box>
             </Box>
 
