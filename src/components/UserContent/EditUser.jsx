@@ -11,7 +11,7 @@ import CustomButton from '../CommonComponent/CustomButton';
 import CustomTextField from '../CommonComponent/CustomTextField';
 import CustomDropdown from '../CommonComponent/CustomDropdown';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import { toast } from 'react-toastify';
 import HeaderLayout from '../CommonComponent/HeaderLayout';
@@ -23,6 +23,7 @@ const commonStyles = {
 };
 
 const EditUser = () => {
+  const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const [imageSrc, setImageSrc] = useState('assets/icons/girlicon.svg');
   const isOpen = useSelector(selectIsSideNavOpen);

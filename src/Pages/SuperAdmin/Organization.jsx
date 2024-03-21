@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import SideNav from '../../components/SideNav';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
-import { GoogleMap,google, LoadScript, MarkerF, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CommonComponent/CustomButton';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
@@ -29,7 +29,7 @@ const MapContainer = () => {
   }
   const { isLoaded } = useJsApiLoader({
     id: '2baa9d8a0c4e66b5',
-    googleMapsApiKey: "AIzaSyCRQBtQkOyqMNr0YheCgm9LVbvjRtnbo6Y"
+    googleMapsApiKey: "AIzaSyAp3UpXOj22Gy-w1I7gF2k6I3AYqglEqvw"
   })
   const [map, setMap] = React.useState(null)
   const onLoad = React.useCallback(function callback(map) {

@@ -194,7 +194,9 @@ const handleEditPole = async () => {
     const response = await axios.put(
       `${BaseUrl}pole/${poleId}`,
       {
-        username: userName,
+        name:'',
+        location_lat:"",
+        location_lng: "",
       },
       {
         headers: {
@@ -257,8 +259,8 @@ const handleEditPole = async () => {
       <TableRow>
         <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>pole ID</TableCell>
         <TableCell sx={{ ...commonStyles, minWidth: '150px' }}>Lat, Long</TableCell>
-        <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>Zone</TableCell>
-        <TableCell sx={{ ...commonStyles, minWidth: '120px' }}>Cameras</TableCell>
+        <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>Zone</TableCell>
+        <TableCell sx={{ ...commonStyles, minWidth: '130px' }}>Cameras</TableCell>
         <TableCell></TableCell>
       </TableRow>
     </TableHead>
@@ -271,12 +273,13 @@ const handleEditPole = async () => {
         <>
           {responseData?.list?.map((row, index) => (
             <TableRow key={index}>
-              <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>{row.id}</TableCell>
+              <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>{row.id}</TableCell>
               <TableCell sx={{ ...commonStyles, minWidth: '150px' }}>{row.location_lat}, {row.location_lng}</TableCell>
-              <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>-</TableCell>
-              <TableCell sx={{ ...commonStyles, minWidth: '100px',alignItems:"center",display:"flex",gap:"10px" }}>
+              <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>-</TableCell>
+              <TableCell sx={{ ...commonStyles, minWidth: '130px',alignItems:"center",display:"flex",gap:"5px" }}>
               <Button variant="contained" style={{ backgroundColor: "#007acc", color: 'white', borderRadius: "5px" }}>3</Button>
-                    <IconButton color="primary" aria-label="edit" onClick={() => {
+                   <Box sx={{display:"flex",}}>
+                   <IconButton color="primary" aria-label="edit" onClick={() => {
                       handleEditPole();
                     }} >
                       <img src="assets/icons/editicon.svg" alt="" width="35px" />
@@ -284,6 +287,7 @@ const handleEditPole = async () => {
                     <IconButton color="secondary" aria-label="delete">
                       <img src="assets/icons/deleteicon.svg" alt="" width="35px" onClick={() => handledelete(row.id,token)} />
                     </IconButton>
+                   </Box>
 
                 {/* <img src="assets/icons/editicon.svg" alt="" width="35px" onClick={handleEditPole} />
                 <img src="assets/icons/deleteicon.svg" alt="" width="35px" onClick={handledelete} /> */}
