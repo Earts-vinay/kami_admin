@@ -23,9 +23,12 @@ import DevicesInside from './components/DevicesContent/DevicesInside';
 import EditUser from './components/UserContent/EditUser';
 import { selectToken } from './redux/apiResponse/loginApiSlice';
 import { useSelector } from 'react-redux';
+import { Typography } from '@mui/material';
+import { Button } from '@mui/base';
 
 function App() {
   const token = useSelector(selectToken);
+  
 
   return (
     <BrowserRouter>
@@ -59,8 +62,11 @@ function App() {
           <React.Fragment>
           <Route path="/" element={<Login />} />
           <Route path="*" element={<>
-            <div>session out</div>
-            <Link to="/">go to login</Link>
+            <div style={{display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",height:"100vh",gap:"10px"}}>
+            <Typography variant="h3">Session Time Out</Typography>
+            <Link to="/" style={{ marginTop: "10px", padding: "10px 20px", backgroundColor: "#007acc", color: "#fff", borderRadius: "5px", textDecoration: "none", display: "inline-block" }}>Go to Login</Link>
+            </div>
+           
           </>
         }/>
 

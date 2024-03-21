@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import SideNav from '../../components/SideNav';
 import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
-import { GoogleMap, LoadScript, MarkerF, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap,google, LoadScript, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../components/CommonComponent/CustomButton';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';

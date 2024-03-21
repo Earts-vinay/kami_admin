@@ -201,10 +201,10 @@ useEffect(() => {
   <Table aria-label="simple table">
     <TableHead style={{ backgroundColor: "#80808017" }}>
       <TableRow>
-        <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>pole ID</TableCell>
+        <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>pole ID</TableCell>
         <TableCell sx={{ ...commonStyles, minWidth: '150px' }}>Lat, Long</TableCell>
         <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>Zone</TableCell>
-        <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>Cameras</TableCell>
+        <TableCell sx={{ ...commonStyles, minWidth: '120px' }}>Cameras</TableCell>
         <TableCell></TableCell>
       </TableRow>
     </TableHead>
@@ -217,10 +217,10 @@ useEffect(() => {
         <>
           {responseData?.list?.map((row, index) => (
             <TableRow key={index}>
-              <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>{row.property_id}</TableCell>
+              <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>{row.property_id}</TableCell>
               <TableCell sx={{ ...commonStyles, minWidth: '150px' }}>{row.location_lat}, {row.location_lng}</TableCell>
               <TableCell sx={{ ...commonStyles, minWidth: '100px' }}>-</TableCell>
-              <TableCell sx={{ ...commonStyles, minWidth: '100px',alignItems:"center",display:"flex",gap:"10px" }}>
+              <TableCell sx={{ ...commonStyles, minWidth: '120px',alignItems:"center",display:"flex",gap:"10px" }}>
                 <Button variant="contained" style={{ backgroundColor: "#007acc", color: 'white', borderRadius: "5px" }}>3</Button>
                 <img src="assets/icons/editicon.svg" alt="" width="35px" onClick={handleEditPole} />
               </TableCell>
