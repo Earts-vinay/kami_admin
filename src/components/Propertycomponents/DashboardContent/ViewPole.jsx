@@ -12,6 +12,8 @@ import {setAddPoleApiResponse} from '../../../redux/apiResponse/addpoleSlice';
 import { selectToken } from '../../../redux/apiResponse/loginApiSlice';
 import CustomTextField from '../../CommonComponent/CustomTextField';
 import { GoogleMap, LoadScript, MarkerF, useJsApiLoader } from '@react-google-maps/api';
+import { useParams } from 'react-router-dom';
+
 const BaseUrl = process.env.REACT_APP_API_URL
 
 
@@ -110,10 +112,102 @@ const ViewPole = () => {
   const navigate = useNavigate();
   const isOpen = useSelector(selectIsSideNavOpen);
   const dispatch = useDispatch();
-  const [propertyId, setpropertyId] = useState('');
   const [locationLat, setLocationLat] = useState();
   const [locationLang, SetLocationLang] = useState();
   const token = useSelector(selectToken);
+  const [propertyName, setPropertyName] = useState('');
+  const [propertyType, setPropertyType] = useState({});
+  const [property_id, setpropertyId] = useState('2');
+  const[pole, setPole] = useState();
+  const[poleId , setPoleId] = useState('');
+
+  const handlePoleIDChange = (event) =>{
+    setPoleId(event.target.value)
+  }
+  const handlelongchange = (event) =>{
+    SetLocationLang(event.target.value)
+  }
+  const handlelatchange = (event) =>{
+    setLocationLat(event.target.value)
+  }
+  const { id } = useParams();
+  const [propertyId, setPropertyId] = useState(id);
+  const [propertyData, setPropertyData] = useState(null);
+  const selectDictionary = state => state.dictionary.data;
+  const selectPropertyTypes = state => {
+    const dictionaryData = selectDictionary(state);
+    if (dictionaryData && Array.isArray(dictionaryData.data.property_types)) {
+      return dictionaryData.data.property_types.map(type => ({ id: type.id, name: type.name }));
+    } else {
+      return [];
+    }
+  };
+  const propertyTypes = useSelector(selectPropertyTypes);
+  const handleSaveOrUpdate = () => {
+    const payload = new URLSearchParams({
+      property_id:property_id,
+      name: propertyName,
+      location_lat:locationLat,
+      location_lng:locationLang,
+     name:'hyderabad'
+      
+    });
+    const url = propertyId ? `http://35.239.192.201:9092/api/pole/${propertyId}` : 'http://35.239.192.201:9092/api/pole';
+    const method = propertyId ? 'PUT' : 'POST';
+    fetch(url, {
+      method: method,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: payload.toString()
+    })
+      .then(response => {
+        if (response.ok) {
+          console.log(propertyId ? 'pole updated successfully' : 'pole saved successfully');
+          navigate(`/addpole`);
+        } else {
+          console.error(propertyId ? 'Failed to update pole' : 'Failed to save pole');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  };
+  
+  
+  useEffect(() => {
+    const fetchPoledataData = async () => {
+      try {
+        const response = await fetch(`http://35.239.192.201:9092/api/pole/${id}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = await response.json();
+       
+        if (response.ok) {
+          setPole(data.data);
+          setPoleId(data.data.id)
+          setpropertyId(data.data.property_id);
+          setLocationLat(data.data.location_lat);
+          SetLocationLang(data.data.location_lng);
+          
+        } else {
+          console.error('Failed to fetch property data:', data.msg);
+        }
+      } catch (error) {
+        console.error('Error fetching property data:', error);
+      }
+    };
+    fetchPoledataData();
+  }, [id, token]);
+
+
+
+
+
  
   const [viewport, setViewport] = React.useState({
     
@@ -141,10 +235,11 @@ const ViewPole = () => {
   
 
     const formpoleData = new URLSearchParams();
-    formpoleData.append('property_id', propertyId);
+    formpoleData.append('propertyId',parseInt(property_id));
     formpoleData.append('name', 'hyderabad');
-    formpoleData.append('location_lat', locationLat);
-    formpoleData.append('location_lng',locationLang);
+    formpoleData.append('latitude', locationLat);
+    formpoleData.append('langutitude',locationLang);
+
 
     try {
         const response = await fetch(`${BaseUrl}pole`, {
@@ -215,16 +310,20 @@ useEffect(() => {
             <Box sx={{ display: 'flex', flexWrap:"wrap", gap: '10px' }}>
               <Box sx={{ width: { xs: '100%',sm:"100%", md: '48%' }, padding: '10px' }}>
                 <Box paddingBottom={2}>
-              <CustomTextField  label="Pole Id" value={propertyId} onChange={(e) => setpropertyId(e.target.value)}/>
+                <CustomTextField  label="Pole Id" value={poleId}   onChange={handlePoleIDChange}/>
                 </Box>
                 <Typography variant="body2" sx={commonStyles} py={2}>
                   Mark on Map
                 </Typography>
                 <Box paddingBottom={2}>
-                  <CustomTextField label="Latitude" value={locationLat} onChange={(e)=>setLocationLat(e.target.value)} />
+                <Typography variant="body2" sx={commonStyles}>Lat</Typography>
+                  <CustomTextField  placeholer="latitude" value={locationLat}  onChange={handlelatchange} />
+
                 </Box>
                 <Box paddingBottom={2}>
-                  <CustomTextField label="Longitude" value={locationLang} onChange={(e)=>SetLocationLang(e.target.value)}/>
+                <Typography variant="body2" sx={commonStyles}>Lang</Typography>
+                  <CustomTextField  placeholer="lang"  value={locationLang} onChange={handlelongchange}/>
+
                 </Box>
               </Box>
 
@@ -237,7 +336,12 @@ useEffect(() => {
             <Box sx={{ marginTop: '40px',display:"flex", justifyContent:"center", gap:"10px" }}>
              
               <CustomButton onClick={() => handleviewpole()}>Back</CustomButton>
-              <CustomButton onClick={()=>handlesavepole()}>Save</CustomButton>
+              {propertyId ? (
+            <CustomButton onClick={handleSaveOrUpdate}>Update</CustomButton>
+          ) : (
+            <CustomButton onClick={handleSaveOrUpdate}>Save</CustomButton>
+          )}
+
       
             </Box>
           </Box>

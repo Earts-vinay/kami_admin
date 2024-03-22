@@ -2,6 +2,7 @@ import React, { useState ,useEffect} from 'react';
 import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import SideNav from '../../SideNav';
+import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../../redux/sidenav/sidenavSlice';
 import { selectToken } from '../../../redux/apiResponse/loginApiSlice';
@@ -10,6 +11,9 @@ import Map  ,{GeolocateControl,Marker}  from "react-map-gl";
 import { GoogleMap, LoadScript, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { Dialog, DialogActions, DialogContent } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+
 const BaseUrl = process.env.REACT_APP_API_URL
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -138,10 +142,11 @@ const AddPole = () => {
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
   const [responseData, setResponseData] = useState(null);
-  const [propertyId, setPropertyId] = useState('2');
+  const [property_id, setPropertyId] = useState('2');
   const {id} = useParams();
   const [poleId, setPoleId] = useState(id);
   const [query, setQuery] = useState('Hyderabad');
+  const [open, setOpen] = useState(false);
   const [viewport, setViewport] = React.useState({
     
     width: '500px',
@@ -153,6 +158,32 @@ const AddPole = () => {
     pitch: 50,
     bearing: 0,
   });
+  const fetchData = () =>{
+    try {
+      axios.get(
+        `${BaseUrl}pole?property_id=${property_id}`,
+       {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Authorization': `Bearer ${token}`
+            }
+          }
+      ).then((res)=>{
+        const {data} = res.data;
+      console.log("addpole",res,data)
+      if (res.data.code === 200) {
+          toast.success(data.msg);
+          setResponseData(data);
+      } else {
+          toast.error(data.msg);
+      }
+      }).catch((err)=>{})
+  
+      
+  } catch (error) {
+      console.error('Error:', error);
+  }
+  }
 
   const handleToggle = () => {
     dispatch(toggleSideNav());
@@ -160,94 +191,84 @@ const AddPole = () => {
 
   const [deleteDataUpdated, setDeleteDataUpdated] = useState(false)
 
-  
-  const handledelete = async(poleId, token) => {
-
+  const handleDelete = async (ids) => {
+    console.log("calling the delete");
+    console.log(ids);
+    const payload = new URLSearchParams({
+      id: ids.toString()
+    });
     try {
-      const requestBody = new URLSearchParams({
-          id: poleId.toString()
-      });
-
-      const response = await axios.delete(`${BaseUrl}pole`, {
-          headers: {
-              'Content-Type': 'application/x-www-form-urlencoded',
-              'Authorization': `Bearer ${token}`
-          },
-          data: requestBody.toString()
-      });
-
-      const data = response.data;
-      console.log(data);
-      if (data.msg === "ok") {
-          console.log(`Record with ID ${poleId} deleted successfully`);
-          setDeleteDataUpdated(true) 
-      } else {
-          console.error('Failed to delete record');
-      }
-  } catch (error) {
-      console.error('Error deleting record:', error);
-  }
-  };
-
-
-useEffect(() => {
-  try {
-    axios.get(
-        `${BaseUrl}pole?property_id=${propertyId}&search=${query}`,
-    
-        {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Authorization': `Bearer ${token}`
-          }
-        }
-    ).then((res)=>{
-      const {data} = res.data;
-    console.log("addpole",res,data)
-    if (res.data.code === 200) {
-        toast.success(data.msg);
-        setResponseData(data);
-    } else {
-        toast.error(data.msg);
-    }
-    }).catch((err)=>{})
-
-    
-} catch (error) {
-    console.error('Error:', error);
-}
-},[deleteDataUpdated]);
-
-const handleEditPole = async () => {
-  navigate(`/viewpole`);
-
-  try {
-    const response = await axios.put(
-      `${BaseUrl}pole/${poleId}`,
-      {
-        name:'',
-        location_lat:"",
-        location_lng: "",
-      },
-      {
+      const response = await fetch(`http://35.239.192.201:9092/api/pole`, {
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
           'Authorization': `Bearer ${token}`
-        }
-      }
-    );
+        },
+        body: payload.toString() // Pass array of IDs in the body
+      });
+      const data=await response.json();
 
-    if (response.data.code === 200 && response.data.msg === "ok") {
-      console.log("Success: Pole updated successfully");
+      if (data.msg==="ok") {
+        // Delete successful, you may want to update your UI accordingly
+        console.log('Pole deleted successfully');
+        // You might want to refetch the data after deletion
+        fetchData();
+      } else {
+        console.error('Failed to delete pole');
+      }
+    } catch (error) {
+      console.error('Error deleting properties:', error);
     }
-  } catch (error) {
-    // Handle error scenario
-    console.error('Error:', error);
+  };
+
+  const handleDeleteClick = (event, id) => {
+    event.stopPropagation();
+    handleDelete([id]); // Pass an array with single ID
   }
+
+useEffect(() => {
+  fetchData();
+},[token]);
+
+const handleEditPole = (id) => {
+  navigate(`/viewpole/${id}`);
 };
+// const handleEditPole = async () => {
+//   navigate(`/viewpole`);
+
+//   try {
+//     const response = await axios.put(
+//       `${BaseUrl}pole/${poleId}`,
+//       {
+//         name:'',
+//         location_lat:"",
+//         location_lng: "",
+//       },
+//       {
+//         headers: {
+//           'Content-Type': 'application/x-www-form-urlencoded',
+//           'Authorization': `Bearer ${token}`
+//         }
+//       }
+//     );
+
+//     if (response.data.code === 200 && response.data.msg === "ok") {
+//       console.log("Success: Pole updated successfully");
+//     }
+//   } catch (error) {
+//     // Handle error scenario
+//     console.error('Error:', error);
+//   }
+// };
   
   const handlePair = () => {
     navigate('/pairdevice');
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const openAddPole = () => {
@@ -310,16 +331,41 @@ const handleEditPole = async () => {
               <TableCell sx={{ ...commonStyles, minWidth: '130px',alignItems:"center",display:"flex",gap:"5px" }}>
               <Button variant="contained" style={{ backgroundColor: "#007acc", color: 'white', borderRadius: "5px" }}>3</Button>
                    <Box sx={{display:"flex",}}>
-                   <IconButton color="primary" aria-label="edit" onClick={() => {
-                      handleEditPole();
-                    }} >
-                      <img src="assets/icons/editicon.svg" alt="" width="35px" />
+                   <IconButton color="primary" aria-label="edit"  onClick={(event) => {
+                              event.stopPropagation();
+                              handleEditPole(row.id);
+                            }} >
+                      <img src="assets/icons/editicon.svg" alt="" width="35px "  />
                     </IconButton>
-                    <IconButton color="secondary" aria-label="delete">
-                      <img src="assets/icons/deleteicon.svg" alt="" width="35px" onClick={() => handledelete(row.id,token)} />
+                    <IconButton color="secondary" aria-label="delete"  onClick={(event) => handleDeleteClick(event, row.id)} >
+                      <img src="assets/icons/deleteicon.svg" alt="" width="35px"  />
                     </IconButton>
                    </Box>
-
+                   <Dialog open={open} onClose={handleClose}>
+         <Typography backgroundColor=" #2465e9" color="white" borderRadius="5px 5px 0px 0px" p={2} sx={commonStyles}>
+           Delete User
+         </Typography>
+         <CloseIcon
+          sx={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            color: 'white',
+            cursor: 'pointer',
+            paddingY: '6px',
+            paddingX: '10px',
+          }}
+          onClick={handleClose}
+        />
+        <DialogContent>
+          <Typography width="500px" sx={commonStyles}>Please Confirm to Delete user</Typography>
+         
+        </DialogContent>
+        <DialogActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <CustomButton onClick={handleClose}>Cancel</CustomButton>
+          <CustomButton onClick={(event) => handleDeleteClick(event, row.id)}>Delete</CustomButton>
+        </DialogActions>
+      </Dialog>
                 {/* <img src="assets/icons/editicon.svg" alt="" width="35px" onClick={handleEditPole} />
                 <img src="assets/icons/deleteicon.svg" alt="" width="35px" onClick={handledelete} /> */}
               </TableCell>
