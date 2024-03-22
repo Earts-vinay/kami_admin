@@ -69,14 +69,14 @@ const SideNav = ({ open, handleToggle }) => {
         borderRadius: "5px",
         width: open ? "auto" : "45px",
         transition: "width 0.3s ease",
-        padding: open ? "10px" : "10px", // Add padding for icons when sidebar is closed
+        padding: open ? "10px" : "10px", 
         "&:hover": {
             backgroundColor: open ? "#f0f0f0" : "#f0f0f0",
         },
         "&.active": {
-            backgroundColor: "#C7D8FA", // Sky blue color for selected item
+            backgroundColor: "#C7D8FA", 
         },
-        marginBottom: "15px", // Add some gap between list items
+        marginBottom: "15px",
     };
 
     const handleLogout = () => {

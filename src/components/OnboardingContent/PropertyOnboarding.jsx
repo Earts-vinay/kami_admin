@@ -223,10 +223,17 @@ const PropertyOnboarding = ({ dropdownData }) => {
               <CustomDropdown label="Time" value={timeDifference}
                 onChange={handleTimeDifferenceChange} >
                 <MenuItem value="">Select Time Difference</MenuItem>
-                <MenuItem value="-12">UTC-12</MenuItem>
-                <MenuItem value="-11">UTC-11</MenuItem>
-                <MenuItem value="-10">UTC-10</MenuItem>
-                <MenuItem value="-9">UTC-9</MenuItem>
+                <MenuItem value="">Select Time Difference</MenuItem>
+                <MenuItem value="-12">UTC-12 (Baker Island Time)</MenuItem>
+                <MenuItem value="-11">UTC-11 (Niue Time)</MenuItem>
+                <MenuItem value="-10">UTC-10 (Hawaii-Aleutian Standard Time)</MenuItem>
+                <MenuItem value="-9">UTC-9 (Alaska Standard Time)</MenuItem>
+                <MenuItem value="-8">UTC-8 (Pacific Standard Time)</MenuItem>
+                <MenuItem value="-7">UTC-7 (Mountain Standard Time)</MenuItem>
+                <MenuItem value="-6">UTC-6 (Central Standard Time)</MenuItem>
+                <MenuItem value="-5">UTC-5 (Eastern Standard Time)</MenuItem>
+                <MenuItem value="-4">UTC-4 (Atlantic Standard Time)</MenuItem>
+                <MenuItem value="-3.5">UTC-3:30 (Newfoundland Standard Time)</MenuItem>
               </CustomDropdown>
             </Grid>
           </Grid>

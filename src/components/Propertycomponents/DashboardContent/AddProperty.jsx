@@ -88,7 +88,7 @@ const AddProperty = () => {
 
   const propertyTypes = useSelector(selectPropertyTypes);
 
-  // console.log(propertyTypes);
+  console.log(propertyTypes);
 
   const handleTableRowClick = () => {
     navigate(`/organization`);
@@ -239,15 +239,27 @@ const AddProperty = () => {
           <Grid md={6} paddingLeft="25px" paddingY="10px" container spacing={2}>
             <Grid item xs={12} md={12}>
 
-              <CustomDropdown label="Property Type" value={propertyId ? propertyType1 : propertyType.id || ''} onChange={handlePropertyTypeChange}>
-                {propertyId ? (
+              <CustomDropdown
+                label="Property Type"
+                value={propertyId ? propertyType1 : propertyType.id || ''}
+                onChange={(event) => {
+                  const selectedType = propertyTypes.find(type => type.id === event.target.value);
+                  setPropertyType(selectedType);
+                  setPropertyType1(selectedType.name);
+                }}
+              >
+                {propertyId && (
                   <MenuItem value={propertyType1}>{propertyType1}</MenuItem>
-                ) : (
-                  propertyTypes.map((type, index) => (
-                    <MenuItem key={index} value={type.id}>{type.name}</MenuItem>
-                  ))
                 )}
+
+                {propertyTypes.map((type, index) => (
+                  !(propertyId && type.id === (propertyId ? propertyType1 : propertyType.id)) && (
+                    <MenuItem key={index} value={type.id}>{type.name}</MenuItem>
+                  )
+                ))}
               </CustomDropdown>
+
+
             </Grid>
             <Grid item xs={12} md={12}>
               <CustomTextField label="Address" value={address} onChange={handleAddressChange} />
@@ -266,8 +278,18 @@ const AddProperty = () => {
             </Grid>
             <Grid item xs={12} md={12}>
               <CustomDropdown value={timeZone} onChange={handleTimeZoneChange}>
-                <MenuItem value="option1">Option 1</MenuItem>
-                <MenuItem value="option2">Option 2</MenuItem>
+                <MenuItem value="">Select Time Difference</MenuItem>
+                <MenuItem value="">Select Time Difference</MenuItem>
+                <MenuItem value="-12">UTC-12 (Baker Island Time)</MenuItem>
+                <MenuItem value="-11">UTC-11 (Niue Time)</MenuItem>
+                <MenuItem value="-10">UTC-10 (Hawaii-Aleutian Standard Time)</MenuItem>
+                <MenuItem value="-9">UTC-9 (Alaska Standard Time)</MenuItem>
+                <MenuItem value="-8">UTC-8 (Pacific Standard Time)</MenuItem>
+                <MenuItem value="-7">UTC-7 (Mountain Standard Time)</MenuItem>
+                <MenuItem value="-6">UTC-6 (Central Standard Time)</MenuItem>
+                <MenuItem value="-5">UTC-5 (Eastern Standard Time)</MenuItem>
+                <MenuItem value="-4">UTC-4 (Atlantic Standard Time)</MenuItem>
+                <MenuItem value="-3.5">UTC-3:30 (Newfoundland Standard Time)</MenuItem>
               </CustomDropdown  >
             </Grid>
           </Grid>
