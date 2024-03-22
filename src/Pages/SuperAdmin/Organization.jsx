@@ -66,7 +66,7 @@ const commonStyles = {
 //       lng: 78.4983, // Secunderabad longitude
 //     },
 //   ];
- 
+
 
 //   return (
 //     <React.Fragment>
@@ -85,7 +85,7 @@ const commonStyles = {
 //       }
 
 //     </React.Fragment>
-       
+
 //   );
 // };
 
@@ -159,9 +159,11 @@ const Organization = () => {
     navigate(`/addproperty`);
   };
 
-  const handleClick = () => {
-    navigate(`/addpole`);
+  const handleClick = (type_id) => {
+    console.log("Clicked type_id:", type_id); 
+    navigate(`/addpole/${type_id}`);
   };
+
 
   const handleEdit = (id) => {
     navigate(`/addproperty/${id}`);
@@ -189,9 +191,9 @@ const Organization = () => {
         },
         body: payload.toString() // Pass array of IDs in the body
       });
-      const data=await response.json();
+      const data = await response.json();
 
-      if (data.msg==="ok") {
+      if (data.msg === "ok") {
         // Delete successful, you may want to update your UI accordingly
         console.log('Properties deleted successfully');
         // You might want to refetch the data after deletion
@@ -234,15 +236,15 @@ const Organization = () => {
             </Box>
 
             <Box sx={{ display: "flex", flexWrap: "wrap", justifyContent: "space-between", }}>
-          
+
               <Box sx={{ width: { xs: "100%", sm: "100%", md: "49%" } }}>
-              <Box display="flex" justifyContent="space-between" my={1} p={2}  sx={{backgroundColor:"#80808017",borderRadius:"5px"}}>
-                    <Typography>Property Name</Typography>
-                   <Box display="flex" justifyContent="" gap="80px">
-                   <Typography>Poles</Typography>
+                <Box display="flex" justifyContent="space-between" my={1} p={2} sx={{ backgroundColor: "#80808017", borderRadius: "5px" }}>
+                  <Typography>Property Name</Typography>
+                  <Box display="flex" justifyContent="" gap="80px">
+                    <Typography>Poles</Typography>
                     <Typography>Actions</Typography>
-                   </Box>
                   </Box>
+                </Box>
                 {loading ? (
                   <Box
                     sx={{
@@ -258,86 +260,63 @@ const Organization = () => {
                   </Box>
                 ) : (
                   responseData.data && responseData.data.list.map((item, index) => (
-                 <>
-              
-                    <Box
-                    onClick={() => handleClick()}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "space-between",
-                      backgroundColor: "#f8f7fa",
-                      height: "50px",
-                      borderRadius: "5px",
-                      paddingY: "5px",
-                      paddingX: "20px",
-                      cursor: "pointer",
-                      marginBottom: "10px"
-                    }}
-                  >
-                  
-                    <Box display="flex" flexDirection="column">
-                   
-                      <Typography variant="body-2" style={{ marginRight: '10px', ...commonStyles }}>
-                        {item.name}
-                      </Typography>
-                      <Typography variant="body2" component="span" sx={{ fontSize: '13px', ...commonStyles }}>
-                        <FmdGoodOutlinedIcon fontSize="13px" sx={{ color: 'blue', verticalAlign: 'middle', marginRight: 0.5 }} />
-                        {item.country}, {item.state}
-                      </Typography>
-                    </Box>
-                    <Box display="flex" gap={1} alignItems="center">
-                 
-                      <Button variant="contained"> {item.id}</Button>
-                      <Box display="flex" gap={0} alignItems="center">
-                       
-                        <IconButton>
-                          <img
-                            src="assets/icons/editicon.svg"
-                            alt=""
-                            width="35px"
-                            onClick={(event) => {
-                              event.stopPropagation();
-                              handleEdit(item.id);
-                            }}
-                          />
-                        </IconButton>
-                        <IconButton color="secondary" aria-label="delete"  onClick={(event) => handleDeleteClick(event, item.id)}>
-                          <img src="assets/icons/deleteicon.svg" alt="" width="35px"/>
-                        </IconButton>
+                    <>
+
+                      <Box
+                        onClick={() => {
+                          console.log("Clicked item:", item);
+                          handleClick(item['type_id ']); 
+                        }} sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          backgroundColor: "#f8f7fa",
+                          height: "50px",
+                          borderRadius: "5px",
+                          paddingY: "5px",
+                          paddingX: "20px",
+                          cursor: "pointer",
+                          marginBottom: "10px"
+                        }}
+                      >
+
+                        <Box display="flex" flexDirection="column">
+
+                          <Typography variant="body-2" style={{ marginRight: '10px', ...commonStyles }}>
+                            {item.name}
+                          </Typography>
+                          <Typography variant="body2" component="span" sx={{ fontSize: '13px', ...commonStyles }}>
+                            <FmdGoodOutlinedIcon fontSize="13px" sx={{ color: 'blue', verticalAlign: 'middle', marginRight: 0.5 }} />
+                            {item.country}, {item.state}
+                          </Typography>
+                        </Box>
+                        <Box display="flex" gap={1} alignItems="center">
+
+                          <Button variant="contained"> {item.id}</Button>
+                          <Box display="flex" gap={0} alignItems="center">
+
+                            <IconButton>
+                              <img
+                                src="assets/icons/editicon.svg"
+                                alt=""
+                                width="35px"
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  handleEdit(item.id);
+                                }}
+                              />
+                            </IconButton>
+                            <IconButton color="secondary" aria-label="delete" onClick={(event) => handleDeleteClick(event, item.id)}>
+                              <img src="assets/icons/deleteicon.svg" alt="" width="35px" />
+                            </IconButton>
+                          </Box>
+                        </Box>
                       </Box>
-                    </Box>
-                  </Box>
-                  <Dialog open={open} onClose={handleClose}>
-         <Typography backgroundColor=" #2465e9" color="white" borderRadius="5px 5px 0px 0px" p={2} sx={commonStyles}>
-           Delete User
-         </Typography>
-         <CloseIcon
-          sx={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            color: 'white',
-            cursor: 'pointer',
-            paddingY: '6px',
-            paddingX: '10px',
-          }}
-          onClick={handleClose}
-        />
-        <DialogContent>
-          <Typography width="500px" sx={commonStyles}>Please Confirm to Delete user</Typography>
-         
-        </DialogContent>
-        <DialogActions sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-          <CustomButton onClick={handleClose}>Cancel</CustomButton>
-          <CustomButton onClick={(event) => handleDeleteClick(event, item.id)}>Delete</CustomButton>
-        </DialogActions>
-      </Dialog>
-                  </>
+                    </>
                   ))
-                  
-                )}
-   
+
+                )
+                }
               </Box>
 
               <Box sx={{ width: { xs: "100%", sm: "100%", md: '48%' } }}>
@@ -345,7 +324,7 @@ const Organization = () => {
               </Box>
             </Box>
           </Box>
-      
+
         </div>
       </div>
     </div>
