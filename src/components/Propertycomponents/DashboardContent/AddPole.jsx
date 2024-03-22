@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import SideNav from '../../SideNav';
+import Typography from '@mui/material/Typography';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../../redux/sidenav/sidenavSlice';
 import { selectToken } from '../../../redux/apiResponse/loginApiSlice';
@@ -156,6 +157,7 @@ const AddPole = () => {
 
   // const [poleId, setPoleId] = useState(id);
   const [query, setQuery] = useState('Hyderabad');
+  const [open, setOpen] = useState(false);
   const [viewport, setViewport] = React.useState({
 
     width: '500px',
@@ -167,6 +169,32 @@ const AddPole = () => {
     pitch: 50,
     bearing: 0,
   });
+  const fetchData = () =>{
+    try {
+      axios.get(
+        `${BaseUrl}pole?property_id=${property_id}`,
+       {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'Authorization': `Bearer ${token}`
+            }
+          }
+      ).then((res)=>{
+        const {data} = res.data;
+      console.log("addpole",res,data)
+      if (res.data.code === 200) {
+          toast.success(data.msg);
+          setResponseData(data);
+      } else {
+          toast.error(data.msg);
+      }
+      }).catch((err)=>{})
+  
+      
+  } catch (error) {
+      console.error('Error:', error);
+  }
+  }
 
   const handleToggle = () => {
     dispatch(toggleSideNav());
@@ -238,6 +266,12 @@ const AddPole = () => {
 
   const handlePair = () => {
     navigate('/pairdevice');
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
   };
 
   const openAddPole = () => {
