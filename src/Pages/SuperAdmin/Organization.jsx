@@ -110,7 +110,7 @@ const MapContainer = () => {
   ];
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyAp3UpXOj22Gy-w1I7gF2k6I3AYqglEqvw">
+    <LoadScript googleMapsApiKey=" AIzaSyAmaZMMaAgoUxEmbWdg1Xv0d2dSibZcZs8">
       <GoogleMap mapContainerStyle={mapStyles} zoom={10} center={defaultCenter}>
         {/* Render markers for each location */}
         {locations.map((location, index) => (

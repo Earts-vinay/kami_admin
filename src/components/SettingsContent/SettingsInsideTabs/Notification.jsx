@@ -1,20 +1,34 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Dialog, DialogTitle, DialogContent, TextField, Checkbox, FormControlLabel, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CustomButton from '../../CommonComponent/CustomButton';
-
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { renderTimeViewClock } from '@mui/x-date-pickers/timeViewRenderers';
+import CustomTextField from '../../CommonComponent/CustomTextField';
+import { AddNoticeApiResponse } from '../../../redux/apiResponse/addnoticeSlice';
+import { useLocation, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { selectToken } from '../../../redux/apiResponse/loginApiSlice';
+import { fetchDataStart, fetchDataSuccess, fetchDataFailure, selectResponseData, selectLoading, selectError } from '../../../redux/apiResponse/noticeSlice'
+const BaseUrl = process.env.REACT_APP_API_URL
 const commonStyles = {
   fontFamily: "montserrat-regular",
 };
 const Notification = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [roleName, setRoleName] = useState('');
   const [dayOfWeek, setDayOfWeek] = useState([]);
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [startTime, setStartTime] = useState(null); // Updated to use null for initial value
+  const [endTime, setEndTime] = useState(null);
   const [emailChecked, setEmailChecked] = useState(false);
   const [smsChecked, setSmsChecked] = useState(false);
-
+  const token = useSelector(selectToken);
+  const dispatch = useDispatch();
   const handleOpen = () => {
     setOpen(true);
   };
@@ -23,13 +37,79 @@ const Notification = () => {
     setOpen(false);
   };
 
-  const handleSaveNotification = () => {
+  const handleSaveNotification = async() => {
     // Implement your save logic here
+    const formData = new URLSearchParams();
+    formData.append('property_id', 1);
+    formData.append('analytics_type_id', 2); 
+    formData.append('name',roleName ); 
+    formData.append('week_day', "we","th"); 
+    formData.append('start_time', "21 Mar 2024 ");
+    formData.append('end_time', "21 Mar 2024 "); 
+    formData.append('is_email',emailChecked ); 
+    formData.append('is_sms', smsChecked); 
+    formData.append('recevier_user_id', 3); 
     console.log('Notification saved:', { roleName, dayOfWeek, startTime, endTime, emailChecked, smsChecked });
+
+    try {
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/x-www-form-urlencoded'
+    };
+
+    const response = await axios.post(`${BaseUrl}setting/notice`, formData, { headers });
+
+    const data = response.data;
+    console.log("notice", data);
+
+    dispatch(AddNoticeApiResponse(data));
+
+    if (data.code === 200) {
+      navigate(``);
+      toast.success('Notice saved successfully!');
+    }
+  } catch (error) {
+    console.error('Error saving notice:', error);
+    toast.error('An error occurred while saving notice!');
+  }
     handleClose();
   };
 
+  useEffect(() => {
+    dispatch(fetchDataStart());
+    try {
+      const payload = new URLSearchParams({
+        page: 1,
+        limit: 20,
+      });
 
+      const headers = {
+        'Authorization': `Bearer ${token}`
+      };
+
+      axios.get(`${BaseUrl}setting/notice`, { headers, params: payload })
+        .then((res) => {
+          const { data } = res.data;
+
+          if (res.data.code === 200) {
+            dispatch(fetchDataSuccess(data));
+            toast.success(data.msg);
+          } else {
+            dispatch(fetchDataFailure(data.msg));
+            toast.error(data.msg);
+          }
+        })
+        .catch((err) => {
+          console.error('Error:', err);
+        });
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }, [dispatch, token]);
+
+ const handleSubmit = async () => {
+
+}
   const notifications = [
     { ruleType: 'Weekday Morning Shift Perimeter', location: 'San Jose, North Campus.', schedule: ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'], time: '06AM - 10 AM' },
     { ruleType: 'Weekday Morning Shift Perimeter', location: 'San Jose, North Campus.', schedule: ['mo', 'tu', 'we', 'th', 'fr', 'sa', 'su'], time: '06AM - 10 AM' },
@@ -99,15 +179,8 @@ const Notification = () => {
           onClick={handleClose}
         />
         <DialogContent>
-          <Typography sx={commonStyles}>Role Name</Typography>
-          <TextField
-            label="Role Name"
-            value={roleName}
-            onChange={(e) => setRoleName(e.target.value)}
-            fullWidth
-            margin="dense"
-            size="small"
-          />
+          <CustomTextField   label="Rule Name"  value={roleName}  onChange={(e) => setRoleName(e.target.value)}/>
+         
           <Box py={1}>
             <Typography pb={1} sx={commonStyles}>Day of Week</Typography>
             <Box display="flex" gap={1} alignItems="center" marginBottom="8px">
@@ -119,7 +192,7 @@ const Notification = () => {
             </Box>
           </Box>
           <Box sx={{ display: "flex", gap: "10px" }}>
-            <Box>
+            {/* <Box>
               <Typography sx={commonStyles}>Start Time</Typography>
               <TextField
                 label="Start Time"
@@ -140,6 +213,48 @@ const Notification = () => {
                 margin="dense"
                 size="small"
               />
+            </Box> */}
+          
+              
+              <Box>
+           
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <TimePicker
+                label="Start Time"
+                value={startTime}
+                onChange={(newValue) => setStartTime(newValue)}
+                fullWidth
+                margin="dense"
+                size="small"
+                viewRenderers={{
+                  hours: renderTimeViewClock,
+                  minutes: renderTimeViewClock,
+                  seconds: renderTimeViewClock,
+                }}
+              />
+              </LocalizationProvider>
+            </Box>
+           
+      
+
+            {/* End Time TimePicker */}
+            <Box>
+             
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <TimePicker
+                label="End Time"
+                value={endTime}
+                onChange={(newValue) => setEndTime(newValue)}
+                fullWidth
+                margin="dense"
+                size="small"
+                viewRenderers={{
+                  hours: renderTimeViewClock,
+                  minutes: renderTimeViewClock,
+                  seconds: renderTimeViewClock,
+                }}
+              />
+              </LocalizationProvider>
             </Box>
           </Box>
           <Box sx={{ display: "flex", gap: "10px", alignItems: "center" }}>
