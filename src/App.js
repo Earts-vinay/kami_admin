@@ -46,7 +46,7 @@ function App() {
             <Route path="/edituser" element={<EditUser />} />
             <Route path="/edituser/:id" element={<EditUser />} />
             <Route path="/settings" element={<Settings />} />
-            <Route path="/settingsinside" element={<SettingsInside />} />
+            <Route path="/settingsinside/:propertyId" element={<SettingsInside />} />
             <Route path="/myprofile" element={<MyProfile />} />
             <Route path="/organizationaddproperty" element={<OrganizationAddProperty />} />
             {/* Property Routes */}

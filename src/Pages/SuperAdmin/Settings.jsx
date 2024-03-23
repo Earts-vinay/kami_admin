@@ -37,7 +37,6 @@
 //     { name: 'Western Super Market', alert: 'Active', detection: 'Inactive', status: 'Online', notification: 'Enabled', time: '12:30 PM', state: "virginia", country: "USA" },
 //   ]  // Assuming data is an array of objects with the required properties
 
-
 //   return (
 //     <>
 //       <div style={{ display: 'flex' }}>
@@ -97,18 +96,30 @@
 
 // export default Settings;
 
-
-import React, { useState, useEffect } from 'react';
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography } from '@mui/material';
-import FmdGoodOutlinedIcon from '@mui/icons-material/FmdGoodOutlined';
-import CustomSearch from '../../components/CommonComponent/CustomSearch';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectToken } from '../../redux/apiResponse/loginApiSlice';
-import { useNavigate } from 'react-router';
-import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
-import SideNav from '../../components/SideNav';
-import HeaderLayout from '../../components/CommonComponent/HeaderLayout';
+import React, { useState, useEffect } from "react";
+import {
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Typography,
+} from "@mui/material";
+import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
+import CustomSearch from "../../components/CommonComponent/CustomSearch";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { selectToken } from "../../redux/apiResponse/loginApiSlice";
+import { useNavigate } from "react-router";
+import {
+  selectIsSideNavOpen,
+  toggleSideNav,
+} from "../../redux/sidenav/sidenavSlice";
+import SideNav from "../../components/SideNav";
+import HeaderLayout from "../../components/CommonComponent/HeaderLayout";
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -127,28 +138,30 @@ const Settings = () => {
     dispatch(toggleSideNav());
   };
 
-  const handleTableRowClick = () => {
-    navigate(`/settingsinside`);
+  const handleTableRowClick = (propertyId) => {
+    console.log(propertyId);
+    navigate(`/settingsinside/${propertyId}`);
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://35.239.192.201:9092/api/property/settings', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await axios.get(
+          "http://35.239.192.201:9092/api/property/settings",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setData(response.data.data.list);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
     fetchData();
   }, [token]);
-
-
 
   console.log("settings", data);
   return (
@@ -156,25 +169,74 @@ const Settings = () => {
       <HeaderLayout>
         <Box>
           <Box sx={{ paddingY: "5px", textAlign: "end" }}>
-            <CustomSearch label="Search" customSx={{ width: '500px', size: "small" }} />
+            <CustomSearch
+              label="Search"
+              customSx={{ width: "500px", size: "small" }}
+            />
           </Box>
         </Box>
         <Box>
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
-                <TableRow sx={{ background: 'rgba(211, 211, 211, 0.3)' }}>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', ...commonStyles }}>Property Name</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', ...commonStyles }}>Raise Alert</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', ...commonStyles }}>Vehicle Detection</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', ...commonStyles }}>Notification</TableCell>
-                  <TableCell sx={{ fontWeight: 'bold', color: '#A9A8AA', ...commonStyles }}>Time</TableCell>
+                <TableRow sx={{ background: "rgba(211, 211, 211, 0.3)" }}>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#A9A8AA",
+                      ...commonStyles,
+                    }}
+                  >
+                    Property Name
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#A9A8AA",
+                      ...commonStyles,
+                    }}
+                  >
+                    Raise Alert
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#A9A8AA",
+                      ...commonStyles,
+                    }}
+                  >
+                    Vehicle Detection
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#A9A8AA",
+                      ...commonStyles,
+                    }}
+                  >
+                    Notification
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      fontWeight: "bold",
+                      color: "#A9A8AA",
+                      ...commonStyles,
+                    }}
+                  >
+                    Time
+                  </TableCell>
                   {/* Add more table headers as needed */}
                 </TableRow>
               </TableHead>
               <TableBody>
                 {data.map((item, index) => (
-                  <TableRow key={index} onClick={() => handleTableRowClick()} sx={{ cursor: "pointer" }}>
+                  <TableRow
+                    key={index}
+                    onClick={() => {
+                      handleTableRowClick(item.id);
+                    }}
+                    sx={{ cursor: "pointer" }}
+                  >
                     <TableCell>
                       <Typography variant="body1" sx={commonStyles}>
                         {item.property_name}
@@ -182,9 +244,15 @@ const Settings = () => {
                       {/* Additional data cells */}
                     </TableCell>
                     <TableCell sx={commonStyles}>{item.raise_alert}</TableCell>
-                    <TableCell sx={commonStyles}>{item.vehicle_detect}</TableCell>
-                    <TableCell sx={commonStyles}>{item.notice_weekday}</TableCell>
-                    <TableCell sx={commonStyles}>{item.notic_datetime}</TableCell>
+                    <TableCell sx={commonStyles}>
+                      {item.vehicle_detect}
+                    </TableCell>
+                    <TableCell sx={commonStyles}>
+                      {item.notice_weekday}
+                    </TableCell>
+                    <TableCell sx={commonStyles}>
+                      {item.notic_datetime}
+                    </TableCell>
                     {/* Add more table cells as needed */}
                   </TableRow>
                 ))}
@@ -192,12 +260,7 @@ const Settings = () => {
             </Table>
           </TableContainer>
         </Box>
-
       </HeaderLayout>
-
-
-
-
     </>
   );
 };

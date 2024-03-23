@@ -7,11 +7,13 @@ import Database from './SettingsInsideTabs/Database';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsSideNavOpen, toggleSideNav } from '../../redux/sidenav/sidenavSlice';
 import HeaderLayout from '../CommonComponent/HeaderLayout';
+import { useParams } from 'react-router-dom';
 
 const commonStyles = {
     fontFamily: "montserrat-regular",
 };
 const SettingsInside = () => {
+    const {propertyId}=useParams();
     const [selectedTab, setSelectedTab] = useState(0);
     const isOpen = useSelector(selectIsSideNavOpen);
     const dispatch = useDispatch();
@@ -76,7 +78,7 @@ const SettingsInside = () => {
                         <Notification />
                     </TabPanel>
                     <TabPanel value={selectedTab} index={2}>
-                        <Database />
+                        <Database propertyId={propertyId}/>
                     </TabPanel>
                 </Box>
             </HeaderLayout>
