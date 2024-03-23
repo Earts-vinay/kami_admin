@@ -37,6 +37,7 @@ const Notification = () => {
     setOpen(false);
   };
 
+  
   const handleSaveNotification = async() => {
     // Implement your save logic here
     const formData = new URLSearchParams();
@@ -106,7 +107,7 @@ const Notification = () => {
       console.error('Error:', error);
     }
   }, [dispatch, token]);
-
+  console.log("notifications",fetchDataStart);
  const handleSubmit = async () => {
 
 }
