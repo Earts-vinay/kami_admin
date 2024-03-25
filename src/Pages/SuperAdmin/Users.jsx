@@ -14,6 +14,7 @@ import CustomSearch from '../../components/CommonComponent/CustomSearch';
 import axios from 'axios';
 import HeaderLayout from '../../components/CommonComponent/HeaderLayout';
 import CloseIcon from '@mui/icons-material/Close';
+import { HashLoader } from 'react-spinners';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -154,7 +155,11 @@ const Users = () => {
         <CustomSearch label="Search" customSx={{ width: '500px', size: "small" }} value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
         <CustomButton onClick={handleAddUser}>Add User</CustomButton>
       </Box>
-
+      {loading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "20px",height:"60vh" }}>
+          <HashLoader size={50} color="#2465e9" loading={loading} />
+        </Box>
+      ) : (
       <TableContainer component={Paper}>
         <Table>
           <TableHead sx={{ "& .css-15wwp11-MuiTableHead-root": { background: 'linear-gradient(to bottom, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4)) !important' } }}>
@@ -197,15 +202,8 @@ const Users = () => {
             </TableRow>
           </TableHead>
 
-          <TableBody>
-            {loading ? (
-              <TableRow>
-                <TableCell colSpan={5} style={{ textAlign: 'center' }}>
-                  <CircularProgress />
-                </TableCell>
-              </TableRow>
-            ) : (
-              usersData.map((user) => (
+          <TableBody>   
+              {usersData.map((user) => (
                 <TableRow key={user.id}>
                   <TableCell width="20px"><img src="assets/icons/girlicon.svg" alt="" width="40px" /></TableCell>
                   <TableCell>{user.username}</TableCell>
@@ -236,11 +234,11 @@ const Users = () => {
                   </TableCell>
                 </TableRow>
               ))
-            )}
+            }
           </TableBody>
         </Table>
       </TableContainer>
-
+      )}
       <Dialog open={open} onClose={handleClose}>
         <Typography backgroundColor=" #2465e9" color="white" borderRadius="5px 5px 0px 0px" p={2} sx={commonStyles}>
           Delete User
