@@ -53,7 +53,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/addproperty" element={<AddProperty />} />
             <Route path="/addproperty/:id" element={<AddProperty />} />
-            <Route path="/addpole/:id" element={<AddPole />} />
+            <Route path="/addpole" element={<AddPole />} />
             <Route path="/viewpole" element={<ViewPole />} />
             <Route path="/viewpole/:id" element={<ViewPole />} />
             <Route path="/pairdevice" element={<PairDevice />} />

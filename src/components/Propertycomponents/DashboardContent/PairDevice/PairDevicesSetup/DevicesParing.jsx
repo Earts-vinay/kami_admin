@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SideNav from '../../../../SideNav';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { selectIsSideNavOpen, toggleSideNav } from '../../../../../redux/sidenav/sidenavSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, Step, StepLabel, Stepper, Typography } from '@mui/material';
@@ -18,6 +18,10 @@ const DevicesParing = () => {
     const navigate = useNavigate();
     const isOpen = useSelector(selectIsSideNavOpen);
     const dispatch = useDispatch();
+    const location = useLocation();
+
+    const deviceId = location.state ? location.state.id : null;
+    // console.log(deviceId);
 
     const handleToggle = () => {
         dispatch(toggleSideNav());
@@ -63,7 +67,7 @@ const DevicesParing = () => {
             <Box sx={{ display: "flex", flexDirection: "column", overflow: "auto" }}>
                 {activeStep === 0 && (
                     <Box>
-                        <DeviceSetup />
+                        <DeviceSetup deviceId={deviceId} />
                     </Box>
                 )}
                 {activeStep === 1 && (

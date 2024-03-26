@@ -4,7 +4,8 @@ import AddLine from './AddLinrOrPolygonContent/AddLine';
 
 const commonStyles = {
     fontFamily: "montserrat-regular",
-  }; 
+};
+
 const AddLineOrPolygon = () => {
     const data = [
         { name: 'Example 1', linesPolygon: 'Line', detection: 'Detected', zone: 'Zone A' },
@@ -12,6 +13,12 @@ const AddLineOrPolygon = () => {
     ];
 
     const [show, setShow] = useState(false);
+    const [drawType, setDrawType] = useState(null); // State to store draw type
+
+    const handleDrawType = (type) => {
+        setDrawType(type);
+        setShow(true); // Open DrawOnImage component
+    };
 
     return (
         <>
@@ -42,9 +49,10 @@ const AddLineOrPolygon = () => {
                                 </TableBody>
                             </Table>
                         </TableContainer>
+                        {/* Add Line/Polygon buttons */}
                         <Box textAlign="center" py={2}>
-                            <Button color="primary" sx={commonStyles}  textTransform="capitalize" onClick={() => setShow(true)}>Add Line</Button>/
-                            <Button color="primary" sx={commonStyles}  textTransform="capitalize">Add Polygon</Button>
+                            <Button color="primary" sx={commonStyles} textTransform="capitalize" onClick={() => handleDrawType('line')}>Add Line</Button>/
+                            <Button color="primary" sx={commonStyles} textTransform="capitalize" onClick={() => handleDrawType('polygon')}>Add Polygon</Button>
                         </Box>
                     </Box>
                     <Box sx={{ width: { xs: '100%', md: '50%' } }}>
@@ -52,7 +60,7 @@ const AddLineOrPolygon = () => {
                     </Box>
                 </Box>
             ) : (
-                <AddLine />
+                <AddLine drawType={drawType} /> 
             )}
         </>
     );

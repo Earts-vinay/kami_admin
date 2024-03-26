@@ -12,6 +12,9 @@ import CustomButton from '../../components/CommonComponent/CustomButton';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import { Dialog, DialogActions, DialogContent, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { setSelectedProperty } from '../../redux/propertySlice';
+import { fetchDataFailure, fetchDataStart, fetchDataSuccess } from '../../redux/apiResponse/dictionarySlice';
+import axios from 'axios';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -130,6 +133,7 @@ const Dashboard = () => {
   const isOpen = useSelector(selectIsSideNavOpen);
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
+
   const fetchData = async () => {
     try {
       const response = await fetch('http://35.239.192.201:9092/api/property', {
@@ -159,9 +163,10 @@ const Dashboard = () => {
     navigate(`/addproperty`);
   };
 
-  const handleClick = (type_id) => {
-    console.log("Clicked type_id:", type_id); 
-    navigate(`/addpole/${type_id}`);
+  const handleClick = (property) => {
+    console.log("Clicked property:", property); 
+    dispatch(setSelectedProperty(property)); 
+    navigate(`/addpole`);
   };
 
 
@@ -210,6 +215,34 @@ const Dashboard = () => {
     event.stopPropagation();
     handleDelete([id]); // Pass an array with single ID
   };
+
+  const fetchDropdownData = async () => {
+    dispatch(fetchDataStart());
+    try {
+      const response = await axios.get('http://35.239.192.201:9092/api/dict', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      dispatch(fetchDataSuccess(response.data));
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching dropdown data:', error);
+      dispatch(fetchDataFailure(error.message));
+    }
+  };
+
+
+  useEffect(() => {
+    const fetchDictData = async () => {
+      try {
+        const data = await fetchDropdownData();
+      } catch (error) {
+      }
+    };
+
+    fetchDictData();
+  }, []);
 
 
   return (
@@ -265,7 +298,7 @@ const Dashboard = () => {
                       <Box
                         onClick={() => {
                           console.log("Clicked item:", item);
-                          handleClick(item['type_id ']); 
+                          handleClick(item); 
                         }} sx={{
                           display: "flex",
                           alignItems: "center",

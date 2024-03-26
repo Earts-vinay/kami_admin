@@ -12,82 +12,12 @@ import CustomButton from '../../components/CommonComponent/CustomButton';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import { Dialog, DialogActions, DialogContent, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { setSelectedProperty } from '../../redux/propertySlice';
+import { toast } from 'react-toastify';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
 };
-
-// const MapContainer = () => {
-//   const mapStyles = {
-//     height: '350px',
-//     width: '100%',
-//     borderRadius: "10px"
-//   };
-//   const defaultCenter={
-//     lat: 17.4399,
-//       lng: 78.4983
-//   }
-//   const { isLoaded } = useJsApiLoader({
-//     id: '2baa9d8a0c4e66b5',
-//     googleMapsApiKey: "AIzaSyAp3UpXOj22Gy-w1I7gF2k6I3AYqglEqvw"
-//   })
-//   const [map, setMap] = React.useState(null)
-//   const onLoad = React.useCallback(function callback(map) {
-//     // This is just an example of getting and using the map instance!!! don't just blindly copy!
-//     const bounds = new window.google.maps.LatLngBounds(defaultCenter);
-//     map.fitBounds(bounds);
-
-//     setMap(map)
-//   }, [])
-
-//   const onUnmount = React.useCallback(function callback(map) {
-//     setMap(null)
-//   }, [])
-
-//   const hyderabadAreas = [
-//     {
-//       lat: 17.4489, // Hitech City latitude
-//       lng: 78.3907, // Hitech City longitude
-//     },
-//     {
-//       lat: 17.3616, // Charminar latitude
-//       lng: 78.4747, // Charminar longitude
-//     },
-//     {
-//       lat: 17.4432, // Gachibowli latitude
-//       lng: 78.3497, // Gachibowli longitude
-//     },
-//     {
-//       lat: 17.4156, // Banjara Hills latitude
-//       lng: 78.4347, // Banjara Hills longitude
-//     },
-//     {
-//       lat: 17.4399, // Secunderabad latitude
-//       lng: 78.4983, // Secunderabad longitude
-//     },
-//   ];
-
-
-//   return (
-//     <React.Fragment>
-//       {
-//         isLoaded?(<GoogleMap mapContainerStyle={mapStyles} zoom={10} center={defaultCenter}  onLoad={onLoad}
-//           onUnmount={onUnmount}>
-//           {/* You can customize the map as needed */}
-//          {
-//           hyderabadAreas.map((obj,val)=>{
-//             return  <MarkerF key={val} position={obj} />
-//           })
-//          }
-//         </GoogleMap>):(<div>
-//           loading...
-//           </div>)
-//       }
-
-//     </React.Fragment>
-
-//   );
-// };
 
 const MapContainer = () => {
   const mapStyles = {
@@ -159,11 +89,11 @@ const Organization = () => {
     navigate(`/addproperty`);
   };
 
-  const handleClick = (type_id) => {
-    console.log("Clicked type_id:", type_id); 
-    navigate(`/addpole/${type_id}`);
+  const handleClick = (property) => {
+    console.log("Clicked property:", property); 
+    dispatch(setSelectedProperty(property)); 
+    navigate(`/addpole`);
   };
-
 
   const handleEdit = (id) => {
     navigate(`/addproperty/${id}`);
@@ -196,7 +126,7 @@ const Organization = () => {
       if (data.msg === "ok") {
         // Delete successful, you may want to update your UI accordingly
         console.log('Properties deleted successfully');
-        // You might want to refetch the data after deletion
+        toast.success('Property deleted successfully'); // Show toast message
         fetchData();
       } else {
         console.error('Failed to delete properties');
@@ -265,7 +195,7 @@ const Organization = () => {
                       <Box
                         onClick={() => {
                           console.log("Clicked item:", item);
-                          handleClick(item['type_id ']); 
+                          handleClick(item);
                         }} sx={{
                           display: "flex",
                           alignItems: "center",

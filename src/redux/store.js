@@ -9,6 +9,8 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session';
 import addpoleReducer from '../redux/apiResponse/addpoleSlice.js';
 import getPoleReducer from '../redux/apiResponse/poleSlice.js'
+import deviceReducer from '../redux/deviceSlice.jsx'
+import propertyReducer from '../redux/propertySlice.jsx'
 
 const rootReducer = combineReducers({
   sideNav: sideNavSlice.reducer,
@@ -18,12 +20,14 @@ const rootReducer = combineReducers({
   onboardingcompany: onboardingCompanyReducer,
   addpoleApi: addpoleReducer,
   getpole:getPoleReducer,
+  device: deviceReducer,
+  property: propertyReducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage: storageSession,
-  whitelist: ['loginApi', 'onboardingcompany', 'dictionary', 'auth'], 
+  whitelist: ['loginApi', 'onboardingcompany', 'dictionary', 'auth', 'property'], 
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

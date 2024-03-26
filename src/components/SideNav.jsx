@@ -9,10 +9,11 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import ContactEmergencyOutlinedIcon from '@mui/icons-material/ContactEmergencyOutlined';
 import ExitToAppOutlinedIcon from '@mui/icons-material/ExitToAppOutlined';
 import sideButton from '../assets/sideButton.svg';
-import { selectIsAuthenticated, selectUser } from '../redux/apiResponse/authSlice';
+import { clearAuthentication, selectIsAuthenticated, selectUser } from '../redux/apiResponse/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUrls } from '../redux/onBoarding/onboardingCompanySlice';
 import { clearTokenAndUser } from '../redux/apiResponse/loginApiSlice';
+import { clearData, fetchDataFailure, fetchDataStart } from '../redux/apiResponse/dictionarySlice';
 
 const SideNav = ({ open, handleToggle }) => {
     const location = useLocation();
@@ -69,20 +70,23 @@ const SideNav = ({ open, handleToggle }) => {
         borderRadius: "5px",
         width: open ? "auto" : "45px",
         transition: "width 0.3s ease",
-        padding: open ? "10px" : "10px", 
+        padding: open ? "10px" : "10px",
         "&:hover": {
             backgroundColor: open ? "#f0f0f0" : "#f0f0f0",
         },
         "&.active": {
-            backgroundColor: "#C7D8FA", 
+            backgroundColor: "#C7D8FA",
         },
         marginBottom: "15px",
     };
 
     const handleLogout = () => {
         dispatch(clearTokenAndUser());
+        dispatch(clearAuthentication());
+        dispatch(clearData());
+        dispatch(fetchDataStart());
     };
-    
+
 
     return (
         <>
@@ -112,9 +116,9 @@ const SideNav = ({ open, handleToggle }) => {
                             mb={open ? 2 : 0}
                             pt={3}
                             style={{
-                                backgroundColor: open ? 'rgba(0, 0, 0, 0)' : 'inherit', 
-                                width: open ? '180px' : 'auto', 
-                                height: open ? '50px' : 'auto', 
+                                backgroundColor: open ? 'rgba(0, 0, 0, 0)' : 'inherit',
+                                width: open ? '180px' : 'auto',
+                                height: open ? '50px' : 'auto',
                             }}
                         >
                             <div
@@ -128,7 +132,7 @@ const SideNav = ({ open, handleToggle }) => {
                                     backgroundRepeat: 'no-repeat',
                                     backgroundSize: 'contain',
                                     backgroundPosition: 'center',
-                                    transition: 'width 0.3s ease', 
+                                    transition: 'width 0.3s ease',
                                 }}
                             />
                         </Box>

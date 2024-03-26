@@ -148,10 +148,13 @@ const AddPole = () => {
   const token = useSelector(selectToken);
   const [responseData, setResponseData] = useState(null);
   const responsePoleData = useSelector(selectResponseData);
+  // console.log(responsePoleData);
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
   // const [propertyId, setPropertyId] = useState(id);
-  const { id } = useParams();
+  const selectedProperty = useSelector(state => state.property.selectedProperty);
+  const propertyId = selectedProperty ? selectedProperty.id : null;
+  // const { id } = useParams();
   // console.log("Property ID:", id); 
 
 
@@ -212,7 +215,7 @@ const AddPole = () => {
     dispatch(fetchDataStart());
     try {
       // console.log(id);
-      const url = `${BaseUrl}pole?property_id=${id}`;
+      const url = `${BaseUrl}pole?property_id=${propertyId}`;
 
       const headers = {
         'Authorization': `Bearer ${token}`
@@ -237,7 +240,7 @@ const AddPole = () => {
     } catch (error) {
       console.error('Error:', error);
     }
-  }, [dispatch, deleteDataUpdated, id, query, token]);
+  }, [dispatch, deleteDataUpdated, propertyId, query, token]);
 
   const handlePair = () => {
     navigate('/pairdevice');
@@ -250,11 +253,11 @@ const AddPole = () => {
   };
 
   const openAddPole = () => {
-    navigate('/viewpole', { state: { id } });
+    navigate('/viewpole');
   };
 
   const openEditPole = (rowId) => {
-    navigate('/viewpole', { state: { rowId: rowId } });
+    navigate('/viewpole', { state: { rowId } });
   };
 
 

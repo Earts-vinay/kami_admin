@@ -114,9 +114,9 @@ const ViewPole = () => {
   const token = useSelector(selectToken);
   const dispatch = useDispatch();
   const location = useLocation();
-  const { id } = location.state;
-  const { rowId } = location.state;
-  const [propertyId, setPropertyId] = useState(id);
+  const selectedProperty = useSelector(state => state.property.selectedProperty);
+  const propertyId = selectedProperty ? selectedProperty.id : null;
+  const { rowId } = location.state || {}; 
   const [propertyName, setpropertyName] = useState('');
   const [locationLat, setLocationLat] = useState();
   const [locationLang, SetLocationLang] = useState();
@@ -141,13 +141,13 @@ const ViewPole = () => {
 
   const handleviewpole = () => {
     console.log(propertyId);
-    navigate(`/addpole/${propertyId}`);
+    navigate(`/addpole`);
   };
 
 
   const handlesavepole = async () => {
     const formData = new URLSearchParams();
-    formData.append('property_id', id);
+    formData.append('property_id', propertyId);
     formData.append('name', propertyName); 
     formData.append('location_lat', locationLat); 
     formData.append('location_lng', locationLang); 
@@ -168,7 +168,7 @@ const ViewPole = () => {
       dispatch(setAddPoleApiResponse(data));
 
       if (data.code === 200) {
-        navigate(`/addpole/${propertyId}`);
+        navigate(`/addpole`);
         toast.success('Pole saved successfully!');
       }
     } catch (error) {
@@ -196,6 +196,7 @@ const ViewPole = () => {
       if (data.msg === 'ok') {
         console.log(`Pole with ID ${rowId} updated successfully`);
         toast.success(`Pole with ID ${rowId} updated successfully`);
+        navigate(`/addpole`);
       } else {
         console.error('Failed to update pole');
       }

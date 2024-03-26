@@ -20,9 +20,12 @@ const dictionarySlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    clearData(state) {
+      state.data = null;
+    },
   },
 });
 
-export const { fetchDataStart, fetchDataSuccess, fetchDataFailure } = dictionarySlice.actions;
+export const { fetchDataStart, fetchDataSuccess, fetchDataFailure, clearData } = dictionarySlice.actions;
 
 export default dictionarySlice.reducer;
