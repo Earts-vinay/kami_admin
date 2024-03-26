@@ -121,6 +121,7 @@ import {
 import SideNav from "../../components/SideNav";
 import HeaderLayout from "../../components/CommonComponent/HeaderLayout";
 import { HashLoader } from "react-spinners";
+import { setSettings } from "../../redux/propertySlice";
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -129,9 +130,11 @@ const commonStyles = {
 const BaseUrl = process.env.REACT_APP_API_URL
 
 const Settings = () => {
-  const [data, setData] = useState([]);
+  const settings = useSelector((state) => state.property.settings);
+  // console.log(settings);
+  // const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  console.log(data);
+  // console.log(data);
   const token = useSelector(selectToken);
   const navigate = useNavigate();
 
@@ -158,8 +161,8 @@ const Settings = () => {
             },
           }
         );
-        setData(response.data.data.list);
-        setLoading(false); // Set loading to false when data is fetched
+        dispatch(setSettings(response.data.data.list));
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching data:", error);
         setLoading(false); // Set loading to false in case of error
@@ -169,7 +172,7 @@ const Settings = () => {
     fetchData();
   }, [token]);
 
-  console.log("settings", data);
+  // console.log("settings", data);
   return (
     <>
       <HeaderLayout>
@@ -182,95 +185,95 @@ const Settings = () => {
           </Box>
         </Box>
         <Box>
-        {loading ? (
-        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "20px",height:"60vh" }}>
-          <HashLoader size={50} color="#2465e9" loading={loading} />
-        </Box>
-      ) : (
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow sx={{ background: "rgba(211, 211, 211, 0.3)" }}>
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      color: "#A9A8AA",
-                      ...commonStyles,
-                    }}
-                  >
-                    Property Name
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      color: "#A9A8AA",
-                      ...commonStyles,
-                    }}
-                  >
-                    Raise Alert
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      color: "#A9A8AA",
-                      ...commonStyles,
-                    }}
-                  >
-                    Vehicle Detection
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      color: "#A9A8AA",
-                      ...commonStyles,
-                    }}
-                  >
-                    Notification
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      fontWeight: "bold",
-                      color: "#A9A8AA",
-                      ...commonStyles,
-                    }}
-                  >
-                    Time
-                  </TableCell>
-                  {/* Add more table headers as needed */}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {data.map((item, index) => (
-                  <TableRow
-                    key={index}
-                    onClick={() => {
-                      handleTableRowClick(item.id);
-                    }}
-                    sx={{ cursor: "pointer" }}
-                  >
-                    <TableCell>
-                      <Typography variant="body1" sx={commonStyles}>
-                        {item.property_name}
-                      </Typography>
-                      {/* Additional data cells */}
+          {loading ? (
+            <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "20px", height: "60vh" }}>
+              <HashLoader size={50} color="#2465e9" loading={loading} />
+            </Box>
+          ) : (
+            <TableContainer component={Paper}>
+              <Table>
+                <TableHead>
+                  <TableRow sx={{ background: "rgba(211, 211, 211, 0.3)" }}>
+                    <TableCell
+                      sx={{
+                        fontWeight: "bold",
+                        color: "#A9A8AA",
+                        ...commonStyles,
+                      }}
+                    >
+                      Property Name
                     </TableCell>
-                    <TableCell sx={commonStyles}>{item.raise_alert}</TableCell>
-                    <TableCell sx={commonStyles}>
-                      {item.vehicle_detect}
+                    <TableCell
+                      sx={{
+                        fontWeight: "bold",
+                        color: "#A9A8AA",
+                        ...commonStyles,
+                      }}
+                    >
+                      Raise Alert
                     </TableCell>
-                    <TableCell sx={commonStyles}>
-                      {item.notice_weekday}
+                    <TableCell
+                      sx={{
+                        fontWeight: "bold",
+                        color: "#A9A8AA",
+                        ...commonStyles,
+                      }}
+                    >
+                      Vehicle Detection
                     </TableCell>
-                    <TableCell sx={commonStyles}>
-                      {item.notic_datetime}
+                    <TableCell
+                      sx={{
+                        fontWeight: "bold",
+                        color: "#A9A8AA",
+                        ...commonStyles,
+                      }}
+                    >
+                      Notification
                     </TableCell>
-                    {/* Add more table cells as needed */}
+                    <TableCell
+                      sx={{
+                        fontWeight: "bold",
+                        color: "#A9A8AA",
+                        ...commonStyles,
+                      }}
+                    >
+                      Time
+                    </TableCell>
+                    {/* Add more table headers as needed */}
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-      )}
+                </TableHead>
+                <TableBody>
+                  {settings.map((item, index) => (
+                    <TableRow
+                      key={index}
+                      onClick={() => {
+                        handleTableRowClick(item.id);
+                      }}
+                      sx={{ cursor: "pointer" }}
+                    >
+                      <TableCell>
+                        <Typography variant="body1" sx={commonStyles}>
+                          {item.property_name}
+                        </Typography>
+                        {/* Additional data cells */}
+                      </TableCell>
+                      <TableCell sx={commonStyles}>{item.raise_alert}</TableCell>
+                      <TableCell sx={commonStyles}>
+                        {item.vehicle_detect}
+                      </TableCell>
+                      <TableCell sx={commonStyles}>
+                        {item.notice_weekday}
+                      </TableCell>
+                      <TableCell sx={commonStyles}>
+                        {item.notic_datetime}
+                      </TableCell>
+                      {/* Add more table cells as needed */}
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )}
         </Box>
       </HeaderLayout>
     </>

@@ -75,7 +75,7 @@ const SettingsInside = () => {
                         <Detection />
                     </TabPanel>
                     <TabPanel value={selectedTab} index={1}>
-                        <Notification />
+                        <Notification propertyId={propertyId} />
                     </TabPanel>
                     <TabPanel value={selectedTab} index={2}>
                         <Database propertyId={propertyId}/>
