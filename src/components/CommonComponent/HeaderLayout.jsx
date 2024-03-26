@@ -16,7 +16,7 @@ const HeaderLayout = ({children}) =>{
         <div style={{ display: 'flex' }}>
         <SideNav open={isOpen} handleToggle={handleToggle} />
         <div style={{
-          marginLeft: isOpen ? '220px' : '90px',
+          marginLeft: isOpen ? "220px" : '90px',
           padding: '10px', width: '100%', transition: 'margin 0.3s ease'
         }}>
       <Box style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', marginLeft: '10px', marginRight: '10px',overflow:"auto" }}> 
