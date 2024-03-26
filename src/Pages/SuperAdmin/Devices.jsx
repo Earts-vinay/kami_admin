@@ -22,6 +22,7 @@ import { useNavigate } from 'react-router-dom';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import CustomSearch from '../../components/CommonComponent/CustomSearch';
 import HeaderLayout from '../../components/CommonComponent/HeaderLayout';
+import { HashLoader } from 'react-spinners';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -30,7 +31,7 @@ const Devices = () => {
   const navigate = useNavigate();
   const isOpen = useSelector(selectIsSideNavOpen);
   const dispatch = useDispatch();
-
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   // console.log(data);
   const token = useSelector(selectToken);
@@ -49,13 +50,15 @@ const Devices = () => {
         }
         const result = await response.json();
         setData(result.data.list);
+        setLoading(false); // Set loading to false after fetching data successfully
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-
+  
     fetchData();
   }, [token]);
+  
 
   const handleToggle = () => {
     dispatch(toggleSideNav());
@@ -70,7 +73,11 @@ const Devices = () => {
 <Box sx={{ paddingY: "5px", textAlign: "end" }}>
             <CustomSearch label="Search" customSx={{ width: '500px',size:"small" }}/>
           </Box>
-
+          {loading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "20px",height:"60vh" }}>
+          <HashLoader size={50} color="#2465e9" loading={loading} />
+        </Box>
+      ) : (
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -115,6 +122,7 @@ const Devices = () => {
               </TableBody>
             </Table>
           </TableContainer>
+      )}
 </HeaderLayout>
   
   );

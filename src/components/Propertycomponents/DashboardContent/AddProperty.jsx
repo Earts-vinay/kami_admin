@@ -16,40 +16,41 @@ import CustomTextField from '../../CommonComponent/CustomTextField';
 import CustomSearch from '../../CommonComponent/CustomSearch';
 import CustomDropdown from '../../CommonComponent/CustomDropdown';
 import HeaderLayout from '../../CommonComponent/HeaderLayout';
+import axios from 'axios';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
 };
 
-const MapContainer = () => {
+const MapContainer = ({ searchLocation }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true); // Set isLoaded to true when the component mounts
+  }, []);
+
   const mapStyles = {
-    height: '350px',
+    height: '60vh',
     width: '100%',
-    borderRadius: '10px',
+    borderRadius: "10px"
   };
 
   const defaultCenter = {
-    lat: 17.4399,
-    lng: 78.4983,
+    lat: 37.7749,
+    lng: -122.4194,
   };
 
-  const locations = [
-    { lat: 17.4489, lng: 78.3907 }, // Hitech City
-    { lat: 17.3616, lng: 78.4747 }, // Charminar
-    { lat: 17.4432, lng: 78.3497 }, // Gachibowli
-    { lat: 17.4156, lng: 78.4347 }, // Banjara Hills
-    { lat: 17.4399, lng: 78.4983 }, // Secunderabad (Default Center)
-  ];
-
   return (
-    <LoadScript googleMapsApiKey="AIzaSyAp3UpXOj22Gy-w1I7gF2k6I3AYqglEqvw">
-      <GoogleMap mapContainerStyle={mapStyles} zoom={10} center={defaultCenter}>
-        {/* Render markers for each location */}
-        {locations.map((location, index) => (
-          <MarkerF key={index} position={location} />
-        ))}
-      </GoogleMap>
-    </LoadScript>
+    <div style={{ display: isLoaded ? 'block' : 'none' }}> {/* Render map only when loaded */}
+      {isLoaded && (
+        <LoadScript googleMapsApiKey="AIzaSyAmaZMMaAgoUxEmbWdg1Xv0d2dSibZcZs8">
+          <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={searchLocation || defaultCenter}>
+            {/* Display marker only if searchLocation is not null */}
+            {searchLocation && <MarkerF position={searchLocation} />}
+          </GoogleMap>
+        </LoadScript>
+      )}
+    </div>
   );
 };
 
@@ -69,6 +70,29 @@ const AddProperty = () => {
   const [country, setCountry] = useState('');
   const [pincode, setPincode] = useState('');
   const [timeZone, setTimeZone] = useState('');
+  const [searchValue, setSearchValue] = useState('');
+  const [searchLocation, setSearchLocation] = useState(null);
+
+  const handleSearchChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleKeyDown = async (event) => {
+    if (event.key === 'Enter') {
+      try {
+        const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${searchValue}&key=AIzaSyAmaZMMaAgoUxEmbWdg1Xv0d2dSibZcZs8`);
+        const results = response.data.results;
+        if (results && results.length > 0) {
+          const { lat, lng } = results[0].geometry.location;
+          setSearchLocation({ lat, lng });
+        } else {
+          console.error('Geocode not found for:', searchValue);
+        }
+      } catch (error) {
+        console.error('Error fetching geocode:', error);
+      }
+    }
+  };
 
 
   const handleToggle = () => {
@@ -227,13 +251,46 @@ const AddProperty = () => {
             <Grid item xs={12} md={12}>
               <CustomTextField label="Property Name" value={propertyName} onChange={handlePropertyChange} />
             </Grid>
-            <Grid item xs={12} md={12} sm={12} marginTop={3} >
-              <CustomSearch label="Search" value={searchInput} onChange={handleSearchInputChange} />
-            </Grid>
-
-            <Box marginTop={2}>
-              <MapContainer />
-            </Box>
+            
+        <Grid item md={12} xs={12} paddingX="0px" marginY="12px">
+        <TextField
+            label="Search by location or name"
+            variant="outlined"
+            value={searchValue}
+            onChange={handleSearchChange}
+            onKeyDown={handleKeyDown}
+            fullWidth
+            sx={{
+              "&:hover .MuiOutlinedInput-root": {
+                  "& > fieldset": { border: '1px solid #2465e9'},
+                },
+              "& .MuiOutlinedInput-root": {
+                  "& > fieldset": { border: "solid 1px #2465e9"},
+                },  }}
+                InputLabelProps={{
+                  style: { fontFamily: 'montserrat-regular' },
+                
+                }}
+            InputProps={{
+              style: {  
+                fontFamily: 'montserrat-regular',
+                padding: '10px',
+                height: '50px',
+              },
+        
+          endAdornment: (
+            <InputAdornment position="end">
+              <SearchIcon sx={{color:"#2465e9"}}/>
+            </InputAdornment>
+          ),
+        }}
+          />
+         
+          {/* Implement Map */}
+          <Box marginTop={1}>
+          <MapContainer searchLocation={searchLocation} />
+          </Box>
+        </Grid>
           </Grid>
 
           <Grid md={6} paddingLeft="25px" paddingY="10px" container spacing={2}>

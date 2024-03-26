@@ -120,13 +120,17 @@ import {
 } from "../../redux/sidenav/sidenavSlice";
 import SideNav from "../../components/SideNav";
 import HeaderLayout from "../../components/CommonComponent/HeaderLayout";
+import { HashLoader } from "react-spinners";
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
 };
 
+const BaseUrl = process.env.REACT_APP_API_URL
+
 const Settings = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
   console.log(data);
   const token = useSelector(selectToken);
   const navigate = useNavigate();
@@ -147,7 +151,7 @@ const Settings = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://35.239.192.201:9092/api/property/settings",
+          `${BaseUrl}property/settings`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -155,8 +159,10 @@ const Settings = () => {
           }
         );
         setData(response.data.data.list);
+        setLoading(false); // Set loading to false when data is fetched
       } catch (error) {
         console.error("Error fetching data:", error);
+        setLoading(false); // Set loading to false in case of error
       }
     };
 
@@ -176,6 +182,11 @@ const Settings = () => {
           </Box>
         </Box>
         <Box>
+        {loading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "20px",height:"60vh" }}>
+          <HashLoader size={50} color="#2465e9" loading={loading} />
+        </Box>
+      ) : (
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
@@ -259,6 +270,7 @@ const Settings = () => {
               </TableBody>
             </Table>
           </TableContainer>
+      )}
         </Box>
       </HeaderLayout>
     </>

@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import { InputAdornment, Select, Typography } from '@mui/material';
 import { useDropzone } from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
-import { LoadScript, GoogleMap, Marker } from '@react-google-maps/api';
+import { LoadScript, GoogleMap, MarkerF } from '@react-google-maps/api';
 import axios from 'axios';
 import { selectToken } from '../../redux/apiResponse/loginApiSlice';
 import { setUploadResponse } from '../../redux/onBoarding/onboardingCompanySlice';
@@ -16,6 +16,7 @@ import CustomButton from '../CommonComponent/CustomButton';
 import CustomTextField from '../CommonComponent/CustomTextField';
 import CustomSearch from '../CommonComponent/CustomSearch';
 import CustomDropdown from '../CommonComponent/CustomDropdown';
+import SearchIcon from '@mui/icons-material/Search';
 
 const BaseUrl = process.env.REACT_APP_API_URL
 const commonStyles = {
@@ -23,9 +24,15 @@ const commonStyles = {
 
 };
 
-const MapContainer = () => {
+const MapContainer = ({ searchLocation }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true); // Set isLoaded to true when the component mounts
+  }, []);
+
   const mapStyles = {
-    height: '50vh',
+    height: '60vh',
     width: '100%',
     borderRadius: "10px"
   };
@@ -36,12 +43,16 @@ const MapContainer = () => {
   };
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyCRQBtQkOyqMNr0YheCgm9LVbvjRtnbo6Y">
-      <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={defaultCenter}>
-        {/* You can customize the map as needed */}
-        <Marker position={defaultCenter} />
-      </GoogleMap>
-    </LoadScript>
+    <div style={{ display: isLoaded ? 'block' : 'none' }}> {/* Render map only when loaded */}
+      {isLoaded && (
+        <LoadScript googleMapsApiKey="AIzaSyAmaZMMaAgoUxEmbWdg1Xv0d2dSibZcZs8">
+          <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={searchLocation || defaultCenter}>
+            {/* Display marker only if searchLocation is not null */}
+            {searchLocation && <MarkerF position={searchLocation} />}
+          </GoogleMap>
+        </LoadScript>
+      )}
+    </div>
   );
 };
 
@@ -58,6 +69,29 @@ const OnboardingCompany = ({ dropdownData }) => {
   const [pincode, setPincode] = useState('');
   const [timeDifference, setTimeDifference] = useState('');
 
+  const [searchLocation, setSearchLocation] = useState(null);
+
+  const handleSearchChange = (event) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleKeyDown = async () => {
+    try {
+      const response = await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${searchValue}&key=AIzaSyAmaZMMaAgoUxEmbWdg1Xv0d2dSibZcZs8`);
+      const results = response.data.results;
+      console.log('Geocoding Response:', response.data); // Debugging: Log the geocoding response
+      if (results && results.length > 0) {
+        const { lat, lng } = results[0].geometry.location;
+        console.log('Geocoded Location:', { lat, lng }); // Debugging: Log the geocoded location
+        setSearchLocation({ lat, lng });
+      } else {
+        console.error('Geocode not found for:', searchValue);
+      }
+    } catch (error) {
+      console.error('Error fetching geocode:', error);
+    }
+  };
+
   const handleTimeDifferenceChange = (event) => {
     setTimeDifference(event.target.value);
   };
@@ -65,9 +99,7 @@ const OnboardingCompany = ({ dropdownData }) => {
     setCompanyName(e.target.value);
   };
 
-  const handleSearchChange = (event) => {
-    setSearchValue(event.target.value);
-  };
+
 
   const handleAddressChange = (event) => {
     setAddress(event.target.value);
@@ -243,13 +275,47 @@ const OnboardingCompany = ({ dropdownData }) => {
         </Grid>
 
         {/* Left Side */}
-        <Grid item md={7} xs={12} paddingX="0px">
-          <CustomSearch label="Search by name or location" value={searchValue} onChange={handleSearchChange} />
+        <Grid item md={7} xs={12} paddingX="0px" marginY="8px">
+        <TextField
+            label="Search by location or name"
+            variant="outlined"
+            value={searchValue}
+            onChange={handleSearchChange}
+            onKeyDown={handleKeyDown}
+            fullWidth
+            sx={{
+              "&:hover .MuiOutlinedInput-root": {
+                  "& > fieldset": { border: '1px solid #2465e9'},
+                },
+              "& .MuiOutlinedInput-root": {
+                  "& > fieldset": { border: "solid 1px #2465e9"},
+                },  }}
+                InputLabelProps={{
+                  style: { fontFamily: 'montserrat-regular' },
+                
+                }}
+            InputProps={{
+              style: {  
+                fontFamily: 'montserrat-regular',
+                padding: '10px',
+                height: '50px',
+              },
+        
+          endAdornment: (
+            <InputAdornment position="end">
+              <SearchIcon sx={{color:"#2465e9"}}/>
+            </InputAdornment>
+          ),
+        }}
+          />
+         
           {/* Implement Map */}
           <Box marginTop={1}>
-            <MapContainer />
+          <MapContainer searchLocation={searchLocation} />
           </Box>
         </Grid>
+
+  
 
         {/* Right Side */}
         <Grid item md={5} xs={12} paddingX="20px">
