@@ -14,10 +14,14 @@ import { Dialog, DialogActions, DialogContent, IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
 import { setSelectedProperty } from '../../redux/propertySlice';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
 };
+
+const BaseUrl = process.env.REACT_APP_API_URL
+
 
 const MapContainer = () => {
   const mapStyles = {
@@ -90,8 +94,8 @@ const Organization = () => {
   };
 
   const handleClick = (property) => {
-    console.log("Clicked property:", property); 
-    dispatch(setSelectedProperty(property)); 
+    console.log("Clicked property:", property);
+    dispatch(setSelectedProperty(property));
     navigate(`/addpole`);
   };
 
@@ -141,6 +145,32 @@ const Organization = () => {
     handleDelete([id]); // Pass an array with single ID
   };
 
+  const [poleLengths, setPoleLengths] = useState({});
+
+  const fetchPolelengthDataById = async (id) => {
+    try {
+      const url = `${BaseUrl}pole?property_id=${id}`;
+      const headers = {
+        'Authorization': `Bearer ${token}`
+      };
+      const res = await axios.get(url, { headers });
+      const { data } = res.data;
+      if (res.data.code === 200) {
+        toast.success(data.msg);
+        setPoleLengths(prevState => ({ ...prevState, [id]: data.list.length }));
+      } else {
+        toast.error(data.msg);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
+
+  useEffect(() => {
+    responseData.data && responseData.data.list.forEach(item => {
+      fetchPolelengthDataById(item.id);
+    });
+  }, [responseData.data, token]);
 
   return (
     <div style={{ display: 'flex' }}>
@@ -222,7 +252,11 @@ const Organization = () => {
                         </Box>
                         <Box display="flex" gap={1} alignItems="center">
 
-                          <Button variant="contained"> {item.id}</Button>
+                          {/* <Button variant="contained"> {item.id}</Button> */}
+                          <Button variant="contained">
+                            {poleLengths[item.id] ?? 0}
+                          </Button>
+
                           <Box display="flex" gap={0} alignItems="center">
 
                             <IconButton>

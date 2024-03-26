@@ -33,6 +33,7 @@ const PairDevice = () => {
     useEffect(() => {
         console.log('Effect triggered');
         const fetchData = async (poleId, propertyId) => {
+            console.log(poleId, propertyId);
             try {
                 const params = new URLSearchParams({
                     search: "",
