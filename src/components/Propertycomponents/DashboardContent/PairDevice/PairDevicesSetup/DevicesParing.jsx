@@ -90,13 +90,13 @@ const DevicesParing = () => {
                         <CustomButton onClick={handleNext} sx={{ mr: 1 }}>Next</CustomButton>
                     </>
                 )}
-                {activeStep !== 0 && activeStep !== 2 && (
+                {/* {activeStep !== 0 && activeStep !== 2 && (
                     <>
                         <CustomButton onClick={handleBack} sx={{ mr: 1 }}>Back</CustomButton>
                         <CustomButton onClick={handleNext} sx={{ mr: 1 }}>Next</CustomButton>
                     </>
-                )}
-                {activeStep === 2 && (
+                )} */}
+                {activeStep === 1 && (
                     <>
                         <CustomButton onClick={handleBack} sx={{ mr: 1 }}>Back</CustomButton>
                         <CustomButton onClick={handleReset} sx={{ mr: 1 }}>Save</CustomButton>

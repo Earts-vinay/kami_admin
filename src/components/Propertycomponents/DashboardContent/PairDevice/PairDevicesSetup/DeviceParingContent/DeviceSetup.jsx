@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
+import React, { useEffect, useState } from 'react';
+import { GoogleMap, LoadScript, MarkerF } from '@react-google-maps/api';
 import { Grid, Typography, Box, Button } from '@mui/material';
 import CustomTextField from '../../../../../CommonComponent/CustomTextField';
 import { toast } from 'react-toastify';
@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 const commonStyles = {
   fontFamily: "montserrat-regular",
 };
+const BaseUrl = process.env.REACT_APP_API_URL
 
 const DeviceSetup = (props) => {
   const { deviceId } = props;
@@ -18,23 +19,44 @@ const DeviceSetup = (props) => {
   const token = useSelector(selectToken);
 
   const MapContainer = () => {
+    const [isLoaded, setIsLoaded] = useState(false);
+    useEffect(() => {
+      setIsLoaded(true);
+    }, []);
     const mapStyles = {
       height: '60vh',
       width: '100%',
-      borderRadius: '10px', // Added borderRadius to map container
+      borderRadius: '10px', 
     };
 
     const defaultCenter = {
-      lat: 37.7749, // Default latitude
-      lng: -122.4194, // Default longitude
+      lat: 17.4489, // Default latitude
+      lng: 78.3907, // Default longitude
     };
-
+    const mapOptions = {
+      mapTypeControl: false,
+    }
+    
+  const locations = [
+    { lat: 17.4489, lng: 78.3907 }, // Hitech City
+    { lat: 17.3616, lng: 78.4747 }, // Charminar
+    { lat: 17.4432, lng: 78.3497 }, // Gachibowli
+    { lat: 17.4156, lng: 78.4347 }, // Banjara Hills
+    { lat: 17.4399, lng: 78.4983 }, // Secunderabad (Default Center)
+  ];
     return (
-      <LoadScript googleMapsApiKey="YOUR_API_KEY">
-        <GoogleMap mapContainerStyle={mapStyles} zoom={13} center={defaultCenter}>
-          <Marker position={defaultCenter} />
-        </GoogleMap>
-      </LoadScript>
+      <div style={{ display: isLoaded ? 'block' : 'none' }}>
+      {isLoaded && (
+        <LoadScript googleMapsApiKey=" AIzaSyAmaZMMaAgoUxEmbWdg1Xv0d2dSibZcZs8">
+          <GoogleMap mapContainerStyle={mapStyles} zoom={10} center={defaultCenter} options={mapOptions}>
+            {/* Render markers for each location */}
+            {locations.map((location, index) => (
+              <MarkerF key={index} position={location} />
+            ))}
+          </GoogleMap>
+        </LoadScript>
+      )}
+    </div>
     );
   };
 
@@ -45,7 +67,7 @@ const DeviceSetup = (props) => {
       params.append('camera_id', cameraId);
 
       const response = await axios.post(
-        'http://35.239.192.201:9092/api/device/pair',
+        `${BaseUrl}device/pair`,
         params,
         {
           headers: {
