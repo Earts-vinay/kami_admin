@@ -156,7 +156,7 @@ const SideNav = ({ open, handleToggle }) => {
                             className={isActive(userLevel === 'company' ? "/organization" : "/dashboard") ? "active" : ""}
                         >
                             <ListItemIcon style={{ fontSize: '24px' }}>
-                                {userLevel === 'company' ? <DashboardIcon /> : <DashboardIcon />}
+                                {userLevel === 'company' ? <img src="assets/icons/organizationicon.svg" alt="" width="20px"  /> : <img src="assets/icons/organizationicon.svg" alt="" width="20px"  />}
                             </ListItemIcon>
                             <ListItemText primary={open && (userLevel === 'company' ? 'Organization' : 'Dashboard')} />
                         </ListItem>
@@ -168,8 +168,8 @@ const SideNav = ({ open, handleToggle }) => {
                             sx={listItemStyle}
                             className={isActive("/devices") ? "active" : ""}
                         >
-                            <ListItemIcon>
-                                <DevicesIcon />
+                            <ListItemIcon>                             
+                                <img src="assets/icons/devicesicon.svg" alt="" width="20px" />
                             </ListItemIcon>
                             <ListItemText primary={open && 'Devices'} />
                         </ListItem>
@@ -181,7 +181,7 @@ const SideNav = ({ open, handleToggle }) => {
                             className={isActive("/users") ? "active" : ""}
                         >
                             <ListItemIcon>
-                                <GroupIcon />
+                                <img src="assets/icons/usericon.svg" alt="" width="20px"  />                             
                             </ListItemIcon>
                             <ListItemText primary={open && 'Users'} />
                         </ListItem>
@@ -193,7 +193,7 @@ const SideNav = ({ open, handleToggle }) => {
                             className={isActive("/settings") ? "active" : ""}
                         >
                             <ListItemIcon>
-                                <SettingsIcon />
+                            <img src="assets/icons/settingicon.svg" alt="" width="20px"  />
                             </ListItemIcon>
                             <ListItemText primary={open && 'Settings'} />
                         </ListItem>
@@ -205,7 +205,7 @@ const SideNav = ({ open, handleToggle }) => {
                             className={isActive("/myprofile") ? "active" : ""}
                         >
                             <ListItemIcon>
-                                <ContactEmergencyOutlinedIcon />
+                            <img src="assets/icons/myprofileicon.svg" alt="" width="20px"  />
                             </ListItemIcon>
                             <ListItemText primary={open && 'My Profile'} />
                         </ListItem>
@@ -218,7 +218,7 @@ const SideNav = ({ open, handleToggle }) => {
                             onClick={handleLogout}
                         >
                             <ListItemIcon>
-                                <ExitToAppOutlinedIcon />
+                            <img src="assets/icons/logouticon.svg" alt="" width="20px"  />
                             </ListItemIcon>
                             <ListItemText primary={open && 'Logout'} />
                         </ListItem>
