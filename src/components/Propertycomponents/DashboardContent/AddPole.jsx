@@ -14,98 +14,22 @@ import { toast } from 'react-toastify';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { fetchDataStart, fetchDataSuccess, fetchDataFailure, selectResponseData, selectLoading, selectError } from '../../../redux/apiResponse/poleSlice';
+import HeaderLayout from '../../CommonComponent/HeaderLayout';
+import { HashLoader } from 'react-spinners';
 
 
 const BaseUrl = process.env.REACT_APP_API_URL
 const commonStyles = {
   fontFamily: "montserrat-regular",
 };
-// const MapContainer = () => {
-//   const mapStyles = {
-//     height: '350px',
-//     width: '100%',
-//     borderRadius: "10px"
-//   };
-//   const defaultCenter={
-//     lat: 17.4399,
-//       lng: 78.4983
-//   }
-//   const { isLoaded } = useJsApiLoader({
-//     id: '2baa9d8a0c4e66b5',
-//     googleMapsApiKey: "AIzaSyCRQBtQkOyqMNr0YheCgm9LVbvjRtnbo6Y"
-//   })
-//   const [map, setMap] = React.useState(null)
-//   const onLoad = React.useCallback(function callback(map) {
-//     // This is just an example of getting and using the map instance!!! don't just blindly copy!
-//     const bounds = new window.google.maps.LatLngBounds(defaultCenter);
-//     map.fitBounds(bounds);
 
-//     setMap(map)
-//   }, [])
-
-//   const onUnmount = React.useCallback(function callback(map) {
-//     setMap(null)
-//   }, [])
-
-
-
-
-//   const data = [
-//     {  lat: 17.4489,lng:78.3907 },
-//     { lat: 17.6788421, lng: 79.6808767},
-//     { lat:17.6788421, lng: 79.6808767 },
-
-//   ];
-
-//   const hyderabadAreas = [
-//     {
-//       lat: 17.4489, // Hitech City latitude
-//       lng: 78.3907, // Hitech City longitude
-//     },
-//     {
-//       lat: 17.3616, // Charminar latitude
-//       lng: 78.4747, // Charminar longitude
-//     },
-//     {
-//       lat: 17.4432, // Gachibowli latitude
-//       lng: 78.3497, // Gachibowli longitude
-//     },
-//     {
-//       lat: 17.4156, // Banjara Hills latitude
-//       lng: 78.4347, // Banjara Hills longitude
-//     },
-//     {
-//       lat: 17.4399, // Secunderabad latitude
-//       lng: 78.4983, // Secunderabad longitude
-//     },
-//   ];
-
-
-//   return (
-//     <React.Fragment>
-//       {
-//         isLoaded?(<GoogleMap mapContainerStyle={mapStyles} zoom={6} center={defaultCenter}  onLoad={onLoad}
-//           onUnmount={onUnmount}>
-//           {/* You can customize the map as needed */}
-
-//           {data.map((obj,val)=>{
-//             return  <MarkerF key={val} position={obj} />
-//           })
-//         }
-
-//         </GoogleMap>):(<div>
-//           loading...
-//           </div>)
-//       }
-
-//     </React.Fragment>
-
-
-
-//   );
-// };
 
 const MapContainer = ({ locations }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
   const mapStyles = {
     height: '350px',
     width: '100%',
@@ -117,6 +41,9 @@ const MapContainer = ({ locations }) => {
     lng: 78.4983,
   };
 
+  const mapOptions = {
+    mapTypeControl: false,
+  }
   // const locations = [
   //   { lat: 17.4489, lng: 78.3907 }, // Hitech City
   //   { lat: 17.3616, lng: 78.4747 }, // Charminar
@@ -129,14 +56,18 @@ const MapContainer = ({ locations }) => {
   console.log("mapresponseData", responsePoleData)
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyAmaZMMaAgoUxEmbWdg1Xv0d2dSibZcZs8">
-      <GoogleMap mapContainerStyle={mapStyles} zoom={10} center={defaultCenter}>
-        {/* Render markers for each location */}
-        {locations?.map((location, index) => (
-          <MarkerF key={index} position={{ lat: parseFloat(location.location_lat), lng: parseFloat(location.location_lng) }} />
-        ))}
-      </GoogleMap>
-    </LoadScript>
+    <div style={{ display: isLoaded ? 'block' : 'none' }}>
+      {isLoaded && (
+        <LoadScript googleMapsApiKey="AIzaSyAmaZMMaAgoUxEmbWdg1Xv0d2dSibZcZs8">
+          <GoogleMap mapContainerStyle={mapStyles} zoom={10} center={defaultCenter} options={mapOptions}>
+            {/* Render markers for each location */}
+            {locations?.map((location, index) => (
+              <MarkerF key={index} position={{ lat: parseFloat(location.location_lat), lng: parseFloat(location.location_lng) }} />
+            ))}
+          </GoogleMap>
+        </LoadScript>
+      )}
+    </div>
   );
 };
 
@@ -148,6 +79,7 @@ const AddPole = () => {
   const token = useSelector(selectToken);
   const [responseData, setResponseData] = useState(null);
   const responsePoleData = useSelector(selectResponseData);
+  const [isLoading, setIsLoading] = useState(true);
   // console.log(responsePoleData);
   const loading = useSelector(selectLoading);
   const error = useSelector(selectError);
@@ -215,6 +147,7 @@ const AddPole = () => {
     dispatch(fetchDataStart());
     try {
       // console.log(id);
+      setIsLoading(true);
       const url = `${BaseUrl}pole?property_id=${propertyId}`;
 
       const headers = {
@@ -233,12 +166,15 @@ const AddPole = () => {
             dispatch(fetchDataFailure(data.msg))
             toast.error(data.msg);
           }
+          setIsLoading(false);
         })
         .catch((err) => {
           console.error('Error:', err);
         });
+      setIsLoading(false);
     } catch (error) {
       console.error('Error:', error);
+      setIsLoading(false);
     }
   }, [dispatch, deleteDataUpdated, propertyId, query, token]);
 
@@ -267,89 +203,87 @@ const AddPole = () => {
   ];
 
   return (
-    <div style={{ display: 'flex' }}>
-      <SideNav open={isOpen} handleToggle={handleToggle} />
-      <div style={{
-        marginLeft: isOpen ? '220px' : '90px',
-        padding: '10px', width: '100%', transition: 'margin 0.3s ease'
-      }}>
-
-        <Box
+    <HeaderLayout>
 
 
-          style={{ height: '93vh', backgroundColor: 'white', borderRadius: '10px', padding: '10px', overflow: "auto" }}
-        >
 
-          <Box textAlign="right" p={1}>
+      <Box textAlign="right" p={1}>
 
-            <CustomButton onClick={() => openAddPole()}>Add Pole</CustomButton>
-          </Box>
+        <CustomButton onClick={() => openAddPole()}>Add Pole</CustomButton>
+      </Box>
 
-          <Box flexDirection={{ xs: 'column', md: 'row' }}
-            gap="20px"
-            alignItems="stretch" sx={{ display: "flex" }}>
+      {isLoading ? (
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="300px">
+          <HashLoader color="#007acc" loading={isLoading} size={50} />
+        </Box>
+      ) : (
+ 
+        <Box flexDirection={{ xs: 'column', md: 'row' }}
+          gap="20px"
+          alignItems="stretch" sx={{ display: "flex" }}>
 
 
-            <Box width={{ xs: '100%', md: '50%' }}>
-              <TableContainer component={Paper}>
-                <Table aria-label="simple table">
-                  <TableHead style={{ backgroundColor: "#80808017" }}>
+          <Box width={{ xs: '100%', md: '50%' }}>
+            <TableContainer component={Paper}>
+              <Table aria-label="simple table">
+                <TableHead style={{ backgroundColor: "#80808017" }}>
+                  <TableRow>
+                    <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>pole ID</TableCell>
+                    <TableCell sx={{ ...commonStyles, minWidth: '150px' }}>Lat, Long</TableCell>
+                    <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>Zone</TableCell>
+                    <TableCell sx={{ ...commonStyles, minWidth: '130px' }}>Cameras</TableCell>
+                    <TableCell></TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {responsePoleData?.list?.length === 0 ? (
                     <TableRow>
-                      <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>pole ID</TableCell>
-                      <TableCell sx={{ ...commonStyles, minWidth: '150px' }}>Lat, Long</TableCell>
-                      <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>Zone</TableCell>
-                      <TableCell sx={{ ...commonStyles, minWidth: '130px' }}>Cameras</TableCell>
-                      <TableCell></TableCell>
+                      <TableCell colSpan={5} align="center" sx={{ ...commonStyles }}>No records found</TableCell>
                     </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {responsePoleData?.list?.length === 0 ? (
-                      <TableRow>
-                        <TableCell colSpan={5} align="center" sx={{ ...commonStyles }}>No records found</TableCell>
-                      </TableRow>
-                    ) : (
-                      <>
-                        {responsePoleData?.list?.map((row, index) => (
-                          <TableRow key={index}>
-                            <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>{row.id}</TableCell>
-                            <TableCell sx={{ ...commonStyles, minWidth: '150px' }}>{row.location_lat}, {row.location_lng}</TableCell>
-                            <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>-</TableCell>
-                            <TableCell sx={{ ...commonStyles, minWidth: '130px', alignItems: "center", display: "flex", gap: "5px" }}>
-                              <Button variant="contained" style={{ backgroundColor: "#007acc", color: 'white', borderRadius: "5px" }}>3</Button>
-                              <Box display="flex" gap={0} alignItems="center">
+                  ) : (
+                    <>
+                      {responsePoleData?.list?.map((row, index) => (
+                        <TableRow key={index}>
+                          <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>{row.id}</TableCell>
+                          <TableCell sx={{ ...commonStyles, minWidth: '150px' }}>{row.location_lat}, {row.location_lng}</TableCell>
+                          <TableCell sx={{ ...commonStyles, minWidth: '60px' }}>-</TableCell>
+                          <TableCell sx={{ ...commonStyles, minWidth: '130px', alignItems: "center", display: "flex", gap: "5px" }}>
+                            <Button variant="contained" style={{ backgroundColor: "#007acc", color: 'white', borderRadius: "5px" }}>3</Button>
+                            <Box display="flex" gap={0} alignItems="center">
 
-                                <IconButton onClick={() => openEditPole(row.id)}>
-                                  <img src="https://hatimi.s3.amazonaws.com/kamiWebsite/editicon.svg" width="35px" alt="edit" />
-                                </IconButton>
+                              <IconButton onClick={() => openEditPole(row.id)}>
+                                <img src="https://hatimi.s3.amazonaws.com/kamiWebsite/editicon.svg" width="35px" alt="edit" />
+                              </IconButton>
 
-                                <IconButton color="secondary" onClick={() => handleDelete(row.id)}>
-                                  <img src="https://hatimi.s3.amazonaws.com/kamiWebsite/deleteicon.svg" width="35px" alt="edit" />
-                                </IconButton>
+                              <IconButton color="secondary" onClick={() => handleDelete(row.id)}>
+                                <img src="https://hatimi.s3.amazonaws.com/kamiWebsite/deleteicon.svg" width="35px" alt="edit" />
+                              </IconButton>
 
-                              </Box>
-                              {/* <img src="assets/icons/editicon.svg" alt="" width="35px" onClick={handleEditPole} />
+                            </Box>
+                            {/* <img src="assets/icons/editicon.svg" alt="" width="35px" onClick={handleEditPole} />
                 <img src="assets/icons/deleteicon.svg" alt="" width="35px" onClick={handledelete} /> */}
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </>
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                    </>
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
 
-            </Box>
-
-            <Box width={{ xs: '100%', md: '50%' }}>
-              <MapContainer locations={responsePoleData?.list} />
-            </Box>
           </Box>
-          <Box marginTop={{ xs: '20px', md: '40px' }} textAlign="center">
-            <CustomButton onClick={() => handlePair()}>Pair Devices</CustomButton>
+
+          <Box width={{ xs: '100%', md: '50%' }}>
+            <MapContainer locations={responsePoleData?.list} />
           </Box>
         </Box>
-      </div>
-    </div>
+      )}
+      <Box marginTop={{ xs: '20px', md: '40px' }} textAlign="center">
+        <CustomButton onClick={() => handlePair()}>Pair Devices</CustomButton>
+      </Box>
+
+    </HeaderLayout>
+
   );
 };
 

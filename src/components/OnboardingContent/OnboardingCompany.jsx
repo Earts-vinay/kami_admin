@@ -28,7 +28,7 @@ const MapContainer = ({ searchLocation }) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    setIsLoaded(true); // Set isLoaded to true when the component mounts
+    setIsLoaded(true); 
   }, []);
 
   const mapStyles = {
