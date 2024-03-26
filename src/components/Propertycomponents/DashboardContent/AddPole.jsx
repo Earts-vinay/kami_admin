@@ -204,11 +204,7 @@ const AddPole = () => {
 
   return (
     <HeaderLayout>
-
-
-
       <Box textAlign="right" p={1}>
-
         <CustomButton onClick={() => openAddPole()}>Add Pole</CustomButton>
       </Box>
 

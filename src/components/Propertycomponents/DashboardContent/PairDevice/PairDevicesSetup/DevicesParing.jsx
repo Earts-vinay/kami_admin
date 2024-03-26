@@ -55,9 +55,9 @@ const DevicesParing = () => {
                     <Step>
                         <StepLabel sx={commonStyles}>Devices Setup</StepLabel>
                     </Step>
-                    <Step>
+                    {/* <Step>
                         <StepLabel sx={commonStyles}>View Setup</StepLabel>
-                    </Step>
+                    </Step> */}
                     <Step>
                         <StepLabel sx={commonStyles}>Add Lines & Polygons </StepLabel>
                     </Step>
@@ -70,12 +70,12 @@ const DevicesParing = () => {
                         <DeviceSetup deviceId={deviceId} />
                     </Box>
                 )}
-                {activeStep === 1 && (
+                {/* {activeStep === 1 && (
                     <Box>
                         <DeviceView />
                     </Box>
-                )}
-                {activeStep === 2 && (
+                )} */}
+                {activeStep === 1 && (
                     <Box>
                         <AddLineOrPolygon />
                     </Box>

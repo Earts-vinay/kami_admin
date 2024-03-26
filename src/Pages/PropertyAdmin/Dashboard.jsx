@@ -226,7 +226,7 @@ const Dashboard = () => {
     <HeaderLayout>
 
       {loadingData && (
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '85vh' }}>
           <HashLoader color="#2465e9" size={50} /> {/* Adjust color and size as needed */}
         </div>
       )}

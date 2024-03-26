@@ -9,6 +9,7 @@ import CustomButton from '../../../CommonComponent/CustomButton';
 import HeaderLayout from '../../../CommonComponent/HeaderLayout';
 import { selectResponseData } from '../../../../redux/apiResponse/poleSlice';
 import { selectToken } from '../../../../redux/apiResponse/loginApiSlice';
+import { HashLoader } from 'react-spinners';
 
 const commonStyles = {
     fontFamily: "montserrat-regular",
@@ -23,7 +24,7 @@ const PairDevice = () => {
     const dispatch = useDispatch();
     const [deviceList, setDeviceList] = useState([]);
     const [responseData, setResponseData] = useState(null); // State to store the response data
-
+    const [isLoading, setIsLoading] = useState(true);
 
     const responsePoleData = useSelector(selectResponseData);
     console.log(responsePoleData);
@@ -47,12 +48,15 @@ const PairDevice = () => {
                 console.log('API Response:', response.data);
                 // setDeviceList(prevDeviceList => [...prevDeviceList, ...response.data]);
                 setResponseData(response.data);
+                setIsLoading(false);
             } catch (error) {
                 console.error('Error fetching data:', error);
+                setIsLoading(false);
             }
         };
 
         if (responsePoleData && responsePoleData.list && responsePoleData.list.length > 0) {
+            setIsLoading(true); 
             responsePoleData.list.forEach(item => {
                 const { id: poleId, property_id: propertyId } = item;
                 console.log('Fetching data for poleId:', poleId, 'propertyId:', propertyId);
@@ -60,6 +64,7 @@ const PairDevice = () => {
             });
         } else {
             console.log('No data found in responsePoleData or list is empty');
+            setIsLoading(false); 
         }
     }, [responsePoleData, token]);
 
@@ -110,6 +115,11 @@ const PairDevice = () => {
                     <Typography varient="body-2" fontSize="12px" sx={commonStyles}>Ensure that you are connected to the same network that the device is to be paired in</Typography>
                 </Box>
 
+                {isLoading ? (
+                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '85vh' }}>
+                     <HashLoader color="#2465e9" size={50} /> {/* Adjust color and size as needed */}
+                   </div>
+                ) : (
                 <TableContainer >
                     <Table padding="15px">
                         <TableHead>
@@ -141,6 +151,7 @@ const PairDevice = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+                )}
             </HeaderLayout>
         </>
     )
