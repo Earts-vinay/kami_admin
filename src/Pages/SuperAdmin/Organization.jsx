@@ -15,6 +15,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { setSelectedProperty } from '../../redux/propertySlice';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import HeaderLayout from '../../components/CommonComponent/HeaderLayout';
 
 const commonStyles = {
   fontFamily: "montserrat-regular",
@@ -173,13 +174,7 @@ const Organization = () => {
   }, [responseData.data, token]);
 
   return (
-    <div style={{ display: 'flex' }}>
-      <SideNav open={isOpen} handleToggle={handleToggle} />
-      <div style={{
-        marginLeft: isOpen ? '220px' : '90px',
-        padding: '10px', width: '100%', transition: 'margin 0.3s ease'
-      }}>
-        <div style={{ height: "93vh", backgroundColor: "white", borderRadius: "10px", padding: "10px", marginLeft: "10px", marginRight: "10px", overflow: "auto" }}>
+    <HeaderLayout>
           <Box padding="10px">
             <Box textAlign="right" p={1}>
               <Button onClick={() => handleTableRowClick()} p={0} variant="outlined" size="small"
@@ -288,10 +283,8 @@ const Organization = () => {
               </Box>
             </Box>
           </Box>
-
-        </div>
-      </div>
-    </div>
+</HeaderLayout>
+ 
   );
 };
 
